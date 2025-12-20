@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
     min-height: 100vh;
     padding: 20px;
 }
@@ -62,7 +62,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 5px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
+    background: linear-gradient(90deg, #065f46, #10b981);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -80,7 +80,7 @@ h1 {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #667eea;
+    color: #065f46;
 }
 
 .card-content p {
@@ -90,7 +90,7 @@ h1 {
 }
 
 .portfolio-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
     color: white;
 }
 

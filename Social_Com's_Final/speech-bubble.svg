@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#4A90E2"/>
+
+  <!-- Speech bubble -->
+  <g transform="translate(256, 230)">
+    <!-- Main bubble body -->
+    <rect x="-160" y="-120" width="320" height="200" rx="30" fill="#ffffff"/>
+
+    <!-- Speech bubble tail (curved) -->
+    <path d="M -60 80 Q -70 100 -80 130 Q -50 95 -30 80 Z" fill="#ffffff"/>
+
+    <!-- Three dots inside bubble -->
+    <circle cx="-60" cy="-20" r="18" fill="#4A90E2"/>
+    <circle cx="0" cy="-20" r="18" fill="#4A90E2"/>
+    <circle cx="60" cy="-20" r="18" fill="#4A90E2"/>
+  </g>
+</svg>

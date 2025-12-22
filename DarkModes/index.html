@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle Showcase</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="../index.html" class="nav-back">← Back to Showcase</a>
+            <button class="about-btn" id="about-btn">About This Project</button>
+        </div>
+    </nav>
+
+    <!-- About Modal -->
+    <div class="modal" id="about-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2>About This Project</h2>
+            <div class="about-text">
+                <p>This dark mode showcase was created as part of my work on <strong>Unadat</strong>, a website/company that helps people get their finances together.</p>
+
+                <h3>The Internship Experience:</h3>
+                <p>This project was developed during a <strong>SYEP (Summer Youth Employment Program) internship</strong> that took place during the pandemic. Despite being completely virtual, there was incredible <strong>Camaraderie</strong> among the team. Working remotely taught me valuable collaboration skills and how to build meaningful connections even through screens.</p>
+
+                <p>One of the most memorable parts of this experience was collaborating with the <strong>Creative/Art Intern</strong>, who played a crucial role in helping me figure out the color scheme for the dark mode. Their expertise in color theory and visual design was instrumental in creating a palette that was both aesthetically pleasing and accessible for users managing financial data during extended sessions, especially in low-light environments.</p>
+
+                <h3>Key Features Developed:</h3>
+                <ul>
+                    <li>Multiple toggle implementation methods to explore different UX approaches</li>
+                    <li>Customizable color schemes for accessibility and brand consistency</li>
+                    <li>Smooth transitions between light and dark modes</li>
+                    <li>Persistent theme preferences using localStorage</li>
+                    <li>System preference detection for automatic theme selection</li>
+                </ul>
+
+                <h3>Technologies Used:</h3>
+                <p>Pure HTML, CSS (CSS Custom Properties), and Vanilla JavaScript - no frameworks required!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Dark Mode Toggle Methods</h1>
+            <p class="subtitle">Explore different ways to implement dark/light mode with customizable colors</p>
+        </header>
+
+        <!-- Color Customization Panel -->
+        <section class="color-panel">
+            <h2>Customize Theme Colors</h2>
+            <div class="color-controls">
+                <div class="color-group">
+                    <h3>Light Mode</h3>
+                    <div class="color-inputs">
+                        <div class="color-input">
+                            <label for="light-bg">Background</label>
+                            <input type="color" id="light-bg" value="#ffffff">
+                        </div>
+                        <div class="color-input">
+                            <label for="light-text">Text</label>
+                            <input type="color" id="light-text" value="#1a1a1a">
+                        </div>
+                        <div class="color-input">
+                            <label for="light-accent">Accent</label>
+                            <input type="color" id="light-accent" value="#3b82f6">
+                        </div>
+                    </div>
+                </div>
+                <div class="color-group">
+                    <h3>Dark Mode</h3>
+                    <div class="color-inputs">
+                        <div class="color-input">
+                            <label for="dark-bg">Background</label>
+                            <input type="color" id="dark-bg" value="#1a1a1a">
+                        </div>
+                        <div class="color-input">
+                            <label for="dark-text">Text</label>
+                            <input type="color" id="dark-text" value="#f5f5f5">
+                        </div>
+                        <div class="color-input">
+                            <label for="dark-accent">Accent</label>
+                            <input type="color" id="dark-accent" value="#60a5fa">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toggle Methods -->
+        <section class="toggles-section">
+            <h2>Toggle Methods</h2>
+
+            <!-- Method 1: Button Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>1. Button Toggle</h3>
+                    <p>Simple button that switches between modes</p>
+                </div>
+                <button class="toggle-btn" id="btn-toggle">
+                    <span class="toggle-icon">🌙</span>
+                    <span class="toggle-text">Dark Mode</span>
+                </button>
+            </div>
+
+            <!-- Method 2: Switch Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>2. Switch Toggle</h3>
+                    <p>iOS-style switch with smooth animation</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="switch-toggle">
+                    <span class="slider">
+                        <span class="slider-icon light">☀️</span>
+                        <span class="slider-icon dark">🌙</span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- Method 3: Checkbox Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>3. Checkbox Toggle</h3>
+                    <p>Traditional checkbox with custom styling</p>
+                </div>
+                <label class="checkbox-toggle">
+                    <input type="checkbox" id="checkbox-toggle">
+                    <span class="checkmark"></span>
+                    <span class="label-text">Enable Dark Mode</span>
+                </label>
+            </div>
+
+            <!-- Method 4: Icon Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>4. Icon Toggle</h3>
+                    <p>Click the icon to toggle with rotation animation</p>
+                </div>
+                <button class="icon-toggle" id="icon-toggle">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Method 5: Dropdown Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>5. Dropdown Toggle</h3>
+                    <p>Select from a dropdown menu</p>
+                </div>
+                <select class="dropdown-toggle" id="dropdown-toggle">
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="auto">Auto (System)</option>
+                </select>
+            </div>
+
+            <!-- Method 6: Radio Toggle -->
+            <div class="toggle-method">
+                <div class="method-header">
+                    <h3>6. Radio Toggle</h3>
+                    <p>Radio buttons with visual cards</p>
+                </div>
+                <div class="radio-group">
+                    <label class="radio-card">
+                        <input type="radio" name="theme" value="light" id="radio-light">
+                        <div class="radio-content">
+                            <span class="radio-icon">☀️</span>
+                            <span class="radio-label">Light</span>
+                        </div>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="theme" value="dark" id="radio-dark">
+                        <div class="radio-content">
+                            <span class="radio-icon">🌙</span>
+                            <span class="radio-label">Dark</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sample Content -->
+        <section class="sample-content">
+            <h2>Sample Content</h2>
+            <div class="content-grid">
+                <article class="content-card">
+                    <h3>Typography Example</h3>
+                    <p>This is a paragraph of text showing how the theme affects readability. Notice how the colors change based on the selected mode.</p>
+                    <p><strong>Bold text</strong> and <em>italic text</em> also adapt to the theme.</p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Interactive Elements</h3>
+                    <button class="sample-button primary">Primary Button</button>
+                    <button class="sample-button secondary">Secondary Button</button>
+                    <input type="text" class="sample-input" placeholder="Input field example">
+                </article>
+
+                <article class="content-card">
+                    <h3>Lists & Links</h3>
+                    <ul>
+                        <li><a href="#" class="sample-link">Example link 1</a></li>
+                        <li><a href="#" class="sample-link">Example link 2</a></li>
+                        <li><a href="#" class="sample-link">Example link 3</a></li>
+                    </ul>
+                </article>
+
+                <article class="content-card highlight">
+                    <h3>Highlighted Card</h3>
+                    <p>This card has an accent background to show how accent colors work in different modes.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Info Panel -->
+        <section class="info-panel">
+            <h2>Current Theme Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Active Mode:</span>
+                    <span class="info-value" id="current-mode">Light</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Background Color:</span>
+                    <span class="info-value" id="current-bg">#ffffff</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Text Color:</span>
+                    <span class="info-value" id="current-text">#1a1a1a</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Accent Color:</span>
+                    <span class="info-value" id="current-accent">#3b82f6</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

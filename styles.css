@@ -105,6 +105,11 @@ h1 {
 
 .folder-symbol {
     font-size: 2rem;
+    filter: hue-rotate(90deg) saturate(1.5) brightness(0.9);
+}
+
+.folder-symbol.professional-folder {
+    filter: hue-rotate(90deg) saturate(1.8) brightness(0.6);
 }
 
 .category-info h2 {
@@ -311,6 +316,7 @@ h1 {
 
     .folder-symbol {
         font-size: 1.5rem;
+        filter: hue-rotate(90deg) saturate(1.5) brightness(0.9);
     }
 
     .category-info h2 {
@@ -375,6 +381,7 @@ h1 {
 
     .folder-symbol {
         font-size: 1.2rem;
+        filter: hue-rotate(90deg) saturate(1.5) brightness(0.9);
     }
 
     .category-info h2 {

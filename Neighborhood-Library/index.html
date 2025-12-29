@@ -24,6 +24,117 @@
             <button class="nav-btn back-btn" onclick="window.location.href='../index.html'">Back to Portfolio</button>
         </nav>
 
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" id="search-input" class="search-input" placeholder="Search by title, ID, ISBN, or person name...">
+                <button id="clear-search" class="clear-search-btn" style="display: none;">&times;</button>
+            </div>
+            <div id="search-results-count" class="search-results-count"></div>
+        </div>
+
+        <!-- Genre Filters & Stats -->
+        <div class="filters-stats-container">
+            <div class="genre-filters">
+                <button class="genre-btn active" data-genre="all">All Books</button>
+                <button class="genre-btn" data-genre="Classic">Classic</button>
+                <button class="genre-btn" data-genre="Fantasy">Fantasy</button>
+                <button class="genre-btn" data-genre="Dystopian">Dystopian</button>
+                <button class="genre-btn" data-genre="Romance">Romance</button>
+                <button class="genre-btn" data-genre="Young Adult">Young Adult</button>
+                <button class="genre-btn" data-genre="Adventure">Adventure</button>
+                <button class="genre-btn" data-genre="Historical">Historical</button>
+            </div>
+            <button class="stats-toggle-btn" id="stats-toggle">
+                📊 View Stats
+            </button>
+            <button class="donate-toggle-btn" id="donate-toggle">
+                📚 Donate a Book
+            </button>
+        </div>
+
+        <!-- Stats Dashboard (Hidden by default) -->
+        <div id="stats-dashboard" class="stats-dashboard" style="display: none;">
+            <div class="stats-header">
+                <h2>📊 Library Statistics</h2>
+                <button class="close-stats" id="close-stats">&times;</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value" id="total-books">0</div>
+                    <div class="stat-label">Total Books</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="available-count">0</div>
+                    <div class="stat-label">Available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-value" id="checkedout-count">0</div>
+                    <div class="stat-label">Checked Out</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value" id="popular-genre">-</div>
+                    <div class="stat-label">Top Genre</div>
+                </div>
+            </div>
+            <div class="recommendations-section">
+                <h3>📖 Recommended For You</h3>
+                <div id="recommendations-list" class="recommendations-list"></div>
+            </div>
+        </div>
+
+        <!-- Donate Book Form (Hidden by default) -->
+        <div id="donate-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close donate-close">&times;</span>
+                <div class="modal-body">
+                    <div class="book-cover-large">📚</div>
+                    <h2>Donate a Book to the Library</h2>
+                    <form id="donate-form" class="donate-form">
+                        <div class="form-group">
+                            <label for="donate-title">Book Title *</label>
+                            <input type="text" id="donate-title" required placeholder="Enter book title">
+                        </div>
+                        <div class="form-group">
+                            <label for="donate-author">Author *</label>
+                            <input type="text" id="donate-author" required placeholder="Enter author name">
+                        </div>
+                        <div class="form-group">
+                            <label for="donate-isbn">ISBN *</label>
+                            <input type="text" id="donate-isbn" required placeholder="e.g., 9780123456789" pattern="[0-9]{13}">
+                            <small>13-digit ISBN number</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="donate-genre">Genre *</label>
+                            <select id="donate-genre" required>
+                                <option value="">Select a genre</option>
+                                <option value="Classic">Classic</option>
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Dystopian">Dystopian</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Young Adult">Young Adult</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="Historical">Historical</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="donor-name">Your Name (optional)</label>
+                            <input type="text" id="donor-name" placeholder="Anonymous">
+                        </div>
+                        <div class="modal-actions">
+                            <button type="submit" class="modal-btn">Donate Book</button>
+                            <button type="button" class="modal-btn cancel-btn" id="cancel-donate">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content Area -->
         <main class="library-main">
             <!-- Available Books Section -->
@@ -68,15 +179,26 @@
                     <div class="about-content">
                         <p>This was a project for the <strong>Year Up App Dev Bootcamp</strong> where I had to create a library management system for a neighborhood using Java.</p>
 
-                        <p>The original Java console application allowed users to:</p>
+                        <h3 style="color: #2c1810; margin-top: 1.5rem;">Original Java Features:</h3>
                         <ul>
                             <li>View available books in the library</li>
-                            <li>Check out books by entering their name</li>
+                            <li>Check out books by entering your name</li>
                             <li>View checked out books</li>
                             <li>Return books to the library</li>
                         </ul>
 
-                        <p>I transformed the console-based Java application into this interactive web experience, maintaining all the core functionality while adding a beautiful, user-friendly interface.</p>
+                        <h3 style="color: #2c1810; margin-top: 1.5rem;">Enhanced Web Features:</h3>
+                        <ul>
+                            <li><strong>3D Bookshelf:</strong> Interactive books with pull-out animation</li>
+                            <li><strong>Search System:</strong> Search by title, ID, ISBN, or person name</li>
+                            <li><strong>Genre Filters:</strong> Browse books by 8 different genres (Classic, Fantasy, Dystopian, Romance, Young Adult, Adventure, Historical)</li>
+                            <li><strong>Check In/Out:</strong> Click any book to check it out or return it</li>
+                            <li><strong>Stats Dashboard:</strong> View library statistics and personalized recommendations</li>
+                            <li><strong>Donate Books:</strong> Add new books with ISBN and genre information</li>
+                            <li><strong>Persistent Storage:</strong> Your data saves automatically</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem;"><strong>Each book has:</strong> A unique ID number, 13-digit ISBN code, title, author, and genre classification. You can search, filter, check out, and check in books - all with a beautiful library aesthetic!</p>
 
                         <div class="about-links">
                             <a href="https://github.com/Year-Up-United-SPR-2025/Workshops/tree/main/neighborhood-library" target="_blank" class="modal-btn">
@@ -90,7 +212,7 @@
 
         <!-- Footer -->
         <footer class="library-footer">
-            <p>&copy; 2024 Neighborhood Library | Open to all book lovers</p>
+            <p>&copy; 2025 Neighborhood Library | Open to all book lovers</p>
         </footer>
     </div>
 

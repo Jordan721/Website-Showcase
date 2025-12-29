@@ -58,6 +58,10 @@ function saveToStorage() {
 let currentSearchTerm = '';
 let currentGenre = 'all';
 
+// Admin state
+let isAdminMode = false;
+const ADMIN_PASSWORD = 'library2025'; // Change this to a secure password
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
     loadFromStorage();
@@ -70,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupGenreFilters();
     setupStatsToggle();
     setupDonateModal();
+    setupAdminMode();
     updateStats();
 });
 
@@ -213,6 +218,7 @@ function openBookModal(book) {
         modalCheckoutInfo.innerHTML = `<strong>Status:</strong> <span style="color: #8b1538;">Checked out to ${book.checkedOutTo}</span>`;
         modalActions.innerHTML = `
             <button class="modal-btn checkin-btn" onclick="checkInBook(${book.id})">Check In Book</button>
+            ${isAdminMode ? `<button class="modal-btn delete-btn" onclick="deleteBook(${book.id})">🗑️ Delete Book</button>` : ''}
         `;
     } else {
         modalCheckoutInfo.innerHTML = `<strong>Status:</strong> <span style="color: #2d5016;">Available</span>`;
@@ -220,6 +226,7 @@ function openBookModal(book) {
             <div style="width: 100%;">
                 <input type="text" id="checkout-name" placeholder="Enter your name" />
                 <button class="modal-btn" onclick="checkOutBook(${book.id})">Check Out Book</button>
+                ${isAdminMode ? `<button class="modal-btn delete-btn" onclick="deleteBook(${book.id})">🗑️ Delete Book</button>` : ''}
             </div>
         `;
     }
@@ -650,6 +657,86 @@ function createBookCard(book, index = 0) {
             ${checkoutInfo}
         </div>
     `;
+}
+
+// Setup Admin Mode
+function setupAdminMode() {
+    const adminToggle = document.getElementById('admin-toggle');
+    const adminIcon = adminToggle.querySelector('.admin-icon');
+    const adminText = adminToggle.querySelector('.admin-text');
+
+    adminToggle.addEventListener('click', () => {
+        if (!isAdminMode) {
+            // Prompt for password
+            const password = prompt('Enter admin password:');
+            if (password === ADMIN_PASSWORD) {
+                isAdminMode = true;
+                adminIcon.textContent = '🔓';
+                adminText.textContent = 'Exit Admin';
+                adminToggle.classList.add('active-admin');
+                showNotification('Admin mode enabled');
+
+                // Refresh the current view
+                if (currentSearchTerm || currentGenre !== 'all') {
+                    filterBooksByGenre();
+                } else {
+                    renderAvailableBooks();
+                    renderCheckedOutBooks();
+                }
+            } else if (password !== null) {
+                alert('Incorrect password');
+            }
+        } else {
+            // Exit admin mode
+            isAdminMode = false;
+            adminIcon.textContent = '🔒';
+            adminText.textContent = 'Admin';
+            adminToggle.classList.remove('active-admin');
+            showNotification('Admin mode disabled');
+
+            // Refresh the current view
+            if (currentSearchTerm || currentGenre !== 'all') {
+                filterBooksByGenre();
+            } else {
+                renderAvailableBooks();
+                renderCheckedOutBooks();
+            }
+        }
+    });
+}
+
+// Delete a book (admin only)
+function deleteBook(bookId) {
+    if (!isAdminMode) {
+        alert('Admin access required to delete books');
+        return;
+    }
+
+    const book = books.find(b => b.id === bookId);
+    if (!book) return;
+
+    const confirmDelete = confirm(`Are you sure you want to permanently delete "${book.title}"?\n\nThis action cannot be undone.`);
+
+    if (confirmDelete) {
+        // Remove book from array
+        const index = books.findIndex(b => b.id === bookId);
+        books.splice(index, 1);
+        saveToStorage();
+
+        // Close modal
+        document.getElementById('book-modal').style.display = 'none';
+
+        // Refresh views
+        if (currentSearchTerm || currentGenre !== 'all') {
+            filterBooksByGenre();
+        } else {
+            renderAvailableBooks();
+            renderCheckedOutBooks();
+        }
+        updateStats();
+
+        showNotification(`"${book.title}" has been removed from the library`);
+    }
 }
 
 // Add CSS animations for notifications

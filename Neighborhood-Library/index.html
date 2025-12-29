@@ -18,10 +18,18 @@
 
         <!-- Navigation -->
         <nav class="library-nav">
-            <button class="nav-btn active" data-view="available">Available Books</button>
-            <button class="nav-btn" data-view="checkedout">Checked Out Books</button>
-            <button class="nav-btn" id="about-btn">About This Project</button>
-            <button class="nav-btn back-btn" onclick="window.location.href='../index.html'">Back to Showcase</button>
+            <div class="nav-left">
+                <button class="nav-btn active" data-view="available">Available Books</button>
+                <button class="nav-btn" data-view="checkedout">Checked Out Books</button>
+                <button class="nav-btn" id="about-btn">About This Project</button>
+            </div>
+            <div class="nav-right">
+                <button class="nav-btn admin-nav-btn" id="admin-toggle">
+                    <span class="admin-icon">🔒</span>
+                    <span class="admin-text">Admin</span>
+                </button>
+                <button class="nav-btn back-btn" onclick="window.location.href='../index.html'">Back to Showcase</button>
+            </div>
         </nav>
 
         <!-- Search Bar -->
@@ -195,6 +203,7 @@
                             <li><strong>Check In/Out:</strong> Click any book to check it out or return it</li>
                             <li><strong>Stats Dashboard:</strong> View library statistics and personalized recommendations</li>
                             <li><strong>Donate Books:</strong> Add new books with ISBN and genre information</li>
+                            <li><strong>Admin Mode:</strong> Password-protected access (password: <code style="background: #e8d4bd; padding: 0.2rem 0.5rem; border-radius: 3px; font-family: 'Courier New', monospace;">library2025</code>) to permanently remove books from the library inventory</li>
                             <li><strong>Persistent Storage:</strong> Your data saves automatically</li>
                         </ul>
 

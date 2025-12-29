@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighborhood Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="library-container">
+        <!-- Library Header -->
+        <header class="library-header">
+            <div class="header-content">
+                <h1 class="library-title">📚 Neighborhood Library</h1>
+                <p class="library-subtitle">Where Stories Come to Life</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="library-nav">
+            <button class="nav-btn active" data-view="available">Available Books</button>
+            <button class="nav-btn" data-view="checkedout">Checked Out Books</button>
+            <button class="nav-btn" id="about-btn">About This Project</button>
+            <button class="nav-btn back-btn" onclick="window.location.href='../index.html'">Back to Portfolio</button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="library-main">
+            <!-- Available Books Section -->
+            <section id="available-books" class="books-section active">
+                <h2 class="section-title">Browse Our Collection</h2>
+                <div class="bookshelf" id="available-shelf">
+                    <!-- Books will be dynamically loaded here -->
+                </div>
+            </section>
+
+            <!-- Checked Out Books Section -->
+            <section id="checkedout-books" class="books-section">
+                <h2 class="section-title">Currently Checked Out</h2>
+                <div class="bookshelf" id="checkedout-shelf">
+                    <!-- Checked out books will be displayed here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal for Book Details -->
+        <div id="book-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-body">
+                    <div class="book-cover-large">📖</div>
+                    <h2 id="modal-title"></h2>
+                    <p class="modal-info"><strong>ID:</strong> <span id="modal-id"></span></p>
+                    <p class="modal-info"><strong>ISBN:</strong> <span id="modal-isbn"></span></p>
+                    <p class="modal-info" id="modal-checkout-info"></p>
+                    <div class="modal-actions" id="modal-actions"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Modal -->
+        <div id="about-modal" class="modal">
+            <div class="modal-content">
+                <span class="close about-close">&times;</span>
+                <div class="modal-body">
+                    <div class="book-cover-large">🎓</div>
+                    <h2>About This Project</h2>
+                    <div class="about-content">
+                        <p>This was a project for the <strong>Year Up App Dev Bootcamp</strong> where I had to create a library management system for a neighborhood using Java.</p>
+
+                        <p>The original Java console application allowed users to:</p>
+                        <ul>
+                            <li>View available books in the library</li>
+                            <li>Check out books by entering their name</li>
+                            <li>View checked out books</li>
+                            <li>Return books to the library</li>
+                        </ul>
+
+                        <p>I transformed the console-based Java application into this interactive web experience, maintaining all the core functionality while adding a beautiful, user-friendly interface.</p>
+
+                        <div class="about-links">
+                            <a href="https://github.com/Year-Up-United-SPR-2025/Workshops/tree/main/neighborhood-library" target="_blank" class="modal-btn">
+                                View Original Assignment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="library-footer">
+            <p>&copy; 2024 Neighborhood Library | Open to all book lovers</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

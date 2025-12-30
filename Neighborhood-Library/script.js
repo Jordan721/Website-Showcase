@@ -29,7 +29,25 @@ const library = [
     { id: 27, isbn: "9780679783268", title: "Pride and Prejudice", genre: "Romance", author: "Jane Austen" },
     { id: 28, isbn: "9780446310789", title: "To Kill a Mockingbird", genre: "Classic", author: "Harper Lee" },
     { id: 29, isbn: "9780062316097", title: "Sapiens", genre: "Historical", author: "Yuval Noah Harari" },
-    { id: 30, isbn: "9780618260300", title: "The Silmarillion", genre: "Fantasy", author: "J.R.R. Tolkien" }
+    { id: 30, isbn: "9780618260300", title: "The Silmarillion", genre: "Fantasy", author: "J.R.R. Tolkien" },
+    { id: 31, isbn: "9780140283334", title: "The Odyssey", genre: "Classic", author: "Homer" },
+    { id: 32, isbn: "9780143039433", title: "Frankenstein", genre: "Classic", author: "Mary Shelley" },
+    { id: 33, isbn: "9780385737951", title: "Gone Girl", genre: "Romance", author: "Gillian Flynn" },
+    { id: 34, isbn: "9780374528379", title: "The Underground Railroad", genre: "Historical", author: "Colson Whitehead" },
+    { id: 35, isbn: "9780439139595", title: "Catching Fire", genre: "Young Adult", author: "Suzanne Collins" },
+    { id: 36, isbn: "9780316769174", title: "The Lightning Thief", genre: "Fantasy", author: "Rick Riordan" },
+    { id: 37, isbn: "9780062024039", title: "Divergent", genre: "Young Adult", author: "Veronica Roth" },
+    { id: 38, isbn: "9780743477123", title: "The Da Vinci Code", genre: "Adventure", author: "Dan Brown" },
+    { id: 39, isbn: "9780525555360", title: "Educated", genre: "Historical", author: "Tara Westover" },
+    { id: 40, isbn: "9780679735779", title: "The Handmaid's Tale", genre: "Dystopian", author: "Margaret Atwood" },
+    { id: 41, isbn: "9780143127550", title: "The Kite Runner", genre: "Historical", author: "Khaled Hosseini" },
+    { id: 42, isbn: "9780060935467", title: "A Tree Grows in Brooklyn", genre: "Classic", author: "Betty Smith" },
+    { id: 43, isbn: "9780553380163", title: "A Game of Thrones", genre: "Fantasy", author: "George R.R. Martin" },
+    { id: 44, isbn: "9780525479451", title: "The Seven Husbands of Evelyn Hugo", genre: "Romance", author: "Taylor Jenkins Reid" },
+    { id: 45, isbn: "9780385534635", title: "The Martian", genre: "Adventure", author: "Andy Weir" },
+    { id: 46, isbn: "9781250012579", title: "Red Queen", genre: "Young Adult", author: "Victoria Aveyard" },
+    { id: 47, isbn: "9780316229296", title: "All the Light We Cannot See", genre: "Historical", author: "Anthony Doerr" },
+    { id: 48, isbn: "9780345816023", title: "Ready Player One", genre: "Adventure", author: "Ernest Cline" }
 ];
 
 // Initialize books with checkout status

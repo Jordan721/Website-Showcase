@@ -648,13 +648,14 @@ function createBookCard(book, index = 0) {
 
     return `
         <div class="book-card" data-book-id="${book.id}" style="background: ${bookColor}; --book-index: ${index}" data-spine-title="${spineTitle}">
-            <div class="book-cover">📖</div>
-            <h3 class="book-title">${book.title}</h3>
-            <div class="book-info"><strong>Genre:</strong> ${book.genre || 'Other'}</div>
-            <div class="book-info"><strong>ID:</strong> ${book.id}</div>
-            <div class="book-info"><strong>ISBN:</strong> ${book.isbn}</div>
-            <div class="book-status ${statusClass}">${statusText}</div>
-            ${checkoutInfo}
+            <div class="book-cover">
+                <h3 class="book-title">${book.title}</h3>
+                <div class="book-info"><strong>Genre:</strong> ${book.genre || 'Other'}</div>
+                <div class="book-info"><strong>ID:</strong> ${book.id}</div>
+                <div class="book-info"><strong>ISBN:</strong> ${book.isbn}</div>
+                <div class="book-status ${statusClass}">${statusText}</div>
+                ${checkoutInfo}
+            </div>
         </div>
     `;
 }

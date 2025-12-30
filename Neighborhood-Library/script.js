@@ -19,7 +19,17 @@ const library = [
     { id: 17, isbn: "9780142424179", title: "The Fault in Our Stars", genre: "Young Adult", author: "John Green" },
     { id: 18, isbn: "9780062315006", title: "The Alchemist", genre: "Adventure", author: "Paulo Coelho" },
     { id: 19, isbn: "9780375842207", title: "The Book Thief", genre: "Historical", author: "Markus Zusak" },
-    { id: 20, isbn: "9780544336261", title: "The Giver", genre: "Dystopian", author: "Lois Lowry" }
+    { id: 20, isbn: "9780544336261", title: "The Giver", genre: "Dystopian", author: "Lois Lowry" },
+    { id: 21, isbn: "9780307277671", title: "The Road", genre: "Dystopian", author: "Cormac McCarthy" },
+    { id: 22, isbn: "9780618640157", title: "Life of Pi", genre: "Adventure", author: "Yann Martel" },
+    { id: 23, isbn: "9780316015844", title: "Twilight", genre: "Young Adult", author: "Stephenie Meyer" },
+    { id: 24, isbn: "9780141182605", title: "Of Mice and Men", genre: "Classic", author: "John Steinbeck" },
+    { id: 25, isbn: "9780525478812", title: "The Fault in Our Stars", genre: "Young Adult", author: "John Green" },
+    { id: 26, isbn: "9780385490818", title: "The Handmaid's Tale", genre: "Dystopian", author: "Margaret Atwood" },
+    { id: 27, isbn: "9780679783268", title: "Pride and Prejudice", genre: "Romance", author: "Jane Austen" },
+    { id: 28, isbn: "9780446310789", title: "To Kill a Mockingbird", genre: "Classic", author: "Harper Lee" },
+    { id: 29, isbn: "9780062316097", title: "Sapiens", genre: "Historical", author: "Yuval Noah Harari" },
+    { id: 30, isbn: "9780618260300", title: "The Silmarillion", genre: "Fantasy", author: "J.R.R. Tolkien" }
 ];
 
 // Initialize books with checkout status
@@ -35,16 +45,26 @@ function loadFromStorage() {
     if (stored) {
         const storedBooks = JSON.parse(stored);
 
-        // Merge stored data with library data to ensure all fields exist
-        books = storedBooks.map(storedBook => {
-            const libraryBook = library.find(b => b.id === storedBook.id);
-            return {
-                ...libraryBook, // Get author and genre from library
-                ...storedBook,  // Override with stored checkout data
-                // Ensure these fields always exist
-                author: storedBook.author || libraryBook?.author || 'Unknown',
-                genre: storedBook.genre || libraryBook?.genre || 'Other'
-            };
+        // Start with all library books
+        books = library.map(libraryBook => {
+            // Find if this book was stored
+            const storedBook = storedBooks.find(b => b.id === libraryBook.id);
+
+            if (storedBook) {
+                // Book exists in storage - keep checkout data
+                return {
+                    ...libraryBook,
+                    isCheckedOut: storedBook.isCheckedOut || false,
+                    checkedOutTo: storedBook.checkedOutTo || ""
+                };
+            } else {
+                // New book not in storage - add as available
+                return {
+                    ...libraryBook,
+                    isCheckedOut: false,
+                    checkedOutTo: ""
+                };
+            }
         });
     }
 }

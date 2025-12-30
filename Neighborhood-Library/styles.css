@@ -599,13 +599,13 @@ body {
     border: none;
     border-radius: 2px 2px 0 0;
     padding: 0;
-    cursor: pointer;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">👆</text></svg>') 16 0, pointer;
     position: relative;
     width: 50px;
     height: 280px;
     transform-style: preserve-3d;
     transform: translateZ(0);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow:
         -2px 0 6px rgba(0, 0, 0, 0.3),
         2px 0 4px rgba(0, 0, 0, 0.2),
@@ -615,6 +615,11 @@ body {
     animation-delay: calc(var(--book-index, 0) * 0.03s);
     overflow: visible;
     flex-shrink: 0;
+}
+
+/* Active/clicking cursor - pointing down like tapping */
+.book-card:active {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">👇</text></svg>') 16 28, pointer;
 }
 
 @keyframes bookAppear {

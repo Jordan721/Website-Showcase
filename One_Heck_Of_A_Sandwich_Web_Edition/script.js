@@ -167,7 +167,11 @@ function selectSize(size) {
     document.querySelectorAll('#build-sandwich .button-group-kiosk:first-of-type .btn-option-kiosk').forEach(btn => {
         btn.classList.remove('selected');
     });
-    event.target.classList.add('selected');
+    // Find the button element even if a child element was clicked
+    const clickedButton = event.target.closest('.btn-option-kiosk');
+    if (clickedButton) {
+        clickedButton.classList.add('selected');
+    }
 }
 
 function selectBread(bread) {
@@ -175,7 +179,11 @@ function selectBread(bread) {
     document.querySelectorAll('#build-sandwich .button-group-kiosk:nth-of-type(2) .btn-option-kiosk').forEach(btn => {
         btn.classList.remove('selected');
     });
-    event.target.classList.add('selected');
+    // Find the button element even if a child element was clicked
+    const clickedButton = event.target.closest('.btn-option-kiosk');
+    if (clickedButton) {
+        clickedButton.classList.add('selected');
+    }
 }
 
 function showToppingsSelection() {
@@ -454,7 +462,11 @@ function selectDrinkSize(size) {
     document.querySelectorAll('#add-drink .btn-option-kiosk').forEach(btn => {
         btn.classList.remove('selected');
     });
-    event.target.classList.add('selected');
+    // Find the button element even if a child element was clicked
+    const clickedButton = event.target.closest('.btn-option-kiosk');
+    if (clickedButton) {
+        clickedButton.classList.add('selected');
+    }
 }
 
 function addDrink() {

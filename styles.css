@@ -601,6 +601,37 @@ body {
     letter-spacing: 0.5px;
     text-transform: uppercase;
     border: 1px solid white;
+    z-index: 10;
+}
+
+.not-mobile .project-arrow {
+    z-index: 5;
+    color: #ff6b6b;
+}
+
+.platform-badge {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1px solid white;
+    z-index: 10;
+}
+
+.project-card:has(.platform-badge) .project-arrow {
+    z-index: 5;
+    color: #06b6d4;
+}
+
+.project-card.keep-arrow .project-arrow {
+    display: block !important;
 }
 
 /* portfolio card */

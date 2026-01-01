@@ -15,7 +15,7 @@
 
         #info-panel {
             position: absolute;
-            top: 10px;
+            top: 50px;
             left: 10px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -24,6 +24,34 @@
             font-family: Arial, sans-serif;
             z-index: 1000;
             max-width: 300px;
+            pointer-events: none;
+        }
+
+        #info-panel h2,
+        #info-panel p {
+            pointer-events: none;
+        }
+
+        #toggle-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1001;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #toggle-info:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.05);
         }
 
         #info-panel h2 {
@@ -45,7 +73,7 @@
 
         #about-panel {
             position: absolute;
-            top: 10px;
+            top: 50px;
             right: 10px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -54,6 +82,115 @@
             font-family: Arial, sans-serif;
             z-index: 1000;
             max-width: 320px;
+            pointer-events: none;
+        }
+
+        #about-panel h2,
+        #about-panel p {
+            pointer-events: none;
+        }
+
+        #toggle-about {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1001;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #toggle-about:hover {
+            background: rgba(78, 205, 196, 1);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            #info-panel {
+                display: none;
+                max-width: 180px;
+                padding: 10px;
+                font-size: 12px;
+                top: 60px;
+            }
+
+            #info-panel.visible {
+                display: block;
+            }
+
+            #info-panel h2 {
+                font-size: 14px;
+            }
+
+            #info-panel p {
+                font-size: 11px;
+            }
+
+            #toggle-info {
+                top: 20px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            #about-panel {
+                display: none;
+                top: 60px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+
+            #about-panel.visible {
+                display: block;
+            }
+
+            #toggle-about {
+                top: 20px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            #back-button {
+                bottom: auto;
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 8px 12px;
+                font-size: 11px;
+                border-radius: 8px;
+                white-space: nowrap;
+            }
+
+            #fun-controls {
+                bottom: 100px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            .modal-content h2 {
+                font-size: 20px;
+            }
+
+            .modal-content p {
+                font-size: 14px;
+            }
+
+            .modal-btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
         }
 
         #about-panel h2 {
@@ -70,52 +207,219 @@
 
         #back-button {
             position: absolute;
-            bottom: 20px;
+            bottom: 70px;
             left: 20px;
             background: rgba(78, 205, 196, 0.9);
             color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
             font-family: Arial, sans-serif;
-            text-decoration: none;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             z-index: 1000;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            cursor: pointer;
         }
 
         #back-button:hover {
             background: rgba(78, 205, 196, 1);
-            transform: translateX(-5px);
+            transform: scale(1.05);
         }
 
-        #back-button::before {
-            content: '←';
-            font-size: 18px;
+        #exit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #exit-modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(40, 40, 40, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .modal-content h2 {
+            color: #4ECDC4;
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            color: white;
+            margin: 0 0 25px 0;
+            font-size: 16px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-yes {
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+        }
+
+        .modal-btn-yes:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.05);
+        }
+
+        .modal-btn-no {
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+        }
+
+        .modal-btn-no:hover {
+            background: rgba(78, 205, 196, 1);
+            transform: scale(1.05);
+        }
+
+        #fun-controls {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .fun-button {
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fun-button:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.05);
+        }
+
+        .fun-button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            #fun-controls {
+                bottom: 60px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .fun-button {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+
+        #score-display {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(170, 150, 218, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+
+        #score-display.visible {
+            display: block;
         }
     </style>
 </head>
 
 <body>
+    <button id="toggle-info">🎮 Controls</button>
+
     <div id="info-panel">
-        <h2>3D Animation Scene</h2>
-        <p><strong>Controls:</strong></p>
+        <h2>Controls & Features</h2>
+        <p><strong>Basic Controls:</strong></p>
         <p>🖱️ Drag to look around</p>
-        <p>🖱️ Click objects to interact</p>
         <p><kbd>WASD</kbd> to move (desktop)</p>
-        <p>📱 Tap objects on mobile</p>
+        <p>📱 Touch drag on mobile</p>
+
+        <p><strong>Interactive:</strong></p>
+        <p>🎯 Click/tap objects for points</p>
+        <p>🎉 Party Mode - Speed up animations</p>
+        <p>🚀 Zero Gravity - Make objects float</p>
+        <p>➕ Spawn Object - Add random shapes</p>
+
+        <p><strong>Tips:</strong></p>
+        <p>💡 Hover over objects for preview</p>
+        <p>🔊 Sound effects on interactions</p>
     </div>
+
+    <button id="toggle-about">ℹ️ About</button>
 
     <div id="about-panel">
         <h2>About This Project</h2>
         <p>This interactive 3D animation scene was created as a class assignment to explore web-based animation techniques using A-Frame (WebVR framework).</p>
         <p>Features bouncing balls, rotating objects, particle effects, and interactive click events to demonstrate various animation principles and 3D web development skills.</p>
+        <p><strong>⚠️ Warning:</strong> Party Mode contains rapid color changes and flashing effects that may not be suitable for individuals with photosensitive epilepsy.</p>
     </div>
 
-    <a href="../index.html" id="back-button">Back to Showcase</a>
+    <div id="score-display">Score: 0</div>
+
+    <div id="fun-controls">
+        <button class="fun-button" id="party-mode">🎉 Party Mode</button>
+        <button class="fun-button" id="gravity-toggle">🌍 Toggle Gravity</button>
+        <button class="fun-button" id="add-object">➕ Spawn Object</button>
+    </div>
+
+    <button id="back-button">← BTS</button>
+
+    <div id="exit-modal">
+        <div class="modal-content">
+            <h2>Back to Showcase?</h2>
+            <p>Are you sure you want to leave this animation scene and return to the main showcase?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-yes" id="confirm-exit">Yes, Go Back</button>
+                <button class="modal-btn modal-btn-no" id="cancel-exit">Stay Here</button>
+            </div>
+        </div>
+    </div>
 
     <a-scene>
         <!-- Camera with look controls -->
@@ -230,9 +534,97 @@
     </a-scene>
 
     <script>
+        // Game state
+        let score = 0;
+        let partyModeActive = false;
+        let gravityEnabled = true;
+        let soundEnabled = true;
+
+        // Sound effects using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(frequency, duration, type = 'sine') {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
         // Interactive click events
         document.addEventListener('DOMContentLoaded', function() {
             const clickableObjects = document.querySelectorAll('.clickable');
+            const scoreDisplay = document.getElementById('score-display');
+            const toggleInfoBtn = document.getElementById('toggle-info');
+            const infoPanel = document.getElementById('info-panel');
+            const toggleAboutBtn = document.getElementById('toggle-about');
+            const aboutPanel = document.getElementById('about-panel');
+            const partyModeBtn = document.getElementById('party-mode');
+            const gravityToggleBtn = document.getElementById('gravity-toggle');
+            const addObjectBtn = document.getElementById('add-object');
+            const backButton = document.getElementById('back-button');
+            const exitModal = document.getElementById('exit-modal');
+            const confirmExitBtn = document.getElementById('confirm-exit');
+            const cancelExitBtn = document.getElementById('cancel-exit');
+
+            // Toggle info panel (mobile-friendly)
+            toggleInfoBtn.addEventListener('click', function() {
+                infoPanel.classList.toggle('visible');
+                if (infoPanel.style.display === 'none' || infoPanel.style.display === '') {
+                    infoPanel.style.display = 'block';
+                } else {
+                    infoPanel.style.display = 'none';
+                }
+            });
+
+            // Toggle about panel (mobile-friendly)
+            toggleAboutBtn.addEventListener('click', function() {
+                aboutPanel.classList.toggle('visible');
+                if (aboutPanel.style.display === 'none' || aboutPanel.style.display === '') {
+                    aboutPanel.style.display = 'block';
+                } else {
+                    aboutPanel.style.display = 'none';
+                }
+            });
+
+            // Hide panels on mobile by default
+            if (window.innerWidth <= 768) {
+                infoPanel.style.display = 'none';
+                aboutPanel.style.display = 'none';
+            }
+
+            // Back button modal
+            backButton.addEventListener('click', function() {
+                exitModal.classList.add('visible');
+                playSound(500, 0.1, 'sine');
+            });
+
+            confirmExitBtn.addEventListener('click', function() {
+                playSound(600, 0.2, 'square');
+                window.location.href = '../index.html';
+            });
+
+            cancelExitBtn.addEventListener('click', function() {
+                exitModal.classList.remove('visible');
+                playSound(400, 0.1, 'sine');
+            });
+
+            // Close modal when clicking outside
+            exitModal.addEventListener('click', function(e) {
+                if (e.target === exitModal) {
+                    exitModal.classList.remove('visible');
+                    playSound(400, 0.1, 'sine');
+                }
+            });
 
             clickableObjects.forEach(obj => {
                 obj.addEventListener('click', function() {
@@ -250,6 +642,14 @@
                         loop: 1
                     });
 
+                    // Update score
+                    score += 10;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    scoreDisplay.classList.add('visible');
+
+                    // Play click sound
+                    playSound(523.25 + Math.random() * 200, 0.1, 'sine');
+
                     console.log(`Clicked on ${this.id}`);
                 });
 
@@ -260,6 +660,7 @@
                         to: '1.1 1.1 1.1',
                         dur: 200
                     });
+                    playSound(440, 0.05, 'sine');
                 });
 
                 obj.addEventListener('mouseleave', function() {
@@ -268,6 +669,132 @@
                         to: '1 1 1',
                         dur: 200
                     });
+                });
+            });
+
+            // Party Mode - Makes everything go crazy!
+            partyModeBtn.addEventListener('click', function() {
+                partyModeActive = !partyModeActive;
+                playSound(800, 0.2, 'square');
+
+                if (partyModeActive) {
+                    this.textContent = '🎊 Party ON!';
+                    this.style.background = 'rgba(170, 150, 218, 0.9)';
+
+                    // Speed up all animations
+                    document.querySelectorAll('[animation]').forEach(el => {
+                        const anims = el.components;
+                        Object.keys(anims).forEach(key => {
+                            if (key.startsWith('animation')) {
+                                const anim = el.getAttribute(key);
+                                if (anim && anim.dur) {
+                                    el.setAttribute(key, { ...anim, dur: anim.dur / 2 });
+                                }
+                            }
+                        });
+                    });
+
+                    // Change sky rapidly
+                    const sky = document.querySelector('a-sky');
+                    sky.setAttribute('animation', {
+                        property: 'color',
+                        to: '#FF1493',
+                        dur: 500,
+                        dir: 'alternate',
+                        loop: true
+                    });
+                } else {
+                    this.textContent = '🎉 Party Mode';
+                    this.style.background = 'rgba(255, 107, 107, 0.9)';
+
+                    // Reset animations - reload page for simplicity
+                    location.reload();
+                }
+            });
+
+            // Gravity Toggle - Makes objects float or fall
+            gravityToggleBtn.addEventListener('click', function() {
+                gravityEnabled = !gravityEnabled;
+                playSound(300, 0.2, 'triangle');
+
+                const clickableObjs = document.querySelectorAll('.clickable');
+
+                if (!gravityEnabled) {
+                    this.textContent = '🚀 Zero Gravity';
+                    this.style.background = 'rgba(78, 205, 196, 0.9)';
+
+                    clickableObjs.forEach(obj => {
+                        const pos = obj.getAttribute('position');
+                        obj.setAttribute('animation__antigravity', {
+                            property: 'position',
+                            to: `${pos.x} ${pos.y + 3} ${pos.z}`,
+                            dur: 2000,
+                            easing: 'easeOutQuad'
+                        });
+                    });
+                } else {
+                    this.textContent = '🌍 Toggle Gravity';
+                    this.style.background = 'rgba(255, 107, 107, 0.9)';
+
+                    clickableObjs.forEach(obj => {
+                        obj.removeAttribute('animation__antigravity');
+                    });
+                }
+            });
+
+            // Add Random Object
+            addObjectBtn.addEventListener('click', function() {
+                playSound(600, 0.15, 'sawtooth');
+
+                const scene = document.querySelector('a-scene');
+                const shapes = ['a-sphere', 'a-box', 'a-cone', 'a-cylinder', 'a-torus'];
+                const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
+                const newObj = document.createElement(randomShape);
+                newObj.setAttribute('position', {
+                    x: (Math.random() - 0.5) * 6,
+                    y: Math.random() * 3 + 1,
+                    z: -3 - Math.random() * 3
+                });
+                newObj.setAttribute('color', randomColor);
+                newObj.setAttribute('metalness', 0.5);
+                newObj.setAttribute('roughness', 0.3);
+                newObj.setAttribute('shadow', 'cast: true');
+                newObj.setAttribute('class', 'clickable');
+
+                // Add animation
+                newObj.setAttribute('animation', {
+                    property: 'rotation',
+                    to: '360 360 0',
+                    dur: 3000,
+                    loop: true,
+                    easing: 'linear'
+                });
+
+                // Set size based on shape
+                if (randomShape === 'a-sphere') {
+                    newObj.setAttribute('radius', 0.3 + Math.random() * 0.3);
+                } else if (randomShape === 'a-box') {
+                    const size = 0.5 + Math.random() * 0.5;
+                    newObj.setAttribute('width', size);
+                    newObj.setAttribute('height', size);
+                    newObj.setAttribute('depth', size);
+                } else if (randomShape === 'a-torus') {
+                    newObj.setAttribute('radius', 0.3 + Math.random() * 0.2);
+                    newObj.setAttribute('radius-tubular', 0.05 + Math.random() * 0.05);
+                }
+
+                scene.appendChild(newObj);
+
+                // Add click listener
+                newObj.addEventListener('click', function() {
+                    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                    this.setAttribute('color', randomColor);
+                    score += 10;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    scoreDisplay.classList.add('visible');
+                    playSound(523.25 + Math.random() * 200, 0.1, 'sine');
                 });
             });
 

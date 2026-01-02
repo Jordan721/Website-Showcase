@@ -136,6 +136,44 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.search-bar-container {
+    max-width: 500px;
+    margin: 1.5rem auto 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar-container:focus-within {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar-container i {
+    color: white;
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.search-bar-container input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-bar-container input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 /* Main Container */
 .container {
     max-width: 1400px;

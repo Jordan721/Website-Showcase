@@ -11,7 +11,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Orbitron:700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<link rel="stylesheet" href="Stylesheets/enhanced-navbar.css">
 	<link rel="icon" type="image/svg+xml" href="speech-bubble.svg">
+	<script src="JS_Files/navbar.js" defer></script>
 </head>
 
 <body>
@@ -29,6 +31,7 @@
 				<li><a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Home</a></li>
 				<li><a class="nav-link" href="Account.html"><i class="fas fa-user"></i> Account</a></li>
 				<li><a class="nav-link" href="Feed.html"><i class="fas fa-newspaper"></i> Feed</a></li>
+				<li><a class="nav-link" href="Messages.html"><i class="fas fa-envelope"></i> Messages</a></li>
 				<li><a class="nav-link" href="Mod.html"><i class="fas fa-shield-alt"></i> Moderators</a></li>
 				<li class="nav-divider"></li>
 				<li><a class="nav-link" href="https://xd.adobe.com/view/6e99b10d-df17-41ca-67e6-7951044d61a5-18a8/" target="_blank"><i class="fas fa-drafting-compass"></i> Wireframes</a></li>
@@ -277,6 +280,24 @@
 		document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
 			document.querySelector('.features').scrollIntoView({ behavior: 'smooth' });
 		});
+
+		// Backup hamburger menu toggle (in case navbar.js doesn't load)
+		setTimeout(() => {
+			const hamburger = document.getElementById('hamburger');
+			const navMenu = document.getElementById('nav-menu');
+
+			if (hamburger && navMenu && !hamburger.dataset.initialized) {
+				console.log('Adding backup hamburger listener');
+				hamburger.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					navMenu.classList.toggle('active');
+					hamburger.classList.toggle('active');
+					document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+				});
+				hamburger.dataset.initialized = 'true';
+			}
+		}, 100);
 	</script>
 </body>
 

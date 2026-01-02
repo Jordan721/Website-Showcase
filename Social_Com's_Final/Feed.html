@@ -214,6 +214,35 @@
 
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="JS_Files/Feed.js"></script>
+	<script>
+		// Backup hamburger menu toggle (in case navbar.js doesn't load)
+		setTimeout(() => {
+			const hamburger = document.getElementById('hamburger');
+			const navMenu = document.getElementById('nav-menu');
+
+			if (hamburger && navMenu && !hamburger.dataset.initialized) {
+				console.log('Adding backup hamburger listener');
+				hamburger.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					navMenu.classList.toggle('active');
+					hamburger.classList.toggle('active');
+					document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+				});
+
+				// Close menu when clicking on a link
+				document.querySelectorAll('.nav-link').forEach(link => {
+					link.addEventListener('click', () => {
+						navMenu.classList.remove('active');
+						hamburger.classList.remove('active');
+						document.body.style.overflow = '';
+					});
+				});
+
+				hamburger.dataset.initialized = 'true';
+			}
+		}, 100);
+	</script>
 </body>
 
 </html>

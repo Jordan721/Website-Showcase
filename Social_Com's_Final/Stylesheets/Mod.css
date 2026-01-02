@@ -87,20 +87,6 @@ body {
     background: var(--gradient-1);
 }
 
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    color: white;
-    font-size: 1.5rem;
-    padding: 0.5rem;
-    z-index: 1001;
-}
-
-.hamburger.active i::before {
-    content: "\f00d";
-}
-
 /* Page Header */
 .page-header {
     position: relative;
@@ -391,38 +377,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
-
-    .nav-menu {
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(15, 23, 42, 0.98);
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-in-out;
-    }
-
-    .nav-menu.active {
-        max-height: 500px;
-        padding: 1rem;
-    }
-
-    .nav-menu li {
-        width: 100%;
-    }
-
-    .nav-link {
-        width: 100%;
-        padding: 1rem;
-        justify-content: center;
-    }
-
     .page-header {
         padding: 3rem 1rem;
     }

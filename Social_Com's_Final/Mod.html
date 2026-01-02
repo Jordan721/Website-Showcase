@@ -5,11 +5,11 @@
 	<title>Moderators - Social Com's</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="Stylesheets/Mod.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Orbitron:700" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 	<link rel="stylesheet" href="Stylesheets/enhanced-navbar.css">
+	<link rel="stylesheet" href="Stylesheets/Mod.css">
 	<link rel="icon" type="image/svg+xml" href="speech-bubble.svg">
 	<script src="JS_Files/navbar.js" defer></script>
 </head>
@@ -208,6 +208,35 @@
 		</div>
 	</footer>
 
+	<script>
+		// Backup hamburger menu toggle (in case navbar.js doesn't load)
+		setTimeout(() => {
+			const hamburger = document.getElementById('hamburger');
+			const navMenu = document.getElementById('nav-menu');
+
+			if (hamburger && navMenu && !hamburger.dataset.initialized) {
+				console.log('Adding backup hamburger listener');
+				hamburger.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					navMenu.classList.toggle('active');
+					hamburger.classList.toggle('active');
+					document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+				});
+
+				// Close menu when clicking on a link
+				document.querySelectorAll('.nav-link').forEach(link => {
+					link.addEventListener('click', () => {
+						navMenu.classList.remove('active');
+						hamburger.classList.remove('active');
+						document.body.style.overflow = '';
+					});
+				});
+
+				hamburger.dataset.initialized = 'true';
+			}
+		}, 100);
+	</script>
 </body>
 
 </html>

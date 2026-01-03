@@ -209,6 +209,23 @@
 	</footer>
 
 	<script>
+		// Mobile menu toggle
+		const hamburger = document.getElementById('hamburger');
+		const navMenu = document.getElementById('nav-menu');
+
+		hamburger.addEventListener('click', () => {
+			navMenu.classList.toggle('active');
+			hamburger.classList.toggle('active');
+		});
+
+		// Close menu when clicking on a link
+		document.querySelectorAll('.nav-link').forEach(link => {
+			link.addEventListener('click', () => {
+				navMenu.classList.remove('active');
+				hamburger.classList.remove('active');
+			});
+		});
+
 		// Backup hamburger menu toggle (in case navbar.js doesn't load)
 		setTimeout(() => {
 			const hamburger = document.getElementById('hamburger');
@@ -223,16 +240,6 @@
 					hamburger.classList.toggle('active');
 					document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
 				});
-
-				// Close menu when clicking on a link
-				document.querySelectorAll('.nav-link').forEach(link => {
-					link.addEventListener('click', () => {
-						navMenu.classList.remove('active');
-						hamburger.classList.remove('active');
-						document.body.style.overflow = '';
-					});
-				});
-
 				hamburger.dataset.initialized = 'true';
 			}
 		}, 100);

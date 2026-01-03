@@ -1,4 +1,3 @@
-// Enhanced Navbar Functionality
 // This script adds cool features to the navbar across all pages
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -254,18 +253,27 @@ function setupEnhancedMobileMenu() {
     const navMenu = document.getElementById('nav-menu');
     const body = document.body;
 
-    console.log('Setup mobile menu:', { hamburger, navMenu });
+    console.log('[navbar.js] Setup mobile menu:', { hamburger, navMenu });
 
     if (!hamburger || !navMenu) {
-        console.error('Hamburger or navMenu not found!');
+        console.error('[navbar.js] Hamburger or navMenu not found!');
         return;
     }
+
+    // Check if already initialized by inline script
+    if (hamburger.dataset.navbarJsInitialized) {
+        console.log('[navbar.js] Already initialized by inline script, skipping');
+        return;
+    }
+
+    // Mark as initialized
+    hamburger.dataset.navbarJsInitialized = 'true';
 
     // Hamburger click to toggle menu
     hamburger.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Hamburger clicked!');
+        console.log('[navbar.js] Hamburger clicked!');
 
         const isActive = navMenu.classList.contains('active');
 
@@ -273,7 +281,7 @@ function setupEnhancedMobileMenu() {
         hamburger.classList.toggle('active');
         body.style.overflow = isActive ? '' : 'hidden';
 
-        console.log('Menu toggled. Active:', !isActive);
+        console.log('[navbar.js] Menu toggled. Active:', !isActive);
     });
 
     // Close menu when clicking outside (on overlay)
@@ -304,4 +312,6 @@ function setupEnhancedMobileMenu() {
             body.style.overflow = '';
         }
     });
+
+    console.log('[navbar.js] Mobile menu initialized successfully');
 }

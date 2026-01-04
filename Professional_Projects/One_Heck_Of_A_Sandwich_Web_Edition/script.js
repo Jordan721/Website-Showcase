@@ -111,7 +111,7 @@ function showAboutProject() {
 
 function goBackToMainSite() {
     // Navigate to the main index.html in the parent directory
-    window.location.href = '../index.html';
+    window.location.href = '../../index.html';
 }
 
 // Sandwich building functions

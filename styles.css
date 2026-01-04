@@ -497,11 +497,11 @@ body {
 
 .folder-symbol {
     font-size: 2rem;
-    filter: hue-rotate(90deg) saturate(1.5) brightness(0.9);
+    filter: hue-rotate(90deg) saturate(1.5) brightness(1.1);
 }
 
 .folder-symbol.professional-folder {
-    filter: hue-rotate(90deg) saturate(1.8) brightness(0.6);
+    filter: hue-rotate(90deg) saturate(1.7) brightness(0.8);
 }
 
 .category-info h3 {
@@ -882,5 +882,83 @@ body {
 
     .category-info p {
         font-size: 0.875rem;
+    }
+}
+
+/* Coming Soon Marquee Animation */
+
+.coming-soon-container {
+    width: 100%;
+    overflow: hidden;
+    padding: var(--spacing-xl) 0;
+    position: relative;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(16, 185, 129, 0.05) 50%,
+        transparent 100%);
+}
+
+.coming-soon-marquee {
+    display: flex;
+    gap: var(--spacing-2xl);
+    animation: marqueeScroll 20s linear infinite;
+    white-space: nowrap;
+}
+
+.coming-soon-text {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-primary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 var(--spacing-2xl);
+    position: relative;
+}
+
+.coming-soon-text::before {
+    content: '🎬';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+}
+
+.coming-soon-text::after {
+    content: '🎬';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+}
+
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Personal folder styling */
+.folder-symbol.personal-folder {
+    filter: hue-rotate(90deg) saturate(1.9) brightness(0.5);
+}
+
+@media (max-width: 640px) {
+    .coming-soon-text {
+        font-size: 1.5rem;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .coming-soon-text::before,
+    .coming-soon-text::after {
+        font-size: 1.25rem;
     }
 }

@@ -1,4 +1,4 @@
-/* ===== GLOBAL STYLES ===== */
+/* ===== GRASSROOTS ACTIVIST DESIGN ===== */
 * {
 	margin: 0;
 	padding: 0;
@@ -14,11 +14,14 @@
 	--text-dark: #2c2c2c;
 	--text-light: #666;
 	--white: #ffffff;
+	--cream: #fef9f5;
+	--paper: #f5f0eb;
 	--gradient-main: linear-gradient(135deg, #ff4d8f 0%, #d91e48 100%);
 	--gradient-reverse: linear-gradient(135deg, #d91e48 0%, #ff4d8f 100%);
 	--shadow-sm: 0 2px 10px rgba(217, 30, 72, 0.1);
 	--shadow-md: 0 8px 30px rgba(217, 30, 72, 0.15);
 	--shadow-lg: 0 15px 50px rgba(217, 30, 72, 0.2);
+	--shadow-poster: 4px 4px 0px rgba(217, 30, 72, 0.3);
 	--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -28,42 +31,75 @@ html {
 }
 
 body {
-	font-family: 'Lato', 'PT Sans', sans-serif;
+	font-family: 'PT Sans', 'Lato', sans-serif;
 	color: var(--text-dark);
 	line-height: 1.8;
-	background: var(--light-pink);
+	background: var(--cream);
 	overflow-x: hidden;
+	position: relative;
 }
 
-/* ===== NAVIGATION STYLES ===== */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image:
+		repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(217, 30, 72, 0.02) 2px, rgba(217, 30, 72, 0.02) 4px);
+	pointer-events: none;
+	z-index: 1;
+}
+
+/* ===== NAVIGATION STYLES - ACTIVIST BANNER ===== */
 .navbar {
 	background: var(--white) !important;
 	border: none !important;
-	box-shadow: var(--shadow-md);
+	border-bottom: 4px solid var(--primary-red) !important;
+	box-shadow: none;
 	transition: var(--transition);
-	padding: 10px 0;
+	padding: 15px 0;
 	margin-bottom: 0 !important;
+	position: relative;
+	z-index: 100;
+}
+
+.navbar::after {
+	content: '';
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: repeating-linear-gradient(
+		90deg,
+		var(--primary-red) 0px,
+		var(--primary-red) 20px,
+		var(--primary-pink) 20px,
+		var(--primary-pink) 40px
+	);
 }
 
 .navbar.scrolled {
-	padding: 5px 0;
-	box-shadow: var(--shadow-lg);
+	padding: 10px 0;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
 	font-family: 'Montserrat', sans-serif;
-	font-weight: 700;
-	font-size: 24px !important;
-	background: var(--gradient-main);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	font-weight: 900;
+	font-size: 26px !important;
+	color: var(--primary-red) !important;
 	transition: var(--transition);
-	letter-spacing: 1px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-shadow: 2px 2px 0px rgba(217, 30, 72, 0.1);
 }
 
 .navbar-brand:hover {
-	transform: scale(1.05);
+	transform: rotate(-1deg);
+	color: var(--primary-pink) !important;
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -159,10 +195,10 @@ body {
 	background-color: var(--primary-pink) !important;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION - RALLY POSTER STYLE ===== */
 .hero-section {
 	min-height: 100vh;
-	background: linear-gradient(135deg, rgba(255, 77, 143, 0.05) 0%, rgba(217, 30, 72, 0.05) 100%);
+	background: var(--cream);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -174,12 +210,35 @@ body {
 .hero-section::before {
 	content: '';
 	position: absolute;
-	top: -50%;
-	right: -50%;
-	width: 100%;
-	height: 100%;
-	background: radial-gradient(circle, rgba(255, 77, 143, 0.1) 0%, transparent 70%);
-	animation: pulse 8s ease-in-out infinite;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image:
+		repeating-linear-gradient(
+			45deg,
+			transparent,
+			transparent 10px,
+			rgba(255, 77, 143, 0.02) 10px,
+			rgba(255, 77, 143, 0.02) 20px
+		);
+	pointer-events: none;
+}
+
+.hero-section::after {
+	content: 'VOTE • ACT • RISE • EMPOWER';
+	position: absolute;
+	top: 50%;
+	left: -10%;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 8rem;
+	font-weight: 900;
+	color: rgba(217, 30, 72, 0.03);
+	transform: rotate(-5deg) translateY(-50%);
+	white-space: nowrap;
+	letter-spacing: 20px;
+	pointer-events: none;
+	z-index: 0;
 }
 
 .hero-content {
@@ -211,25 +270,52 @@ body {
 
 .hero-text {
 	text-align: center;
+	position: relative;
+	z-index: 10;
 }
 
 .hero-title {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 4rem;
-	font-weight: 700;
-	background: var(--gradient-main);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	margin-bottom: 20px;
-	line-height: 1.2;
+	font-size: 5rem;
+	font-weight: 900;
+	color: var(--primary-red);
+	margin-bottom: 25px;
+	line-height: 1.1;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	text-shadow:
+		3px 3px 0px var(--primary-pink),
+		6px 6px 0px rgba(217, 30, 72, 0.2);
+	position: relative;
+	transform: rotate(-1deg);
+}
+
+.hero-title::before {
+	content: '';
+	position: absolute;
+	top: -15px;
+	left: -15px;
+	right: -15px;
+	bottom: -15px;
+	border: 5px solid var(--primary-red);
+	transform: rotate(1deg);
+	z-index: -1;
+	background: var(--white);
+	box-shadow: var(--shadow-poster);
 }
 
 .hero-subtitle {
-	font-size: 1.5rem;
-	color: var(--text-light);
+	font-size: 1.8rem;
+	color: var(--text-dark);
 	margin-bottom: 40px;
-	font-weight: 300;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	background: var(--white);
+	padding: 15px 30px;
+	display: inline-block;
+	border-left: 8px solid var(--primary-pink);
+	box-shadow: var(--shadow-poster);
 }
 
 .hero-buttons {
@@ -240,57 +326,79 @@ body {
 }
 
 .btn {
-	border-radius: 50px;
-	padding: 15px 40px;
-	font-weight: 600;
+	border-radius: 0;
+	padding: 18px 45px;
+	font-weight: 900;
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 	transition: var(--transition);
-	border: none;
+	border: 4px solid var(--text-dark);
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
-	gap: 10px;
+	gap: 12px;
+	font-family: 'Montserrat', sans-serif;
+	position: relative;
+	box-shadow: var(--shadow-poster);
+	font-size: 15px;
+}
+
+.btn::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 2px,
+		rgba(0,0,0,0.05) 2px,
+		rgba(0,0,0,0.05) 4px
+	);
+	pointer-events: none;
 }
 
 .btn-primary {
-	background: var(--gradient-main);
+	background: var(--primary-red);
 	color: var(--white);
-	box-shadow: var(--shadow-md);
+	border-color: var(--primary-red);
 }
 
 .btn-primary:hover {
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-lg);
+	transform: rotate(-1deg) translateY(-3px);
+	box-shadow: 6px 6px 0px rgba(217, 30, 72, 0.4);
 	color: var(--white);
+	background: var(--dark-red);
 }
 
 .btn-outline {
-	background: transparent;
+	background: var(--white);
 	color: var(--primary-red);
-	border: 2px solid var(--primary-red);
+	border: 4px solid var(--primary-red);
 }
 
 .btn-outline:hover {
-	background: var(--gradient-main);
+	background: var(--primary-pink);
 	color: var(--white);
-	border-color: transparent;
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-md);
+	border-color: var(--primary-pink);
+	transform: rotate(1deg) translateY(-3px);
+	box-shadow: 6px 6px 0px rgba(255, 77, 143, 0.4);
 }
 
 .btn-info {
-	background: transparent;
+	background: var(--text-dark);
 	color: var(--white);
-	border: 2px solid var(--white);
+	border: 4px solid var(--text-dark);
 }
 
 .btn-info:hover {
-	background: var(--white);
-	color: var(--primary-red);
-	border-color: var(--white);
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-md);
+	background: var(--primary-pink);
+	color: var(--white);
+	border-color: var(--primary-pink);
+	transform: rotate(-1deg) translateY(-3px);
+	box-shadow: 6px 6px 0px rgba(255, 77, 143, 0.4);
 }
 
 .scroll-indicator {
@@ -303,38 +411,80 @@ body {
 	color: var(--primary-pink);
 }
 
-/* ===== SECTION STYLES ===== */
+/* ===== SECTION STYLES - BULLETIN BOARD AESTHETIC ===== */
 section {
 	padding: 100px 0;
 	position: relative;
 }
 
+section::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 8px;
+	background: repeating-linear-gradient(
+		90deg,
+		var(--primary-red) 0px,
+		var(--primary-red) 30px,
+		var(--primary-pink) 30px,
+		var(--primary-pink) 60px,
+		var(--white) 60px,
+		var(--white) 70px
+	);
+}
+
 .section-header {
 	text-align: center;
-	margin-bottom: 60px;
+	margin-bottom: 70px;
+	position: relative;
 }
 
 .section-title {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 3rem;
-	font-weight: 700;
-	color: var(--text-dark);
-	margin-bottom: 15px;
+	font-size: 3.5rem;
+	font-weight: 900;
+	color: var(--primary-red);
+	margin-bottom: 20px;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	position: relative;
+	display: inline-block;
+	padding: 20px 40px;
+	background: var(--white);
+	border: 5px solid var(--text-dark);
+	box-shadow: var(--shadow-poster);
+	transform: rotate(-1deg);
+}
+
+.section-title::before {
+	content: '★';
+	position: absolute;
+	top: -25px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 2rem;
+	color: var(--primary-pink);
 }
 
 .title-underline {
-	width: 100px;
-	height: 4px;
-	background: var(--gradient-main);
-	margin: 0 auto 20px;
-	border-radius: 2px;
+	display: none;
 }
 
 .section-subtitle {
-	font-size: 1.2rem;
-	color: var(--text-light);
-	max-width: 600px;
-	margin: 0 auto;
+	font-size: 1.3rem;
+	color: var(--text-dark);
+	max-width: 700px;
+	margin: 20px auto 0;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	background: var(--primary-pink);
+	color: var(--white);
+	padding: 15px 30px;
+	display: inline-block;
+	border-left: 8px solid var(--primary-red);
 }
 
 /* ===== FILM OVERVIEW SECTION ===== */
@@ -395,60 +545,105 @@ section {
 
 .content-card {
 	background: var(--white);
-	border-radius: 15px;
+	border-radius: 0;
 	padding: 40px;
 	margin-bottom: 30px;
-	box-shadow: var(--shadow-sm);
-	border-left: 5px solid var(--primary-pink);
+	box-shadow: none;
+	border: 4px solid var(--text-dark);
+	border-left: 12px solid var(--primary-pink);
 	transition: var(--transition);
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .content-card::before {
 	content: '';
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 0;
-	height: 100%;
-	background: linear-gradient(135deg, rgba(255, 77, 143, 0.05) 0%, rgba(217, 30, 72, 0.05) 100%);
-	transition: width 0.3s ease;
-	z-index: 0;
+	top: 8px;
+	left: 8px;
+	right: -8px;
+	bottom: -8px;
+	background: var(--primary-pink);
+	opacity: 0.2;
+	z-index: -1;
+	transition: var(--transition);
+}
+
+.content-card::after {
+	position: absolute;
+	top: -20px;
+	right: 20px;
+	font-size: 2.5rem;
+	background: var(--primary-red);
+	width: 60px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 4px solid var(--text-dark);
+	transform: rotate(15deg);
+}
+
+.content-card:nth-child(1)::after {
+	content: '✊';
+}
+
+.content-card:nth-child(2)::after {
+	content: '📹';
+	background: var(--primary-pink);
+}
+
+.content-card:nth-child(3)::after {
+	content: '🗳️';
+	background: var(--primary-red);
+}
+
+.content-card:nth-child(4)::after {
+	content: '🏁';
+	background: var(--primary-pink);
 }
 
 .content-card:hover {
-	transform: translateX(10px);
-	box-shadow: var(--shadow-md);
+	transform: rotate(-0.5deg) translateY(-5px);
+	border-left-width: 20px;
 }
 
 .content-card:hover::before {
-	width: 100%;
+	opacity: 0.3;
+	top: 12px;
+	left: 12px;
 }
 
 .card-icon {
-	font-size: 3rem;
-	color: var(--primary-pink);
-	margin-bottom: 20px;
-	animation: float 3s ease-in-out infinite;
+	font-size: 3.5rem;
+	color: var(--primary-red);
+	margin-bottom: 25px;
 	position: relative;
 	z-index: 1;
+	display: inline-block;
+	background: var(--light-pink);
+	padding: 15px;
+	border: 3px solid var(--primary-pink);
 }
 
 .content-card p {
 	font-size: 1.1rem;
 	color: var(--text-dark);
-	line-height: 1.8;
+	line-height: 1.9;
 	margin-bottom: 15px;
 	text-align: left;
 	position: relative;
 	z-index: 1;
+	font-weight: 500;
 }
 
 .highlight-card {
-	background: linear-gradient(135deg, rgba(255, 77, 143, 0.05) 0%, rgba(217, 30, 72, 0.05) 100%);
+	background: var(--light-pink);
 	border-left-color: var(--primary-red);
+	border-width: 5px;
+	border-left-width: 12px;
 }
+
 
 /* ===== TEAM SECTION ===== */
 .section-team {
@@ -464,24 +659,45 @@ section {
 
 .team-member {
 	background: var(--white);
-	border-radius: 20px;
-	overflow: hidden;
-	box-shadow: var(--shadow-md);
+	border-radius: 0;
+	overflow: visible;
+	box-shadow: none;
+	border: 5px solid var(--text-dark);
 	transition: var(--transition);
 	display: grid;
 	grid-template-columns: 250px 1fr;
-	gap: 30px;
+	gap: 0;
+	position: relative;
+}
+
+.team-member::before {
+	content: '';
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: -10px;
+	bottom: -10px;
+	background: var(--primary-pink);
+	opacity: 0.2;
+	z-index: -1;
+	transition: var(--transition);
 }
 
 .team-member:hover {
-	transform: translateY(-10px);
-	box-shadow: var(--shadow-lg);
+	transform: rotate(-1deg) translateY(-8px);
+}
+
+.team-member:hover::before {
+	opacity: 0.3;
+	top: 15px;
+	left: 15px;
 }
 
 .member-image-wrapper {
 	position: relative;
 	overflow: hidden;
 	height: 100%;
+	border-right: 5px solid var(--text-dark);
 }
 
 .member-image {
@@ -489,6 +705,7 @@ section {
 	height: 100%;
 	object-fit: cover;
 	transition: var(--transition);
+	filter: grayscale(20%);
 }
 
 .member-overlay {
@@ -497,7 +714,7 @@ section {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: var(--gradient-main);
+	background: var(--primary-red);
 	opacity: 0;
 	display: flex;
 	align-items: center;
@@ -505,36 +722,65 @@ section {
 	transition: var(--transition);
 }
 
+.member-overlay::before {
+	content: 'LEADER';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(-10deg);
+	font-family: 'Montserrat', sans-serif;
+	font-size: 2.5rem;
+	font-weight: 900;
+	color: var(--white);
+	letter-spacing: 4px;
+	opacity: 0;
+	transition: var(--transition);
+}
+
 .team-member:hover .member-overlay {
-	opacity: 0.9;
+	opacity: 0.85;
+}
+
+.team-member:hover .member-overlay::before {
+	opacity: 1;
 }
 
 .team-member:hover .member-image {
-	transform: scale(1.1);
+	transform: scale(1.05);
+	filter: grayscale(0%);
 }
 
 .member-overlay i {
-	font-size: 4rem;
-	color: var(--white);
+	display: none;
 }
 
 .member-info {
-	padding: 30px 30px 30px 0;
+	padding: 35px 35px 35px 30px;
+	background: var(--white);
 }
 
 .member-name {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 1.8rem;
-	font-weight: 700;
+	font-size: 1.9rem;
+	font-weight: 900;
 	color: var(--primary-red);
-	margin-bottom: 10px;
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	line-height: 1.2;
 }
 
 .member-title {
 	font-size: 1.1rem;
-	color: var(--primary-pink);
-	font-weight: 600;
+	color: var(--white);
+	font-weight: 700;
 	margin-bottom: 20px;
+	background: var(--primary-pink);
+	padding: 8px 15px;
+	display: inline-block;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	border-left: 5px solid var(--primary-red);
 }
 
 .member-bio p {
@@ -682,9 +928,25 @@ section {
 	box-shadow: var(--shadow-sm);
 }
 
-/* ===== CONTRIBUTE SECTION ===== */
+/* ===== CONTRIBUTE SECTION - CALL TO ACTION ===== */
 .section-contribute {
 	background: var(--white);
+	position: relative;
+}
+
+.section-contribute::after {
+	content: 'SUPPORT THE MOVEMENT';
+	position: absolute;
+	bottom: 50px;
+	right: -5%;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 6rem;
+	font-weight: 900;
+	color: rgba(255, 77, 143, 0.05);
+	transform: rotate(-5deg);
+	white-space: nowrap;
+	letter-spacing: 15px;
+	pointer-events: none;
 }
 
 .contribute-content {
@@ -693,33 +955,54 @@ section {
 }
 
 .contribute-card {
-	background: linear-gradient(135deg, rgba(255, 77, 143, 0.05) 0%, rgba(217, 30, 72, 0.05) 100%);
-	border-radius: 20px;
+	background: var(--light-pink);
+	border-radius: 0;
 	padding: 50px;
 	text-align: center;
 	margin-bottom: 50px;
+	border: 6px solid var(--primary-red);
+	position: relative;
+	box-shadow: var(--shadow-poster);
+}
+
+.contribute-card::before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	left: -3px;
+	right: -3px;
+	bottom: -3px;
+	border: 3px dashed var(--primary-pink);
+	pointer-events: none;
 }
 
 .contribute-icon {
-	font-size: 4rem;
-	color: var(--primary-pink);
-	margin-bottom: 20px;
+	font-size: 5rem;
+	color: var(--primary-red);
+	margin-bottom: 25px;
+	display: inline-block;
+	background: var(--white);
+	padding: 25px;
+	border: 4px solid var(--primary-red);
 	animation: heartbeat 2s ease-in-out infinite;
 }
 
 .contribute-card h3 {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 2rem;
-	font-weight: 700;
+	font-size: 2.5rem;
+	font-weight: 900;
 	color: var(--primary-red);
-	margin-bottom: 20px;
+	margin-bottom: 25px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
 }
 
 .contribute-card p {
-	font-size: 1.1rem;
+	font-size: 1.15rem;
 	color: var(--text-dark);
-	line-height: 1.8;
+	line-height: 1.9;
 	margin-bottom: 25px;
+	font-weight: 500;
 }
 
 .benefits-list {
@@ -974,11 +1257,31 @@ section {
 	transform: scale(1.05);
 }
 
-/* ===== FOOTER STYLES ===== */
+/* ===== FOOTER STYLES - SOLIDARITY BANNER ===== */
 .site-footer {
-	background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+	background: var(--text-dark);
 	color: var(--white);
 	padding: 60px 0 20px;
+	position: relative;
+	border-top: 8px solid var(--primary-red);
+}
+
+.site-footer::before {
+	content: '';
+	position: absolute;
+	top: -8px;
+	left: 0;
+	right: 0;
+	height: 8px;
+	background: repeating-linear-gradient(
+		90deg,
+		var(--primary-red) 0px,
+		var(--primary-red) 30px,
+		var(--primary-pink) 30px,
+		var(--primary-pink) 60px,
+		var(--white) 60px,
+		var(--white) 70px
+	);
 }
 
 .footer-content {
@@ -990,13 +1293,12 @@ section {
 
 .footer-brand h3 {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 1.5rem;
-	font-weight: 700;
-	background: var(--gradient-main);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	font-size: 1.6rem;
+	font-weight: 900;
+	color: var(--primary-pink);
 	margin-bottom: 15px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
 }
 
 .footer-brand p {
@@ -1065,24 +1367,42 @@ section {
 	color: #999;
 }
 
-/* ===== SCROLL TO TOP BUTTON ===== */
+/* ===== SCROLL TO TOP BUTTON - ACTIVIST BADGE ===== */
 .scroll-to-top {
 	position: fixed;
 	bottom: 30px;
 	right: 30px;
-	width: 55px;
-	height: 55px;
-	background: var(--gradient-main);
+	width: 65px;
+	height: 65px;
+	background: var(--primary-red);
 	color: var(--white);
-	border: none;
-	border-radius: 50%;
+	border: 4px solid var(--text-dark);
+	border-radius: 0;
 	font-size: 1.5rem;
 	cursor: pointer;
 	opacity: 0;
 	visibility: hidden;
 	transition: var(--transition);
-	box-shadow: var(--shadow-md);
+	box-shadow: var(--shadow-poster);
 	z-index: 1000;
+	font-weight: 900;
+}
+
+.scroll-to-top::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 3px,
+		rgba(255,255,255,0.1) 3px,
+		rgba(255,255,255,0.1) 6px
+	);
+	pointer-events: none;
 }
 
 .scroll-to-top.visible {
@@ -1091,8 +1411,9 @@ section {
 }
 
 .scroll-to-top:hover {
-	transform: translateY(-5px);
-	box-shadow: var(--shadow-lg);
+	transform: rotate(-5deg) translateY(-5px);
+	box-shadow: 6px 6px 0px rgba(217, 30, 72, 0.5);
+	background: var(--primary-pink);
 }
 
 /* ===== PROJECT INFO MODAL ===== */
@@ -1358,7 +1679,7 @@ section {
 	animation: pulse 2s ease-in-out infinite;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== RESPONSIVE DESIGN - ACTIVIST MOBILE ===== */
 @media (max-width: 992px) {
 	.team-member {
 		grid-template-columns: 1fr;
@@ -1366,6 +1687,8 @@ section {
 
 	.member-image-wrapper {
 		height: 300px;
+		border-right: none;
+		border-bottom: 5px solid var(--text-dark);
 	}
 
 	.member-info {
@@ -1383,6 +1706,10 @@ section {
 	.payment-options {
 		grid-template-columns: 1fr;
 	}
+
+	.hero-section::after {
+		font-size: 4rem;
+	}
 }
 
 @media (max-width: 768px) {
@@ -1391,11 +1718,21 @@ section {
 	}
 
 	.hero-title {
-		font-size: 2.5rem;
+		font-size: 3rem;
+		letter-spacing: 2px;
+	}
+
+	.hero-title::before {
+		top: -10px;
+		left: -10px;
+		right: -10px;
+		bottom: -10px;
+		border-width: 4px;
 	}
 
 	.hero-subtitle {
-		font-size: 1.2rem;
+		font-size: 1.3rem;
+		letter-spacing: 1px;
 	}
 
 	.hero-buttons {
@@ -1404,15 +1741,36 @@ section {
 	}
 
 	.section-title {
-		font-size: 2rem;
+		font-size: 2.5rem;
+		padding: 15px 25px;
+		letter-spacing: 2px;
+	}
+
+	.section-title::before {
+		font-size: 1.5rem;
+		top: -20px;
 	}
 
 	section {
 		padding: 60px 0;
 	}
 
+	section::before {
+		height: 6px;
+	}
+
 	.content-card {
 		padding: 25px;
+		border-width: 3px;
+		border-left-width: 10px;
+	}
+
+	.content-card::after {
+		font-size: 2rem;
+		width: 50px;
+		height: 50px;
+		top: -15px;
+		right: 15px;
 	}
 
 	.form-row {
@@ -1449,24 +1807,69 @@ section {
 		right: 15px;
 		top: 15px;
 	}
+
+	.hero-section::after {
+		font-size: 3rem;
+		left: -20%;
+	}
+
+	.contribute-card {
+		padding: 35px 25px;
+		border-width: 4px;
+	}
+
+	.btn {
+		padding: 15px 30px;
+		font-size: 14px;
+	}
 }
 
 @media (max-width: 576px) {
 	.hero-title {
-		font-size: 2rem;
+		font-size: 2.2rem;
+		letter-spacing: 1px;
+		text-shadow:
+			2px 2px 0px var(--primary-pink),
+			4px 4px 0px rgba(217, 30, 72, 0.2);
 	}
 
 	.section-title {
-		font-size: 1.8rem;
+		font-size: 2rem;
+		padding: 12px 20px;
+		letter-spacing: 1px;
 	}
 
 	.navbar-brand {
 		font-size: 18px !important;
+		letter-spacing: 1px;
 	}
 
 	.scroll-to-top {
-		width: 45px;
-		height: 45px;
-		font-size: 1.2rem;
+		width: 55px;
+		height: 55px;
+		font-size: 1.3rem;
+		border-width: 3px;
+	}
+
+	.hero-section::after {
+		font-size: 2rem;
+		letter-spacing: 10px;
+	}
+
+	.section-contribute::after {
+		font-size: 3rem;
+		letter-spacing: 8px;
+	}
+
+	.content-card::after {
+		display: none;
+	}
+
+	.team-member {
+		border-width: 4px;
+	}
+
+	.member-image-wrapper {
+		border-bottom-width: 4px;
 	}
 }

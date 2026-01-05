@@ -1,3 +1,37 @@
+// Animation toggle functionality
+const animationToggle = document.getElementById('animationToggle');
+const animatedBackground = document.getElementById('animatedBackground');
+const toggleIcon = animationToggle.querySelector('i');
+
+// Check localStorage for saved preference
+const animationsEnabled = localStorage.getItem('animationsEnabled') !== 'false';
+
+// Set initial state
+if (!animationsEnabled) {
+    animatedBackground.classList.add('paused');
+    animationToggle.classList.add('paused');
+    toggleIcon.classList.remove('fa-play');
+    toggleIcon.classList.add('fa-pause');
+}
+
+animationToggle.addEventListener('click', () => {
+    const isPaused = animatedBackground.classList.contains('paused');
+
+    if (isPaused) {
+        animatedBackground.classList.remove('paused');
+        animationToggle.classList.remove('paused');
+        toggleIcon.classList.remove('fa-pause');
+        toggleIcon.classList.add('fa-play');
+        localStorage.setItem('animationsEnabled', 'true');
+    } else {
+        animatedBackground.classList.add('paused');
+        animationToggle.classList.add('paused');
+        toggleIcon.classList.remove('fa-play');
+        toggleIcon.classList.add('fa-pause');
+        localStorage.setItem('animationsEnabled', 'false');
+    }
+});
+
 // Toggle category function
 function toggleCategory(categoryId) {
     const content = document.getElementById(categoryId);

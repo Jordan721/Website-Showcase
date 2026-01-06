@@ -30,7 +30,7 @@
             <button class="modal-close" id="modal-close">&times;</button>
             <h2>About This Project</h2>
             <div class="about-text">
-                <p>This is a <strong>mockup demonstration</strong> of the dark mode feature I developed during my internship with <strong>Unadat</strong>, a financial wellness portal, during the pandemic. The mockup recreates the functionality and design patterns implemented for the actual Unadat portal.</p>
+                <p>This is an <strong>enhanced mockup demonstration</strong> of the dark mode feature I developed during my internship with <strong>Unadat</strong>, a financial wellness portal, during the pandemic. The mockup recreates and expands upon the functionality and design patterns implemented for the actual Unadat portal, with additional interactive features to showcase advanced UX capabilities.</p>
 
                 <h3>The Experience:</h3>
                 <p>Despite working remotely throughout the entire internship, I collaborated closely with the CEO and creator of Unadat to lead the development of a comprehensive dark mode feature. I optimized mobile UX, enhanced accessibility, and improved user comfort across devices.</p>
@@ -46,8 +46,40 @@
                     <li>Implemented smooth theme transitions and persistent user preferences</li>
                 </ul>
 
+                <h3>Enhanced Features in This Demo:</h3>
+                <p>This showcase goes beyond the original implementation with advanced interactive features:</p>
+                <ul>
+                    <li><strong>Animated Transitions:</strong> Ripple and wave effects that emanate from toggle points for visual feedback</li>
+                    <li><strong>Live Code Editor:</strong> Real-time CSS variable display with syntax highlighting showing changes as they happen</li>
+                    <li><strong>Before/After Comparison:</strong> Interactive slider to compare light and dark modes side-by-side (desktop and mobile)</li>
+                    <li><strong>Gamification System:</strong> 8 unlockable achievements with notification banners and progress tracking</li>
+                    <li><strong>Stats Dashboard:</strong> Real-time counters for theme toggles, color changes, and achievements</li>
+                    <li><strong>Theme Sharing:</strong> Generate unique URLs to share custom color schemes with others</li>
+                    <li><strong>Theme History:</strong> Visual timeline of up to 12 previous themes with one-click restoration</li>
+                    <li><strong>Auto-Scheduling:</strong> Time-based automatic switching between light and dark modes</li>
+                    <li><strong>Advanced Interactions:</strong> Double-click background to toggle, keyboard shortcuts (Ctrl/Cmd+Shift+D)</li>
+                    <li><strong>Persistent Storage:</strong> All preferences, stats, and history saved locally for seamless experience</li>
+                </ul>
+
                 <h3>Technologies Used:</h3>
-                <p>Pure HTML, CSS (CSS Custom Properties), and Vanilla JavaScript - no frameworks required!</p>
+                <p>Pure HTML, CSS (CSS Custom Properties with advanced animations), and Vanilla JavaScript (ES6+) - no frameworks required! Features include:</p>
+                <ul>
+                    <li>CSS Grid & Flexbox for responsive layouts</li>
+                    <li>CSS Custom Properties for dynamic theming</li>
+                    <li>LocalStorage API for data persistence</li>
+                    <li>URL Search Params for theme sharing</li>
+                    <li>Touch events for mobile slider support</li>
+                    <li>Keyframe animations and transitions</li>
+                </ul>
+
+                <h3>Design Principles:</h3>
+                <ul>
+                    <li><strong>Progressive Enhancement:</strong> Core functionality works without JavaScript</li>
+                    <li><strong>Mobile-First:</strong> Fully responsive with touch-optimized interactions</li>
+                    <li><strong>Accessibility:</strong> Keyboard navigation, semantic HTML, ARIA labels</li>
+                    <li><strong>Performance:</strong> Optimized animations, debounced events, efficient DOM updates</li>
+                    <li><strong>User Experience:</strong> Immediate feedback, smooth transitions, intuitive controls</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -250,6 +282,137 @@
                     <span class="info-label">Accent Color:</span>
                     <span class="info-value" id="current-accent">#3b82f6</span>
                 </div>
+            </div>
+        </section>
+
+        <!-- Before/After Comparison Slider -->
+        <section class="comparison-section">
+            <h2>Compare Light & Dark Mode</h2>
+            <p class="subtitle">Drag the slider to compare both themes side-by-side</p>
+            <div class="comparison-container" id="comparison-container">
+                <div class="comparison-side light-side">
+                    <div class="comparison-content">
+                        <h3>Light Mode</h3>
+                        <div class="comparison-sample">
+                            <p>Clean and bright interface perfect for daytime use</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comparison-side dark-side" id="dark-side">
+                    <div class="comparison-content">
+                        <h3>Dark Mode</h3>
+                        <div class="comparison-sample">
+                            <p>Eye-friendly design ideal for low-light environments</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comparison-slider" id="comparison-slider"></div>
+            </div>
+        </section>
+
+        <!-- Live Code Editor -->
+        <section class="code-editor-section">
+            <h2>Live CSS Code</h2>
+            <p class="subtitle">See the CSS variables update in real-time as you customize colors</p>
+            <div class="code-display" id="code-display">
+                <div class="code-line">
+                    <span class="line-number">1</span>
+                    <span><span class="code-keyword">body</span>.<span class="code-property">dark-mode</span> {</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">2</span>
+                    <span>  <span class="code-property">--bg</span>: <span class="code-value" id="code-bg">#ffffff</span>;</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">3</span>
+                    <span>  <span class="code-property">--text</span>: <span class="code-value" id="code-text">#1a1a1a</span>;</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">4</span>
+                    <span>  <span class="code-property">--accent</span>: <span class="code-value" id="code-accent">#3b82f6</span>;</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">5</span>
+                    <span>}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements & Gamification -->
+        <section class="achievements-section">
+            <h2>Achievements</h2>
+            <p class="subtitle">Unlock badges by exploring different features</p>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <span class="stat-value" id="toggle-count">0</span>
+                    <span class="stat-label">Theme Toggles</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="color-changes">0</span>
+                    <span class="stat-label">Color Changes</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="achievements-unlocked">0</span>
+                    <span class="stat-label">Achievements</span>
+                </div>
+            </div>
+
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be populated by JavaScript -->
+            </div>
+
+            <div class="share-section">
+                <h3>Share Your Custom Theme</h3>
+                <p>Create a unique URL to share your custom color scheme with others</p>
+                <div class="share-controls">
+                    <input type="text" class="share-url" id="share-url" readonly placeholder="Click 'Generate Link' to create shareable URL">
+                    <button class="share-btn" id="generate-link-btn">Generate Link</button>
+                    <button class="copy-btn" id="copy-link-btn">Copy</button>
+                    <span class="copy-success" id="copy-success" style="display: none;">Copied!</span>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h3>Theme History</h3>
+                <p>Click on a previous theme to restore it</p>
+                <div class="history-grid" id="history-grid">
+                    <!-- Theme history will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Interactions -->
+        <section class="info-panel">
+            <h2>Advanced Features</h2>
+            <div class="schedule-section">
+                <h3>Auto Theme Switching</h3>
+                <p>Automatically switch between light and dark mode based on time of day</p>
+                <div class="schedule-controls">
+                    <div class="time-input-group">
+                        <label for="light-start-time">Light Mode Starts:</label>
+                        <input type="time" class="time-input" id="light-start-time" value="07:00">
+                    </div>
+                    <div class="time-input-group">
+                        <label for="dark-start-time">Dark Mode Starts:</label>
+                        <input type="time" class="time-input" id="dark-start-time" value="19:00">
+                    </div>
+                </div>
+                <div class="schedule-toggle">
+                    <label class="checkbox-toggle">
+                        <input type="checkbox" id="auto-schedule-toggle">
+                        <span class="checkmark"></span>
+                        <span class="label-text">Enable Auto-Switching</span>
+                    </label>
+                </div>
+                <span class="schedule-status" id="schedule-status" style="display: none;">Auto-switching enabled</span>
+            </div>
+            <div style="margin-top: 30px; padding: 20px; background: var(--card-bg); border-radius: 8px; border: 2px solid var(--border);">
+                <h3 style="margin-bottom: 10px;">Keyboard Shortcuts & Hidden Features</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0;">⌨️ <strong>Ctrl/Cmd + Shift + D</strong> - Toggle dark mode</li>
+                    <li style="padding: 8px 0;">🖱️ <strong>Double-click background</strong> - Quick toggle theme</li>
+                </ul>
             </div>
         </section>
     </div>

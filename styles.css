@@ -65,6 +65,53 @@ html {
     overflow-x: hidden;
 }
 
+/* Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--gradient-primary);
+    z-index: 9999;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* Custom Scrollbar Styling */
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-dark-alt);
+    border-left: 1px solid var(--glass-border);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 6px;
+    border: 2px solid var(--color-dark-alt);
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-secondary);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--gradient-accent);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #a855f7 var(--color-dark-alt);
+}
+
 body {
     font-family: var(--font-primary);
     background: var(--color-dark);
@@ -86,6 +133,7 @@ body {
     background: linear-gradient(180deg, #1a0a2e 0%, #0a0a0a 100%);
     overflow: hidden;
     transition: opacity 0.5s ease;
+    will-change: transform;
 }
 
 .animated-background.paused .gradient-orb {
@@ -532,6 +580,14 @@ body {
 
 .category-section {
     margin-bottom: var(--spacing-xl);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.category-section.reveal {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .category-header {

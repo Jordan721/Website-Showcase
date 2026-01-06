@@ -63,7 +63,46 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const sections = document.querySelectorAll('.section, .hero');
 const navDots = document.querySelectorAll('.nav-dot');
 
+// Scroll Progress Bar
+const scrollProgress = document.getElementById('scrollProgress');
+
+// Reveal on scroll animation
+const revealElements = document.querySelectorAll('.category-section');
+
+function reveal() {
+    revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if (elementTop < windowHeight - 100) {
+            element.classList.add('reveal');
+        }
+    });
+}
+
+// Parallax effect for background
+function parallaxScroll() {
+    const scrolled = window.pageYOffset;
+    const animatedBg = document.getElementById('animatedBackground');
+    if (animatedBg && !animatedBg.classList.contains('paused')) {
+        animatedBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+}
+
 window.addEventListener('scroll', () => {
+    // Update scroll progress bar
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercentage = (scrollTop / scrollHeight) * 100;
+    scrollProgress.style.width = scrollPercentage + '%';
+
+    // Parallax effect
+    parallaxScroll();
+
+    // Reveal animations
+    reveal();
+
+    // Navigation dots
     let current = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
@@ -88,6 +127,9 @@ window.addEventListener('scroll', () => {
         backToTop.classList.remove('visible');
     }
 });
+
+// Initial reveal check on page load
+window.addEventListener('load', reveal);
 
 // Back to top button click
 document.getElementById('backToTop').addEventListener('click', () => {

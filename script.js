@@ -85,7 +85,8 @@ function parallaxScroll() {
     const scrolled = window.pageYOffset;
     const animatedBg = document.getElementById('animatedBackground');
     if (animatedBg && !animatedBg.classList.contains('paused')) {
-        animatedBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+        // Move background UP slightly as you scroll down for subtle depth effect
+        animatedBg.style.transform = `translateY(${scrolled * -0.15}px)`;
     }
 }
 

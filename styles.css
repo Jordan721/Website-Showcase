@@ -125,10 +125,10 @@ body {
 
 .animated-background {
     position: fixed;
-    top: -20%;
+    top: -30%;
     left: 0;
     width: 100%;
-    height: 150%;
+    height: 180%;
     z-index: -1;
     background: linear-gradient(180deg, #1a0a2e 0%, #0a0a0a 100%);
     overflow: hidden;
@@ -635,13 +635,15 @@ body {
 .category-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
+    transition: max-height 0.4s ease, padding 0.4s ease, overflow 0s 0.4s;
     padding: 0;
 }
 
 .category-section.active .category-content {
     max-height: 2000px;
     padding: var(--spacing-lg) 0 0 0;
+    overflow: visible;
+    transition: max-height 0.4s ease, padding 0.4s ease, overflow 0s;
 }
 
 /* projects grid */
@@ -650,6 +652,8 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--spacing-lg);
+    padding: var(--spacing-sm);
+    margin: calc(-1 * var(--spacing-sm));
 }
 
 .project-card {
@@ -658,6 +662,29 @@ body {
     color: inherit;
     overflow: hidden;
     cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+.project-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 40px 0 rgba(168, 85, 247, 0.4);
 }
 
 .project-icon {
@@ -672,18 +699,54 @@ body {
     color: var(--color-white);
     margin-bottom: var(--spacing-md);
     transition: all var(--transition-base);
+    position: relative;
+    z-index: 1;
 }
 
 .project-card h4 {
     font-size: 1.25rem;
     color: var(--color-white);
     margin-bottom: var(--spacing-xs);
+    position: relative;
+    z-index: 1;
 }
 
 .project-card p {
     font-size: 0.875rem;
     color: var(--color-gray-light);
     line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+/* Tech Stack Badges */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.tech-badge {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 12px;
+    color: var(--color-primary-light);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all var(--transition-base);
+}
+
+.project-card:hover .tech-badge {
+    background: rgba(168, 85, 247, 0.25);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
 }
 
 .project-arrow {
@@ -693,6 +756,7 @@ body {
     color: var(--color-primary);
     font-size: 1.25rem;
     transition: transform var(--transition-base);
+    z-index: 1;
 }
 
 .project-card:hover .project-arrow {
@@ -740,7 +804,7 @@ body {
     text-transform: uppercase;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
-    z-index: 10;
+    z-index: 2;
 }
 
 .project-card:has(.platform-badge) .project-arrow {

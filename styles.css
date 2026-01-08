@@ -804,7 +804,7 @@ body {
     text-transform: uppercase;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
-    z-index: 2;
+    z-index: 10;
 }
 
 .project-card:has(.platform-badge) .project-arrow {

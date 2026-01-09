@@ -136,3 +136,115 @@ window.addEventListener('load', reveal);
 document.getElementById('backToTop').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// GitHub Commits Functionality
+const GITHUB_API_URL = 'https://api.github.com/repos/Jordan721/Development-Showcase/commits';
+const COMMITS_LIMIT = 5;
+
+// Format relative time
+function formatRelativeTime(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSecs = Math.floor(diffMs / 1000);
+    const diffMins = Math.floor(diffSecs / 60);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+
+    if (diffSecs < 60) return 'just now';
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 30) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    if (diffMonths < 12) return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+}
+
+// Create commit card HTML
+function createCommitCard(commit) {
+    const { sha, commit: commitData, author, html_url } = commit;
+    const shortSha = sha.substring(0, 7);
+    const message = commitData.message.split('\n')[0]; // First line only
+    const authorName = commitData.author.name;
+    const authorAvatar = author?.avatar_url || 'https://github.com/identicons/default.png';
+    const date = commitData.author.date;
+    const relativeTime = formatRelativeTime(date);
+
+    return `
+        <div class="commit-card">
+            <div class="commit-header">
+                <img src="${authorAvatar}" alt="${authorName}" class="commit-avatar">
+                <div class="commit-meta">
+                    <div class="commit-author">
+                        <strong>${authorName}</strong>
+                        <a href="${html_url}" target="_blank" class="commit-sha" title="View commit on GitHub">
+                            <i class="fab fa-github"></i>
+                            ${shortSha}
+                        </a>
+                    </div>
+                    <div class="commit-date">
+                        <i class="fas fa-clock"></i>
+                        ${relativeTime}
+                    </div>
+                </div>
+            </div>
+            <div class="commit-message">${message}</div>
+        </div>
+    `;
+}
+
+// Fetch and display commits
+async function fetchCommits() {
+    const commitsList = document.getElementById('commitsList');
+    const refreshBtn = document.getElementById('refreshCommits');
+
+    try {
+        // Show loading state
+        commitsList.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading commits...</p>
+            </div>
+        `;
+
+        // Add spinning class to refresh button
+        refreshBtn.classList.add('spinning');
+
+        const response = await fetch(`${GITHUB_API_URL}?per_page=${COMMITS_LIMIT}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const commits = await response.json();
+
+        // Clear loading state
+        commitsList.innerHTML = '';
+
+        // Create commit cards
+        commits.forEach(commit => {
+            commitsList.innerHTML += createCommitCard(commit);
+        });
+
+    } catch (error) {
+        console.error('Error fetching commits:', error);
+        commitsList.innerHTML = `
+            <div class="error-message glass-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Failed to load commits. Please try again later.</p>
+            </div>
+        `;
+    } finally {
+        // Remove spinning class after a short delay
+        setTimeout(() => {
+            refreshBtn.classList.remove('spinning');
+        }, 500);
+    }
+}
+
+// Refresh button click handler
+document.getElementById('refreshCommits').addEventListener('click', fetchCommits);
+
+// Load commits on page load
+window.addEventListener('load', fetchCommits);

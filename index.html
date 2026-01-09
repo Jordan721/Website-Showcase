@@ -81,6 +81,9 @@
         <a href="#projects" class="nav-dot" data-section="projects">
             <span class="nav-tooltip">Projects</span>
         </a>
+        <a href="#github-activity" class="nav-dot" data-section="github-activity">
+            <span class="nav-tooltip">Activity</span>
+        </a>
     </nav>
 
     <!-- Main Container -->
@@ -290,6 +293,42 @@
         </section>
 
     </main>
+
+    <!-- GitHub Activity Section -->
+    <section class="github-activity section" id="github-activity">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02.</span>
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="github-commits-container">
+                <div class="commits-header glass-card">
+                    <div class="repo-info">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <h3>Development Showcase Repository</h3>
+                            <a href="https://github.com/Jordan721/Development-Showcase" target="_blank" class="repo-link">
+                                <span>Jordan721/Development-Showcase</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="refresh-btn" id="refreshCommits" title="Refresh commits">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                </div>
+
+                <div class="commits-list" id="commitsList">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading commits...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">

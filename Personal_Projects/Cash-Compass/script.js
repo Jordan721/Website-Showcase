@@ -59,6 +59,7 @@ const exportJSON = document.getElementById('exportJSON');
 const sampleDataBtn = document.getElementById('sampleDataBtn');
 const aboutBtn = document.getElementById('aboutBtn');
 const backBtn = document.getElementById('backBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
 
 // === Initialization ===
 document.addEventListener('DOMContentLoaded', () => {
@@ -108,6 +109,7 @@ function attachEventListeners() {
     aboutBtn.addEventListener('click', () => aboutModal.classList.add('active'));
     closeAboutModal.addEventListener('click', () => aboutModal.classList.remove('active'));
     backBtn.addEventListener('click', () => window.location.href = '../../index.html');
+    clearAllBtn.addEventListener('click', handleClearAll);
 
     // Close modals on outside click
     budgetModal.addEventListener('click', (e) => {
@@ -355,7 +357,20 @@ function updateCharts() {
 }
 
 function createExpenseChart() {
-    const ctx = document.getElementById('expenseChart').getContext('2d');
+    let canvas = document.getElementById('expenseChart');
+
+    // If canvas doesn't exist or was replaced, we need to restore it
+    if (!canvas || canvas.tagName !== 'CANVAS') {
+        // Find all chart containers and get the first one (expense chart)
+        const chartContainers = document.querySelectorAll('.chart-container');
+        const chartContainer = chartContainers[0]; // First one is expense chart
+        if (!chartContainer) return;
+        chartContainer.innerHTML = '<canvas id="expenseChart"></canvas>';
+        canvas = document.getElementById('expenseChart');
+    }
+
+    const chartContainer = canvas.parentNode;
+    const ctx = canvas.getContext('2d');
 
     // Get current month expenses by category
     const now = new Date();
@@ -378,8 +393,12 @@ function createExpenseChart() {
     const labels = Object.keys(expensesByCategory);
     const data = Object.values(expensesByCategory);
 
+    // Clear legend container
+    const legendContainer = document.getElementById('expenseLegend');
+
     if (labels.length === 0) {
-        ctx.canvas.parentNode.innerHTML = '<div class="empty-state"><i class="fas fa-chart-pie"></i><p>No expense data yet this month</p></div>';
+        chartContainer.innerHTML = '<div class="empty-state"><i class="fas fa-chart-pie"></i><p>No expense data yet this month</p></div>';
+        legendContainer.innerHTML = ''; // Clear the legend
         return;
     }
 
@@ -421,7 +440,6 @@ function createExpenseChart() {
     });
 
     // Create custom legend
-    const legendContainer = document.getElementById('expenseLegend');
     legendContainer.innerHTML = labels.map((label, i) => {
         const percentage = ((data[i] / data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
         return `
@@ -434,13 +452,26 @@ function createExpenseChart() {
 }
 
 function createTrendChart() {
-    const ctx = document.getElementById('trendChart').getContext('2d');
+    let canvas = document.getElementById('trendChart');
+
+    // If canvas doesn't exist or was replaced, we need to restore it
+    if (!canvas || canvas.tagName !== 'CANVAS') {
+        // Find all chart containers and get the second one (trend chart)
+        const chartContainers = document.querySelectorAll('.chart-container');
+        const chartContainer = chartContainers[1]; // Second one is trend chart
+        if (!chartContainer) return;
+        chartContainer.innerHTML = '<canvas id="trendChart"></canvas>';
+        canvas = document.getElementById('trendChart');
+    }
+
+    const chartContainer = canvas.parentNode;
+    const ctx = canvas.getContext('2d');
 
     // Get last 6 months of data
     const monthsData = getLast6MonthsData();
 
     if (monthsData.labels.length === 0) {
-        ctx.canvas.parentNode.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Not enough data for trends yet</p></div>';
+        chartContainer.innerHTML = '<div class="empty-state"><i class="fas fa-chart-line"></i><p>Not enough data for trends yet</p></div>';
         return;
     }
 
@@ -794,6 +825,28 @@ function loadSampleData() {
     renderTransactions();
     updateCharts();
     renderBudgets();
+}
+
+function handleClearAll() {
+    if (transactions.length === 0) {
+        showNotification('No transactions to clear!', 'info');
+        return;
+    }
+
+    if (confirm('This will delete all transactions and budgets. Are you sure?')) {
+        transactions = [];
+        budgets = {};
+        localStorage.removeItem('transactions');
+        localStorage.removeItem('budgets');
+        localStorage.removeItem('sampleDataLoaded');
+
+        updateDashboard();
+        renderTransactions();
+        updateCharts();
+        renderBudgets();
+
+        showNotification('All data cleared!', 'success');
+    }
 }
 
 function toggleSampleData() {

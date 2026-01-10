@@ -180,6 +180,20 @@ Potential features to add:
 
 (Add screenshots here once you view the app!)
 
+## 🐛 Known Issues & Bug Fixes
+
+### Recent Fixes
+- **✅ Chart Re-rendering** - Fixed issue where charts wouldn't display after clearing and reloading sample data
+- **✅ Legend Persistence** - Fixed expense legend not clearing when data was removed
+- **✅ Canvas Restoration** - Improved canvas element restoration when switching between empty states and data views
+
+### Reporting Issues
+If you encounter any bugs or have suggestions for improvements:
+1. Check the browser console for error messages
+2. Ensure you're using a modern browser (Chrome, Firefox, Safari, Edge)
+3. Try clearing browser cache and localStorage
+4. Report issues with detailed steps to reproduce
+
 ## 📜 License
 
 Free to use for personal and educational purposes.

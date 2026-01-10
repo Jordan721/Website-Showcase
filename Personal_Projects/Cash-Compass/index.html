@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Compass - Navigate Your Finances</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-compass"></i>
+                    <h1>Cash Compass</h1>
+                </div>
+                <div class="header-controls">
+                    <button class="btn-icon" id="sampleDataBtn" aria-label="Toggle sample data" title="Load Sample Data">
+                        <i class="fas fa-database"></i>
+                    </button>
+                    <button class="btn-icon" id="aboutBtn" aria-label="About this project" title="About">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button class="btn-icon" id="backBtn" aria-label="Back to showcase" title="Back to Showcase">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="btn-icon" id="darkModeToggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn-export" id="exportBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Export Data</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+        <div class="container">
+
+            <!-- Summary Cards -->
+            <section class="summary-section">
+                <div class="card summary-card income-card">
+                    <div class="card-icon income">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Total Income</p>
+                        <h2 class="card-value" id="totalIncome">$0.00</h2>
+                        <p class="card-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="incomeChange">0%</span> from last month
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card summary-card expense-card">
+                    <div class="card-icon expense">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Total Expenses</p>
+                        <h2 class="card-value" id="totalExpenses">$0.00</h2>
+                        <p class="card-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span id="expenseChange">0%</span> from last month
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card summary-card balance-card">
+                    <div class="card-icon balance">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Net Balance</p>
+                        <h2 class="card-value" id="netBalance">$0.00</h2>
+                        <p class="card-change" id="balanceChange">
+                            <i class="fas fa-minus"></i>
+                            <span>0%</span> from last month
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card summary-card savings-card">
+                    <div class="card-icon savings">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-label">Savings Rate</p>
+                        <h2 class="card-value" id="savingsRate">0%</h2>
+                        <p class="card-info">of income saved</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Transaction Section -->
+            <section class="add-transaction-section">
+                <div class="card">
+                    <h3 class="section-title">
+                        <i class="fas fa-plus-circle"></i>
+                        Add Transaction
+                    </h3>
+                    <form id="transactionForm" class="transaction-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="transactionType">Type</label>
+                                <select id="transactionType" required>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionCategory">Category</label>
+                                <select id="transactionCategory" required>
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionAmount">Amount ($)</label>
+                                <input type="number" id="transactionAmount" step="0.01" min="0" placeholder="0.00" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="transactionDate">Date</label>
+                                <input type="date" id="transactionDate" required>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label for="transactionDescription">Description</label>
+                                <input type="text" id="transactionDescription" placeholder="e.g., Grocery shopping" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Transaction
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="card chart-card">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-pie"></i>
+                        Expense Breakdown
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                    <div class="chart-legend" id="expenseLegend"></div>
+                </div>
+
+                <div class="card chart-card">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-line"></i>
+                        Monthly Trends
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Budget vs Actual Section -->
+            <section class="budget-section">
+                <div class="card">
+                    <h3 class="section-title">
+                        <i class="fas fa-bullseye"></i>
+                        Budget vs Actual
+                    </h3>
+                    <div class="budget-controls">
+                        <button class="btn-secondary" id="setBudgetBtn">
+                            <i class="fas fa-sliders"></i>
+                            Set Budgets
+                        </button>
+                    </div>
+                    <div class="budget-list" id="budgetList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Transactions -->
+            <section class="transactions-section">
+                <div class="card">
+                    <div class="section-header">
+                        <h3 class="section-title">
+                            <i class="fas fa-clock-rotate-left"></i>
+                            Recent Transactions
+                        </h3>
+                        <div class="transaction-filters">
+                            <select id="filterType" class="filter-select">
+                                <option value="all">All Types</option>
+                                <option value="income">Income Only</option>
+                                <option value="expense">Expense Only</option>
+                            </select>
+                            <select id="filterCategory" class="filter-select">
+                                <option value="all">All Categories</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="transactions-list" id="transactionsList">
+                        <div class="empty-state">
+                            <i class="fas fa-receipt"></i>
+                            <p>No transactions yet. Add your first transaction above!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Budget Modal -->
+    <div class="modal" id="budgetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Set Monthly Budgets</h3>
+                <button class="modal-close" id="closeBudgetModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="budgetForm">
+                    <div id="budgetInputs">
+                        <!-- Populated dynamically with expense categories -->
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i>
+                        Save Budgets
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Export Data</h3>
+                <button class="modal-close" id="closeExportModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Choose a format to export your financial data:</p>
+                <div class="export-options">
+                    <button class="export-option" id="exportCSV">
+                        <i class="fas fa-file-csv"></i>
+                        <span>Export as CSV</span>
+                        <small>For Excel & Google Sheets</small>
+                    </button>
+                    <button class="export-option" id="exportJSON">
+                        <i class="fas fa-file-code"></i>
+                        <span>Export as JSON</span>
+                        <small>For developers & backup</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🧭 About Cash Compass</h3>
+                <button class="modal-close" id="closeAboutModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="about-content">
+                    <p class="about-intro">
+                        A web application demonstrating data analytics and visualization techniques using HTML, CSS, JavaScript, and Chart.js. This project showcases interactive data management, real-time calculations, and dynamic chart rendering in a practical finance tracking context.
+                    </p>
+
+                    <div class="about-section">
+                        <h4>✨ Key Features</h4>
+                        <ul class="about-list">
+                            <li><i class="fas fa-check-circle"></i> Real-time transaction tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Interactive budget management</li>
+                            <li><i class="fas fa-check-circle"></i> Beautiful data visualizations with Chart.js</li>
+                            <li><i class="fas fa-check-circle"></i> Dark mode support</li>
+                            <li><i class="fas fa-check-circle"></i> Export data as CSV or JSON</li>
+                            <li><i class="fas fa-check-circle"></i> 100% local storage - your data never leaves your browser</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-section">
+                        <h4>🛠️ Built With</h4>
+                        <div class="tech-badges">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">CSS3</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Chart.js</span>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h4>🔒 Privacy</h4>
+                        <p class="about-text">
+                            All your financial data is stored locally in your browser. No data is sent to any server.
+                            You have complete control and can export or delete your data anytime.
+                        </p>
+                    </div>
+
+                    <div class="about-footer">
+                        <p>Made with 💙 for data-driven financial tracking</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

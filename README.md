@@ -50,8 +50,10 @@ Real-world projects from bootcamps and professional experience:
 - 📚 Library management system
 - ☕ Full-stack Java & Spring Boot projects
 
-#### 🚧 **Personal Projects**
-Coming soon... because the best is yet to come! 🎬
+#### 🎯 **Personal Projects**
+Independent projects showcasing creative problem-solving:
+- 🧭 Cash Compass - Personal finance tracker with data visualization
+- 🌙 More projects in development!
 
 ---
 
@@ -140,7 +142,7 @@ Development-Showcase/
 │   ├── One_Heck_Of_A_Sandwich_Web_Edition/
 │   └── Neighborhood-Library/
 ├── 📁 Personal_Projects/      # Independent & passion projects
-│   └── Coming soon... 🚀
+│   └── Cash-Compass/         # Finance tracker with Chart.js
 └── 📄 README.md              # You are here! 👋
 ```
 

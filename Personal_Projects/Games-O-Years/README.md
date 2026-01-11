@@ -40,6 +40,12 @@ Gamified learning with 15 unlockable achievements:
 - Delete and manage saved favorites
 - Data visualization of your most-picked items
 
+### 🎨 Customizable Visual Styles
+- **Retro Mode**: Neon cyberpunk aesthetic with glowing effects, CRT scanlines, and arcade-style buttons
+- **Classic Mode**: Clean, professional interface with subtle animations
+- Toggle between styles with a single click
+- Preference saved in browser localStorage
+
 ### 🗂️ Comprehensive Database
 Three interconnected tables with real historical data:
 
@@ -72,8 +78,8 @@ While simultaneously learning:
 - **SQL.js**: SQLite compiled to WebAssembly for in-browser SQL execution
 - **Chart.js**: Interactive data visualizations (5 different chart types)
 - **Vanilla JavaScript**: No framework dependencies, pure ES6+
-- **CSS3**: Modern, responsive dark theme with animations
-- **LocalStorage API**: Persistent data for favorites and achievements
+- **CSS3**: Modern dark theme with dual visual modes (retro/classic) and advanced animations
+- **LocalStorage API**: Persistent data for favorites, achievements, and style preferences
 - **Font Awesome**: Icon library for UI elements
 
 ## Example Queries
@@ -105,13 +111,14 @@ ORDER BY g.copies_sold DESC;
 ## How to Use
 
 1. Open `index.html` in a modern web browser
-2. Start with the beginner tutorials to learn SQL basics
-3. Try the example queries in the editor (or load them with one click)
-4. Experiment with your own queries and unlock achievements
-5. Explore all 5 data visualizations to see gaming trends
-6. Save your favorite consoles and games
-7. Track your progress through the achievements system
-8. Complete tutorial challenges to master SQL
+2. Choose your visual style using the Retro Style toggle in the header
+3. Start with the beginner tutorials to learn SQL basics
+4. Try the example queries in the editor (or load them with one click)
+5. Experiment with your own queries and unlock achievements
+6. Explore all 5 data visualizations to see gaming trends
+7. Save your favorite consoles and games
+8. Track your progress through the achievements system
+9. Complete tutorial challenges to master SQL
 
 ## Browser Compatibility
 
@@ -126,7 +133,8 @@ Requires JavaScript enabled and WebAssembly support.
 ✅ **Desktop Optimized** - Best experience on desktop browsers (1024px+)
 ✅ **No Backend Required** - Runs entirely in the browser
 ✅ **Offline Capable** - Works without internet after initial load
-✅ **Progress Tracking** - LocalStorage saves your achievements and favorites
+✅ **Dual Visual Modes** - Choose between retro cyberpunk or clean classic style
+✅ **Progress Tracking** - LocalStorage saves your achievements, favorites, and preferences
 ✅ **Gamified Learning** - 15 achievements make SQL fun
 ✅ **Real Data** - Actual console sales figures and gaming history
 

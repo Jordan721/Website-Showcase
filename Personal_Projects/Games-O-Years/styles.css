@@ -5,25 +5,51 @@
 }
 
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #ec4899;
-    --background: #0f172a;
-    --surface: #1e293b;
-    --surface-light: #334155;
-    --text: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --success: #10b981;
-    --error: #ef4444;
-    --border: #475569;
+    --primary: #00d9ff;
+    --primary-dark: #00a8cc;
+    --secondary: #ff006e;
+    --accent: #ffbe0b;
+    --background: #0a0e27;
+    --surface: #1a1f3a;
+    --surface-light: #2d3561;
+    --text: #e0e7ff;
+    --text-secondary: #a5b4fc;
+    --success: #06ffa5;
+    --error: #ff006e;
+    --border: #3730a3;
+    --glow: rgba(0, 217, 255, 0.5);
+    --glow-pink: rgba(255, 0, 110, 0.5);
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 217, 255, 0.03) 0px,
+            transparent 1px,
+            transparent 2px,
+            rgba(0, 217, 255, 0.03) 3px
+        ),
+        linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .container {
@@ -38,8 +64,28 @@ header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     border-radius: 16px;
     margin-bottom: 30px;
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+    box-shadow:
+        0 0 30px var(--glow),
+        0 0 60px var(--glow-pink),
+        0 10px 40px rgba(0, 0, 0, 0.5);
     position: relative;
+    border: 2px solid rgba(0, 217, 255, 0.5);
+    animation: headerPulse 4s ease-in-out infinite;
+}
+
+@keyframes headerPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 30px var(--glow),
+            0 0 60px var(--glow-pink),
+            0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 50px var(--glow),
+            0 0 90px var(--glow-pink),
+            0 10px 40px rgba(0, 0, 0, 0.5);
+    }
 }
 
 .header-nav {
@@ -47,6 +93,64 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    gap: 15px;
+}
+
+/* Style Toggle Switch */
+.style-toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+.style-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-label {
+    color: white;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.style-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 34px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.style-toggle input:checked + .toggle-slider {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.style-toggle input:checked + .toggle-slider::before {
+    transform: translateX(24px);
 }
 
 .nav-btn {
@@ -85,7 +189,29 @@ header {
 header h1 {
     font-size: 3em;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow:
+        0 0 10px var(--glow),
+        0 0 20px var(--glow),
+        0 0 30px var(--glow-pink),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: textGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow:
+            0 0 10px var(--glow),
+            0 0 20px var(--glow),
+            0 0 30px var(--glow-pink),
+            2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    to {
+        text-shadow:
+            0 0 20px var(--glow),
+            0 0 30px var(--glow),
+            0 0 40px var(--glow-pink),
+            2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
 }
 
 .subtitle {
@@ -199,8 +325,27 @@ section {
     background: var(--surface);
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
+    box-shadow:
+        0 0 20px rgba(0, 217, 255, 0.1),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 2px solid transparent;
+    background-image:
+        linear-gradient(var(--surface), var(--surface)),
+        linear-gradient(135deg, var(--primary), var(--secondary));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    position: relative;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+    border-radius: 12px 12px 0 0;
 }
 
 section h2 {
@@ -210,6 +355,9 @@ section h2 {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-shadow:
+        0 0 10px var(--glow),
+        2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Tutorial Section */
@@ -233,12 +381,18 @@ section h2 {
 .tab-btn:hover, .viz-tab-btn:hover {
     background: var(--primary);
     border-color: var(--primary);
+    box-shadow: 0 0 15px var(--glow);
+    transform: translateY(-2px);
 }
 
 .tab-btn.active, .viz-tab-btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+    box-shadow:
+        0 0 20px var(--glow),
+        0 0 40px var(--glow),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
 .tutorial-content {
@@ -280,6 +434,11 @@ section h2 {
     font-family: 'Courier New', monospace;
     color: var(--success);
     margin-top: 10px;
+    border: 2px solid var(--primary);
+    box-shadow:
+        inset 0 0 10px rgba(0, 217, 255, 0.2),
+        0 0 10px rgba(0, 217, 255, 0.3);
+    text-shadow: 0 0 5px rgba(6, 255, 165, 0.5);
 }
 
 /* Query Editor Section */
@@ -302,12 +461,37 @@ section h2 {
 .btn-primary {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    box-shadow:
+        0 0 15px var(--glow),
+        0 4px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    box-shadow:
+        0 0 25px var(--glow),
+        0 0 40px var(--glow),
+        0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
@@ -337,7 +521,9 @@ section h2 {
 #sqlEditor:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    box-shadow:
+        0 0 20px var(--glow),
+        0 0 0 3px var(--glow);
 }
 
 .result-container {
@@ -384,6 +570,7 @@ table th {
     position: sticky;
     top: 0;
     border-bottom: 2px solid var(--primary);
+    text-shadow: 0 0 5px var(--glow);
 }
 
 table td {
@@ -449,6 +636,9 @@ table tr:hover {
     border-radius: 10px;
     border-left: 4px solid var(--primary);
     text-align: center;
+    box-shadow:
+        0 0 15px rgba(0, 217, 255, 0.2),
+        inset 0 0 20px rgba(0, 217, 255, 0.05);
 }
 
 .stat-card h4 {
@@ -611,7 +801,9 @@ table tr:hover {
 
 .achievement-badge:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 0 20px var(--glow),
+        0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .achievement-badge.locked {
@@ -622,6 +814,23 @@ table tr:hover {
 .achievement-badge.unlocked {
     border-color: var(--success);
     background: linear-gradient(135deg, var(--background) 0%, rgba(16, 185, 129, 0.1) 100%);
+    box-shadow:
+        0 0 15px rgba(6, 255, 165, 0.3),
+        0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: unlockGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes unlockGlow {
+    from {
+        box-shadow:
+            0 0 15px rgba(6, 255, 165, 0.3),
+            0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    to {
+        box-shadow:
+            0 0 25px rgba(6, 255, 165, 0.5),
+            0 4px 10px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .achievement-icon {
@@ -658,11 +867,15 @@ table tr:hover {
     position: fixed;
     top: -200px;
     right: 20px;
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%);
     color: white;
     padding: 20px 25px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5);
+    box-shadow:
+        0 0 30px rgba(255, 190, 11, 0.7),
+        0 0 60px rgba(255, 190, 11, 0.4),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 190, 11, 0.8);
     z-index: 2000;
     transition: top 0.5s ease;
     min-width: 300px;
@@ -796,7 +1009,9 @@ table tr:hover {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    box-shadow:
+        0 0 15px var(--glow),
+        0 0 0 3px var(--glow);
 }
 
 .form-group textarea {
@@ -895,57 +1110,79 @@ table tr:hover {
     margin-top: 10px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2em;
-    }
 
-    .header-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
+/* Retro Pixelated Corner Decorations */
+section::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background:
+        linear-gradient(to right, var(--primary) 0%, transparent 0%) 0 0,
+        linear-gradient(to right, var(--primary) 0%, transparent 0%) 0 100%,
+        linear-gradient(to bottom, var(--primary) 0%, transparent 0%) 0 0,
+        linear-gradient(to bottom, var(--primary) 0%, transparent 0%) 100% 0;
+    background-repeat: no-repeat;
+    background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+    opacity: 0.5;
+}
 
-    .nav-btn {
-        width: 100%;
-        justify-content: center;
-    }
+/* Arcade Button Style for Primary Buttons */
+.btn-primary {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-bottom-width: 5px;
+    border-right-width: 5px;
+}
 
-    .tutorial-tabs, .viz-tabs {
-        flex-direction: column;
-    }
+.btn-primary:active {
+    transform: translateY(0px);
+    border-bottom-width: 3px;
+    border-right-width: 3px;
+}
 
-    .editor-controls {
-        flex-direction: column;
-    }
+/* CRT Scanline Effect (Subtle) */
+.chart-container::before,
+#resultTable::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.05) 0px,
+        transparent 1px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.05) 3px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
 
-    .schema-tables {
-        grid-template-columns: 1fr;
-    }
+.chart-container,
+#resultTable {
+    position: relative;
+}
 
-    .modal-content {
-        margin: 10% auto;
-        width: 95%;
-        padding: 20px;
-    }
+.chart-container canvas {
+    position: relative;
+    z-index: 2;
+}
 
-    .close {
-        font-size: 28px;
-        right: 15px;
+/* Retro Loading Animation */
+@keyframes pixelPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 5px var(--primary),
+            0 0 10px var(--primary);
     }
-
-    .favorites-form,
-    .favorites-display {
-        padding: 15px;
-    }
-
-    .favorite-item-info strong {
-        min-width: 90px;
-        font-size: 0.9em;
-    }
-
-    .favorite-item {
-        padding: 15px;
+    50% {
+        box-shadow:
+            0 0 20px var(--primary),
+            0 0 30px var(--primary);
     }
 }
 
@@ -963,4 +1200,278 @@ table tr:hover {
 
 .result-container.show, .error-message.show {
     animation: fadeIn 0.3s ease;
+}
+
+/* Retro Game Console Corner Details */
+.schema-table::before {
+    content: '█';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: var(--primary);
+    font-size: 0.8em;
+    opacity: 0.3;
+}
+
+.schema-table::after {
+    content: '█';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: var(--secondary);
+    font-size: 0.8em;
+    opacity: 0.3;
+}
+
+.schema-table {
+    position: relative;
+}
+
+/* Custom Retro Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+    border: 1px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 6px;
+    border: 2px solid var(--background);
+    box-shadow: 0 0 10px var(--glow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+    box-shadow: 0 0 15px var(--glow);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--background);
+}
+
+/* Firefox Scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--background);
+}
+
+/* Retro Pixel Grid Decoration on Hover */
+section:hover::after {
+    animation: pixelRotate 8s linear infinite;
+}
+
+@keyframes pixelRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Terminal/Console Style for SQL Editor */
+#sqlEditor::before {
+    content: '> SQL Query_';
+    position: absolute;
+    top: -25px;
+    left: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    color: var(--success);
+    text-shadow: 0 0 8px var(--success);
+    animation: cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* Neon Underline Effect for Links in Modal */
+.modal-content a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px var(--glow);
+}
+
+.modal-content a:hover {
+    border-bottom: 2px solid var(--primary);
+    box-shadow: 0 2px 10px var(--glow);
+}
+
+/* Retro Power Button Style for Submit Button */
+#submitFavorites {
+    position: relative;
+}
+
+#submitFavorites::after {
+    content: '⚡';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    animation: powerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes powerPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; text-shadow: 0 0 10px var(--accent); }
+}
+
+/* ========================================
+   CLASSIC MODE - Disable Retro Effects
+   ======================================== */
+
+body.classic-mode {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+body.classic-mode::before {
+    display: none;
+}
+
+/* Remove header glow effects */
+body.classic-mode header {
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+    border: 1px solid var(--border);
+    animation: none;
+}
+
+body.classic-mode header h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: none;
+}
+
+/* Remove section glow effects */
+body.classic-mode section {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    background: var(--surface);
+}
+
+body.classic-mode section::before {
+    display: none;
+}
+
+body.classic-mode section::after {
+    display: none;
+}
+
+body.classic-mode section h2 {
+    text-shadow: none;
+}
+
+/* Remove button glow effects */
+body.classic-mode .tab-btn:hover,
+body.classic-mode .viz-tab-btn:hover {
+    box-shadow: none;
+}
+
+body.classic-mode .tab-btn.active,
+body.classic-mode .viz-tab-btn.active {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+    text-shadow: none;
+}
+
+body.classic-mode .btn-primary {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    border: none;
+}
+
+body.classic-mode .btn-primary::before {
+    display: none;
+}
+
+body.classic-mode .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+body.classic-mode .btn-primary:active {
+    border-bottom-width: inherit;
+    border-right-width: inherit;
+}
+
+/* Remove code block effects */
+body.classic-mode .example code {
+    border: 1px solid var(--border);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* Remove SQL editor effects */
+body.classic-mode #sqlEditor:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+body.classic-mode #sqlEditor::before {
+    display: none;
+}
+
+body.classic-mode table th {
+    text-shadow: none;
+}
+
+/* Remove scanline effects */
+body.classic-mode .chart-container::before,
+body.classic-mode #resultTable::before {
+    display: none;
+}
+
+/* Remove stat card glow */
+body.classic-mode .stat-card {
+    box-shadow: none;
+}
+
+/* Remove achievement glow effects */
+body.classic-mode .achievement-badge:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.classic-mode .achievement-badge.unlocked {
+    box-shadow: none;
+    animation: none;
+}
+
+body.classic-mode .achievement-notification {
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5);
+    border: 2px solid rgba(245, 158, 11, 0.5);
+}
+
+/* Remove form glow effects */
+body.classic-mode .form-group input:focus,
+body.classic-mode .form-group textarea:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Remove scrollbar glow */
+body.classic-mode ::-webkit-scrollbar-thumb {
+    box-shadow: none;
+}
+
+body.classic-mode ::-webkit-scrollbar-thumb:hover {
+    box-shadow: none;
+}
+
+/* Remove schema table decorations */
+body.classic-mode .schema-table::before,
+body.classic-mode .schema-table::after {
+    display: none;
+}
+
+/* Remove modal link effects */
+body.classic-mode .modal-content a {
+    text-shadow: none;
+}
+
+body.classic-mode .modal-content a:hover {
+    box-shadow: none;
+}
+
+/* Remove submit button animation */
+body.classic-mode #submitFavorites::after {
+    display: none;
 }

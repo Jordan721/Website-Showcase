@@ -640,8 +640,37 @@ function showSuccessMessage() {
     }, 2000);
 }
 
+// Style Toggle functionality
+function loadStylePreference() {
+    const isRetroMode = localStorage.getItem('retroStyle') !== 'false'; // Default to true
+    const retroToggle = document.getElementById('retroToggle');
+
+    if (retroToggle) {
+        retroToggle.checked = isRetroMode;
+        if (!isRetroMode) {
+            document.body.classList.add('classic-mode');
+        }
+    }
+}
+
+function toggleRetroStyle() {
+    const retroToggle = document.getElementById('retroToggle');
+    const isRetroMode = retroToggle.checked;
+
+    if (isRetroMode) {
+        document.body.classList.remove('classic-mode');
+        localStorage.setItem('retroStyle', 'true');
+    } else {
+        document.body.classList.add('classic-mode');
+        localStorage.setItem('retroStyle', 'false');
+    }
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Load style preference
+    loadStylePreference();
+
     // Initialize database
     initDatabase();
 
@@ -652,6 +681,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initSQLStats();
     loadAchievements();
     checkAchievements(); // Check for any achievements that should already be unlocked
+
+    // Style toggle listener
+    const retroToggle = document.getElementById('retroToggle');
+    if (retroToggle) {
+        retroToggle.addEventListener('change', toggleRetroStyle);
+    }
 
     // About modal functionality
     const aboutBtn = document.getElementById('aboutBtn');

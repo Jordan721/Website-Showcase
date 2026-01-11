@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Chronicles - Interactive SQL Database</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-nav">
+                <a href="../../index.html" class="nav-btn back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Showcase
+                </a>
+                <button id="aboutBtn" class="nav-btn about-btn">
+                    <i class="fas fa-info-circle"></i> About Project
+                </button>
+            </div>
+            <h1>🎮 Console Chronicles</h1>
+            <p class="subtitle">Learn SQL while exploring gaming console history</p>
+        </header>
+
+        <!-- About Modal -->
+        <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>About Console Chronicles</h2>
+                <p>Welcome to Console Chronicles - an interactive learning experience that combines SQL education with gaming history!</p>
+
+                <h3>What is this project?</h3>
+                <p>This is a fun, educational tool designed to teach SQL (Structured Query Language) through the fascinating history of video game consoles. Rather than learning SQL with boring generic data, you'll explore real information about your favorite gaming systems!</p>
+
+                <h3>What you'll learn:</h3>
+                <ul>
+                    <li>SQL fundamentals - from basic SELECT statements to complex JOINs</li>
+                    <li>Gaming console history from 1972 to present day</li>
+                    <li>The evolution of major gaming companies (Nintendo, Sony, Microsoft, Sega, and more)</li>
+                    <li>Best-selling games and consoles across all generations</li>
+                    <li>Data analysis and visualization techniques</li>
+                </ul>
+
+                <h3>Why I built this:</h3>
+                <p>Learning SQL can be dry and intimidating for beginners. I created this project to make database learning engaging and fun by connecting it to something people are passionate about - video games! Whether you're a gamer curious about industry history or a student learning SQL, this tool makes the process enjoyable.</p>
+
+                <h3>How to use:</h3>
+                <ol>
+                    <li>Start with the beginner tutorials to learn SQL basics</li>
+                    <li>Write your own queries in the SQL editor</li>
+                    <li>Explore the interactive data visualizations</li>
+                    <li>Challenge yourself with progressively harder lessons</li>
+                    <li>Discover interesting facts about gaming history!</li>
+                </ol>
+
+                <p class="modal-footer">Built with SQL.js, Chart.js, and a passion for gaming history 🎮</p>
+            </div>
+        </div>
+
+        <!-- Achievements Modal -->
+        <div id="achievementsModal" class="modal">
+            <div class="modal-content achievements-modal-content">
+                <span class="close" id="closeAchievements">&times;</span>
+                <h2>🏆 All Achievements</h2>
+                <div id="allAchievementsList"></div>
+            </div>
+        </div>
+
+        <!-- Achievement Notification -->
+        <div id="achievementNotification" class="achievement-notification">
+            <div class="achievement-notification-content">
+                <i class="fas fa-trophy"></i>
+                <div class="achievement-notification-text">
+                    <strong>Achievement Unlocked!</strong>
+                    <span id="achievementNotificationName"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Tutorial Section -->
+            <section class="tutorial-section">
+                <h2>📚 SQL Tutorial</h2>
+                <div class="tutorial-tabs">
+                    <button class="tab-btn active" data-level="1">Beginner</button>
+                    <button class="tab-btn" data-level="2">Intermediate</button>
+                    <button class="tab-btn" data-level="3">Advanced</button>
+                </div>
+                <div class="tutorial-content">
+                    <div class="lesson active" data-level="1">
+                        <h3>Lesson 1: SELECT Basics</h3>
+                        <p>Retrieve data from the database using SELECT statements.</p>
+                        <div class="example">
+                            <strong>Try this:</strong>
+                            <code>SELECT * FROM consoles LIMIT 5;</code>
+                        </div>
+                        <div class="challenge">
+                            <strong>Challenge:</strong> Find all consoles released after 2000
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Query Editor Section -->
+            <section class="query-section">
+                <h2>💻 SQL Query Editor</h2>
+                <div class="editor-controls">
+                    <button id="runQuery" class="btn-primary">▶ Run Query</button>
+                    <button id="clearQuery" class="btn-secondary">Clear</button>
+                    <button id="exampleQuery" class="btn-secondary">Load Example</button>
+                </div>
+                <textarea id="sqlEditor" placeholder="Enter your SQL query here...
+Example: SELECT name, year, company FROM consoles WHERE year > 2000 ORDER BY year;"></textarea>
+                <div id="queryResult" class="result-container">
+                    <div class="result-header">
+                        <span>Query Results</span>
+                        <span id="resultCount" class="result-count"></span>
+                    </div>
+                    <div id="resultTable"></div>
+                </div>
+                <div id="queryError" class="error-message"></div>
+            </section>
+
+            <!-- Visualization Section -->
+            <section class="viz-section">
+                <h2>📊 Data Visualizations</h2>
+                <div class="viz-tabs">
+                    <button class="viz-tab-btn active" data-chart="timeline">Timeline</button>
+                    <button class="viz-tab-btn" data-chart="sales">Sales Comparison</button>
+                    <button class="viz-tab-btn" data-chart="companies">By Company</button>
+                    <button class="viz-tab-btn" data-chart="generations">Generations</button>
+                    <button class="viz-tab-btn" data-chart="favorites">Your Favorites</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="mainChart"></canvas>
+                </div>
+                <div id="favoritesStats" class="favorites-stats"></div>
+            </section>
+
+            <!-- Database Schema Section -->
+            <section class="schema-section">
+                <h2>🗂️ Database Schema</h2>
+                <div class="schema-tables">
+                    <div class="schema-table">
+                        <h3>consoles</h3>
+                        <ul>
+                            <li><span class="key">id</span> INTEGER PRIMARY KEY</li>
+                            <li><span class="field">name</span> TEXT</li>
+                            <li><span class="field">company_id</span> INTEGER</li>
+                            <li><span class="field">year</span> INTEGER</li>
+                            <li><span class="field">generation</span> INTEGER</li>
+                            <li><span class="field">units_sold</span> REAL (millions)</li>
+                            <li><span class="field">price</span> REAL (USD)</li>
+                        </ul>
+                    </div>
+                    <div class="schema-table">
+                        <h3>companies</h3>
+                        <ul>
+                            <li><span class="key">id</span> INTEGER PRIMARY KEY</li>
+                            <li><span class="field">name</span> TEXT</li>
+                            <li><span class="field">founded</span> INTEGER</li>
+                            <li><span class="field">country</span> TEXT</li>
+                        </ul>
+                    </div>
+                    <div class="schema-table">
+                        <h3>games</h3>
+                        <ul>
+                            <li><span class="key">id</span> INTEGER PRIMARY KEY</li>
+                            <li><span class="field">title</span> TEXT</li>
+                            <li><span class="field">console_id</span> INTEGER</li>
+                            <li><span class="field">year</span> INTEGER</li>
+                            <li><span class="field">copies_sold</span> REAL (millions)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="history-section">
+                <h2>📖 Console History</h2>
+                <div id="historyContent">
+                    <p>Run queries to explore the fascinating history of gaming consoles!</p>
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section class="achievements-section">
+                <h2>🏆 Achievements</h2>
+                <p class="achievements-intro">Unlock badges as you explore and learn SQL!</p>
+
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Achievements will be dynamically loaded here -->
+                </div>
+
+                <button id="achievementsBtn" class="btn-secondary" style="margin-top: 20px;">
+                    <i class="fas fa-trophy"></i> View All Achievements
+                </button>
+            </section>
+
+            <!-- Share Your Favorites Section -->
+            <section class="favorites-section">
+                <h2>🎮 Share Your Favorites</h2>
+                <p class="favorites-intro">Tell us about your favorite gaming memories! Your submissions are stored locally in your browser.</p>
+
+                <div class="favorites-form">
+                    <div class="form-group">
+                        <label for="favConsole">Favorite Console:</label>
+                        <input type="text" id="favConsole" placeholder="e.g., PlayStation 2, Nintendo Switch, Xbox 360">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favGame">Favorite Game:</label>
+                        <input type="text" id="favGame" placeholder="e.g., The Legend of Zelda, Halo, Final Fantasy VII">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favMemory">Your Gaming Memory (optional):</label>
+                        <textarea id="favMemory" placeholder="Share a favorite gaming memory or why these are special to you..." rows="3"></textarea>
+                    </div>
+
+                    <button id="submitFavorites" class="btn-primary">
+                        <i class="fas fa-heart"></i> Save My Favorites
+                    </button>
+                </div>
+
+                <div class="favorites-display" id="favoritesDisplay">
+                    <h3>Your Saved Favorites</h3>
+                    <div id="favoritesList">
+                        <p class="no-favorites">No favorites saved yet. Share yours above!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="tutorials.js"></script>
+    <script src="achievements.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

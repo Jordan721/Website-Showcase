@@ -53,6 +53,7 @@ Real-world projects from bootcamps and professional experience:
 #### 🎯 **Personal Projects**
 Independent projects showcasing creative problem-solving:
 - 🧭 Cash Compass - Personal finance tracker with data visualization
+- 🎮 Console Chronicles - Interactive SQL learning platform teaching database queries through gaming console history
 - 🌙 More projects in development!
 
 ---
@@ -142,7 +143,8 @@ Development-Showcase/
 │   ├── One_Heck_Of_A_Sandwich_Web_Edition/
 │   └── Neighborhood-Library/
 ├── 📁 Personal_Projects/      # Independent & passion projects
-│   └── Cash-Compass/         # Finance tracker with Chart.js
+│   ├── Cash-Compass/         # Finance tracker with Chart.js
+│   └── Console_Chronicles/   # SQL tutorial with gaming console data
 └── 📄 README.md              # You are here! 👋
 ```
 

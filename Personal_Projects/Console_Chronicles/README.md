@@ -151,7 +151,7 @@ This project is perfect for:
 ## Project Structure
 
 ```
-Games-O-Years/
+Console_Chronicles/
 ├── index.html          # Main HTML structure
 ├── styles.css          # Complete styling and animations
 ├── database.js         # Console/company/game data

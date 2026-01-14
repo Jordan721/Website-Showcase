@@ -691,13 +691,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // About modal functionality
     const aboutBtn = document.getElementById('aboutBtn');
     const aboutModal = document.getElementById('aboutModal');
-    const closeBtn = document.querySelector('.close');
+    const closeAboutModal = document.getElementById('closeAboutModal');
 
     aboutBtn.addEventListener('click', function() {
         aboutModal.classList.add('show');
     });
 
-    closeBtn.addEventListener('click', function() {
+    closeAboutModal.addEventListener('click', function() {
         aboutModal.classList.remove('show');
     });
 

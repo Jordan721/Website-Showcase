@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagel Byte Academy - Learn Computers & Coding</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <span class="nav-logo">
+            🥯 Bagel Byte
+        </span>
+        <div class="nav-links">
+            <a href="#hardware" class="nav-link">Hardware</a>
+            <a href="#coding" class="nav-link">Coding</a>
+            <a href="#networking" class="nav-link">Networking</a>
+            <a href="#terminal" class="nav-link">Terminal</a>
+            <button class="nav-link about-btn" id="aboutBtn"><i class="fas fa-info-circle"></i> About</button>
+            <a href="../../index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Back to Showcase</a>
+        </div>
+        <div class="nav-xp">
+            <div class="xp-bar">
+                <div class="xp-fill" id="xpFill"></div>
+            </div>
+            <span class="xp-level">Level <span id="userLevel">1</span></span>
+        </div>
+    </nav>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content about-modal">
+            <button class="modal-close" id="closeAboutModal"><i class="fas fa-times"></i></button>
+            <div class="about-header">
+                <span class="about-emoji">🥯</span>
+                <h2>About Bagel Byte Academy</h2>
+            </div>
+            <div class="about-body">
+                <p>Welcome to Bagel Byte Academy! This project started as a simple idea: <strong>what if learning about
+                        computers could be fun and interactive?</strong></p>
+
+                <p>I set out to create a website that helps anyone explore how computers truly work—from the hardware
+                    inside a PC, to the code that powers software, to the way data moves across the internet.</p>
+
+                <h3>What You Can Do Here:</h3>
+                <ul>
+                    <li><strong>Explore Hardware</strong> - Click on PC components to learn what they do</li>
+                    <li><strong>Learn Binary</strong> - Convert numbers and see how computers "think"</li>
+                    <li><strong>Write Code</strong> - Try coding challenges in the playground</li>
+                    <li><strong>Understand Networks</strong> - Watch data packets travel the internet</li>
+                    <li><strong>Use the Terminal</strong> - Practice command line basics</li>
+                    <li><strong>Test Your Knowledge</strong> - Take quizzes and earn XP</li>
+                </ul>
+
+                <h3>Why "Bagel Byte"?</h3>
+                <p>The name also honors the group I was part of in the Year Up United Spring 2025 cohort. After all,
+                    learning should be as enjoyable as a fresh bagel—and “byte” is a nod to the computer term for 8 bits
+                    of data.</p>
+
+                <p class="about-footer">Thanks for checking out my project! Have fun learning.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Interactive Learning Platform</div>
+            <h1>Learn How <span class="gradient-text">Computers</span> Really Work</h1>
+            <p>From binary code to network packets - master the fundamentals through hands-on exploration</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="topicsCount">0</span>
+                    <span class="stat-label">Topics Explored</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="challengesCount">0</span>
+                    <span class="stat-label">Challenges Done</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="xpTotal">0</span>
+                    <span class="stat-label">XP Earned</span>
+                </div>
+            </div>
+            <button class="cta-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior: 'smooth'})">
+                Start Learning <i class="fas fa-rocket"></i>
+            </button>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-code">
+                <pre><code><span class="code-keyword">while</span>(learning) {
+  <span class="code-function">explore</span>();
+  <span class="code-function">practice</span>();
+  skills++;
+}</code></pre>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hardware Section -->
+    <section id="hardware" class="section">
+        <div class="section-header">
+            <span class="section-tag">Module 01</span>
+            <h2>Computer Hardware</h2>
+            <p>Explore the physical components that make computers work</p>
+        </div>
+
+        <div class="hardware-explorer">
+            <div class="pc-build">
+                <div class="pc-component" data-part="cpu">
+                    <div class="component-icon"><i class="fas fa-microchip"></i></div>
+                    <span>CPU</span>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="pc-component" data-part="gpu">
+                    <div class="component-icon"><i class="fas fa-display"></i></div>
+                    <span>GPU</span>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="pc-component" data-part="ram">
+                    <div class="component-icon"><i class="fas fa-memory"></i></div>
+                    <span>RAM</span>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="pc-component" data-part="storage">
+                    <div class="component-icon"><i class="fas fa-hard-drive"></i></div>
+                    <span>Storage</span>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="pc-component" data-part="mobo">
+                    <div class="component-icon"><i class="fas fa-network-wired"></i></div>
+                    <span>Motherboard</span>
+                    <div class="pulse-ring"></div>
+                </div>
+                <div class="pc-component" data-part="psu">
+                    <div class="component-icon"><i class="fas fa-bolt"></i></div>
+                    <span>PSU</span>
+                    <div class="pulse-ring"></div>
+                </div>
+            </div>
+
+            <div class="component-detail" id="componentDetail">
+                <div class="detail-placeholder">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <p>Click a component to learn about it</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Binary Lab -->
+        <div class="binary-lab">
+            <div class="lab-header">
+                <h3><i class="fas fa-code"></i> Binary Laboratory</h3>
+                <p>Computers only understand 1s and 0s. Try converting numbers!</p>
+            </div>
+
+            <div class="binary-converter">
+                <div class="converter-section">
+                    <label>Decimal</label>
+                    <input type="number" id="decimalNum" placeholder="0-255" min="0" max="255">
+                </div>
+                <div class="converter-arrows">
+                    <i class="fas fa-arrows-left-right"></i>
+                </div>
+                <div class="converter-section">
+                    <label>Binary</label>
+                    <input type="text" id="binaryNum" placeholder="00000000">
+                </div>
+            </div>
+
+            <div class="bit-grid" id="bitGrid">
+                <div class="bit-box" data-pos="7"><span class="bit-val">0</span><span class="bit-weight">128</span>
+                </div>
+                <div class="bit-box" data-pos="6"><span class="bit-val">0</span><span class="bit-weight">64</span></div>
+                <div class="bit-box" data-pos="5"><span class="bit-val">0</span><span class="bit-weight">32</span></div>
+                <div class="bit-box" data-pos="4"><span class="bit-val">0</span><span class="bit-weight">16</span></div>
+                <div class="bit-box" data-pos="3"><span class="bit-val">0</span><span class="bit-weight">8</span></div>
+                <div class="bit-box" data-pos="2"><span class="bit-val">0</span><span class="bit-weight">4</span></div>
+                <div class="bit-box" data-pos="1"><span class="bit-val">0</span><span class="bit-weight">2</span></div>
+                <div class="bit-box" data-pos="0"><span class="bit-val">0</span><span class="bit-weight">1</span></div>
+            </div>
+
+            <div class="binary-explanation" id="binaryExplanation">
+                Click the bits above to toggle them on/off
+            </div>
+        </div>
+    </section>
+
+    <!-- Coding Section -->
+    <section id="coding" class="section section-alt">
+        <div class="section-header">
+            <span class="section-tag">Module 02</span>
+            <h2>Introduction to Coding</h2>
+            <p>Learn the fundamentals of programming logic</p>
+        </div>
+
+        <!-- Code Concepts -->
+        <div class="code-concepts">
+            <div class="concept-card" data-concept="variables">
+                <div class="concept-icon"><i class="fas fa-box"></i></div>
+                <h4>Variables</h4>
+                <p>Containers that store data</p>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="conditions">
+                <div class="concept-icon"><i class="fas fa-code-branch"></i></div>
+                <h4>Conditions</h4>
+                <p>Make decisions in code</p>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="loops">
+                <div class="concept-icon"><i class="fas fa-rotate"></i></div>
+                <h4>Loops</h4>
+                <p>Repeat actions automatically</p>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="functions">
+                <div class="concept-icon"><i class="fas fa-cube"></i></div>
+                <h4>Functions</h4>
+                <p>Reusable blocks of code</p>
+                <span class="concept-status">Click to learn</span>
+            </div>
+        </div>
+
+        <!-- Concept Detail Panel -->
+        <div class="concept-panel" id="conceptPanel">
+            <div class="panel-close" id="closeConceptPanel"><i class="fas fa-times"></i></div>
+            <div class="panel-content" id="conceptContent"></div>
+        </div>
+
+        <!-- Interactive Code Editor -->
+        <div class="code-playground">
+            <div class="playground-header">
+                <h3><i class="fas fa-laptop-code"></i> Code Playground</h3>
+                <div class="language-tabs">
+                    <button class="lang-tab active" data-lang="javascript">JavaScript</button>
+                    <button class="lang-tab" data-lang="python">Python</button>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-pane">
+                    <div class="editor-toolbar">
+                        <span class="file-name">script.js</span>
+                        <div class="editor-actions">
+                            <button class="editor-btn" id="runCode"><i class="fas fa-play"></i> Run</button>
+                            <button class="editor-btn" id="resetCode"><i class="fas fa-redo"></i> Reset</button>
+                        </div>
+                    </div>
+                    <div class="code-editor">
+                        <div class="line-numbers" id="lineNumbers"></div>
+                        <textarea id="codeInput" spellcheck="false">// Welcome to the Code Playground!
+// Try writing some code and click Run
+
+let message = "Hello, World!";
+console.log(message);
+
+// Try a loop:
+for (let i = 1; i <= 5; i++) {
+    console.log("Count: " + i);
+}</textarea>
+                    </div>
+                </div>
+
+                <div class="output-pane">
+                    <div class="output-header">
+                        <span><i class="fas fa-terminal"></i> Output</span>
+                        <button class="clear-btn" id="clearOutput">Clear</button>
+                    </div>
+                    <div class="output-console" id="outputConsole">
+                        <p class="output-hint">Click "Run" to see output here...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Challenges -->
+            <div class="challenges-section">
+                <h4><i class="fas fa-trophy"></i> Code Challenges</h4>
+                <div class="challenges-list">
+                    <div class="challenge-item" data-challenge="hello">
+                        <div class="challenge-info">
+                            <span class="challenge-difficulty easy">Easy</span>
+                            <span class="challenge-name">Hello World</span>
+                        </div>
+                        <span class="challenge-xp">+10 XP</span>
+                    </div>
+                    <div class="challenge-item" data-challenge="sum">
+                        <div class="challenge-info">
+                            <span class="challenge-difficulty easy">Easy</span>
+                            <span class="challenge-name">Sum Two Numbers</span>
+                        </div>
+                        <span class="challenge-xp">+15 XP</span>
+                    </div>
+                    <div class="challenge-item" data-challenge="loop">
+                        <div class="challenge-info">
+                            <span class="challenge-difficulty medium">Medium</span>
+                            <span class="challenge-name">Count to 10</span>
+                        </div>
+                        <span class="challenge-xp">+25 XP</span>
+                    </div>
+                    <div class="challenge-item" data-challenge="fizzbuzz">
+                        <div class="challenge-info">
+                            <span class="challenge-difficulty hard">Hard</span>
+                            <span class="challenge-name">FizzBuzz</span>
+                        </div>
+                        <span class="challenge-xp">+50 XP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Networking Section -->
+    <section id="networking" class="section">
+        <div class="section-header">
+            <span class="section-tag">Module 03</span>
+            <h2>Computer Networking</h2>
+            <p>Understand how computers communicate across the globe</p>
+        </div>
+
+        <!-- Network Concepts -->
+        <div class="network-concepts">
+            <div class="net-concept" data-net="ip">
+                <i class="fas fa-location-dot"></i>
+                <h4>IP Addresses</h4>
+                <p>Unique identifiers for devices</p>
+            </div>
+            <div class="net-concept" data-net="dns">
+                <i class="fas fa-book"></i>
+                <h4>DNS</h4>
+                <p>The internet's phone book</p>
+            </div>
+            <div class="net-concept" data-net="packets">
+                <i class="fas fa-envelope"></i>
+                <h4>Packets</h4>
+                <p>How data travels in pieces</p>
+            </div>
+            <div class="net-concept" data-net="protocols">
+                <i class="fas fa-handshake"></i>
+                <h4>Protocols</h4>
+                <p>Rules for communication</p>
+            </div>
+        </div>
+
+        <!-- Network Concept Detail -->
+        <div class="net-detail-panel" id="netDetailPanel">
+            <div id="netDetailContent"></div>
+        </div>
+
+        <!-- Interactive Network Simulator -->
+        <div class="network-simulator">
+            <div class="sim-header">
+                <h3><i class="fas fa-network-wired"></i> Network Simulator</h3>
+                <p>Watch how data travels across the internet</p>
+            </div>
+
+            <div class="network-diagram">
+                <div class="net-node client-node">
+                    <div class="node-icon"><i class="fas fa-laptop"></i></div>
+                    <span>Your Device</span>
+                    <div class="node-info">IP: 192.168.1.100</div>
+                </div>
+
+                <div class="net-connection conn-1">
+                    <div class="packet-dot" id="pkt1"></div>
+                    <svg class="connection-line">
+                        <line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
+                </div>
+
+                <div class="net-node router-node">
+                    <div class="node-icon"><i class="fas fa-wifi"></i></div>
+                    <span>Router</span>
+                    <div class="node-info">Gateway</div>
+                </div>
+
+                <div class="net-connection conn-2">
+                    <div class="packet-dot" id="pkt2"></div>
+                    <svg class="connection-line">
+                        <line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
+                </div>
+
+                <div class="net-node isp-node">
+                    <div class="node-icon"><i class="fas fa-building"></i></div>
+                    <span>ISP</span>
+                    <div class="node-info">Internet Provider</div>
+                </div>
+
+                <div class="net-connection conn-3">
+                    <div class="packet-dot" id="pkt3"></div>
+                    <svg class="connection-line">
+                        <line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
+                </div>
+
+                <div class="net-node internet-node">
+                    <div class="node-icon"><i class="fas fa-globe"></i></div>
+                    <span>Internet</span>
+                    <div class="node-info">Global Network</div>
+                </div>
+
+                <div class="net-connection conn-4">
+                    <div class="packet-dot" id="pkt4"></div>
+                    <svg class="connection-line">
+                        <line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
+                </div>
+
+                <div class="net-node server-node">
+                    <div class="node-icon"><i class="fas fa-server"></i></div>
+                    <span>Web Server</span>
+                    <div class="node-info">IP: 172.217.14.206</div>
+                </div>
+            </div>
+
+            <div class="sim-controls">
+                <select id="requestType">
+                    <option value="http">HTTP Request (Website)</option>
+                    <option value="https">HTTPS Request (Secure)</option>
+                    <option value="dns">DNS Lookup</option>
+                    <option value="ping">Ping Test</option>
+                </select>
+                <button class="sim-btn" id="sendRequest">
+                    <i class="fas fa-paper-plane"></i> Send Request
+                </button>
+            </div>
+
+            <div class="sim-log" id="simLog">
+                <p class="log-hint">Select a request type and click "Send Request" to simulate network traffic</p>
+            </div>
+        </div>
+
+        <!-- Packet Inspector -->
+        <div class="packet-inspector">
+            <div class="inspector-header">
+                <h3><i class="fas fa-magnifying-glass"></i> Packet Inspector</h3>
+                <p>See what's inside a network packet</p>
+            </div>
+
+            <div class="packet-structure">
+                <div class="packet-layer" data-layer="ethernet">
+                    <div class="layer-header">
+                        <span class="layer-name">Ethernet Frame</span>
+                        <span class="layer-protocol">Layer 2</span>
+                    </div>
+                    <div class="layer-content">
+                        <div class="field"><span>Destination MAC:</span> AA:BB:CC:DD:EE:FF</div>
+                        <div class="field"><span>Source MAC:</span> 11:22:33:44:55:66</div>
+                    </div>
+                </div>
+
+                <div class="packet-layer" data-layer="ip">
+                    <div class="layer-header">
+                        <span class="layer-name">IP Header</span>
+                        <span class="layer-protocol">Layer 3</span>
+                    </div>
+                    <div class="layer-content">
+                        <div class="field"><span>Source IP:</span> 192.168.1.100</div>
+                        <div class="field"><span>Dest IP:</span> 172.217.14.206</div>
+                        <div class="field"><span>TTL:</span> 64</div>
+                    </div>
+                </div>
+
+                <div class="packet-layer" data-layer="tcp">
+                    <div class="layer-header">
+                        <span class="layer-name">TCP Header</span>
+                        <span class="layer-protocol">Layer 4</span>
+                    </div>
+                    <div class="layer-content">
+                        <div class="field"><span>Source Port:</span> 54321</div>
+                        <div class="field"><span>Dest Port:</span> 443</div>
+                        <div class="field"><span>Flags:</span> SYN, ACK</div>
+                    </div>
+                </div>
+
+                <div class="packet-layer" data-layer="data">
+                    <div class="layer-header">
+                        <span class="layer-name">Application Data</span>
+                        <span class="layer-protocol">Layer 7</span>
+                    </div>
+                    <div class="layer-content">
+                        <div class="field"><span>Protocol:</span> HTTPS</div>
+                        <div class="field"><span>Request:</span> GET /index.html</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal Section -->
+    <section id="terminal" class="section section-alt">
+        <div class="section-header">
+            <span class="section-tag">Module 04</span>
+            <h2>Command Line Basics</h2>
+            <p>Learn to navigate computers like a pro using the terminal</p>
+        </div>
+
+        <!-- Terminal Emulator -->
+        <div class="terminal-container">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="term-btn red"></span>
+                        <span class="term-btn yellow"></span>
+                        <span class="term-btn green"></span>
+                    </div>
+                    <span class="terminal-title" id="terminalTitle">Linux/Bash</span>
+                    <div class="terminal-type-selector">
+                        <select id="terminalType">
+                            <option value="linux">Linux/Bash</option>
+                            <option value="windows">Windows CMD</option>
+                            <option value="powershell">PowerShell</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="terminal-output" id="terminalOutput">
+                        <p>Welcome to Bagel Byte Terminal!</p>
+                        <p>Type <span class="cmd-highlight">help</span> to see available commands.</p>
+                        <p></p>
+                    </div>
+                    <div class="terminal-input-line">
+                        <span class="prompt" id="terminalPrompt">bagelbyte:~$</span>
+                        <input type="text" id="terminalInput" class="terminal-input" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <div class="command-reference">
+                <h4>Common Commands</h4>
+                <div class="cmd-list">
+                    <div class="cmd-item">
+                        <code>ls</code>
+                        <span>List files and folders</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>cd</code>
+                        <span>Change directory</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>pwd</code>
+                        <span>Print working directory</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>mkdir</code>
+                        <span>Create a new folder</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>cat</code>
+                        <span>View file contents</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>clear</code>
+                        <span>Clear the terminal</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>ping</code>
+                        <span>Test network connection</span>
+                    </div>
+                    <div class="cmd-item">
+                        <code>ipconfig</code>
+                        <span>Show network info</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminal Challenges -->
+        <div class="terminal-challenges">
+            <h4><i class="fas fa-flag"></i> Terminal Challenges</h4>
+            <div class="term-challenge-list">
+                <div class="term-challenge" data-tchallenge="navigate">
+                    <div class="tchallenge-icon"><i class="fas fa-folder"></i></div>
+                    <div class="tchallenge-info">
+                        <span class="tchallenge-name">File Navigator</span>
+                        <span class="tchallenge-desc">Navigate to the secret folder</span>
+                    </div>
+                    <span class="tchallenge-xp">+20 XP</span>
+                </div>
+                <div class="term-challenge" data-tchallenge="create">
+                    <div class="tchallenge-icon"><i class="fas fa-file-circle-plus"></i></div>
+                    <div class="tchallenge-info">
+                        <span class="tchallenge-name">File Creator</span>
+                        <span class="tchallenge-desc">Create a new directory called "myproject"</span>
+                    </div>
+                    <span class="tchallenge-xp">+25 XP</span>
+                </div>
+                <div class="term-challenge" data-tchallenge="network">
+                    <div class="tchallenge-icon"><i class="fas fa-network-wired"></i></div>
+                    <div class="tchallenge-info">
+                        <span class="tchallenge-name">Network Explorer</span>
+                        <span class="tchallenge-desc">Find your IP address</span>
+                    </div>
+                    <span class="tchallenge-xp">+30 XP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section">
+        <div class="section-header">
+            <span class="section-tag">Test Yourself</span>
+            <h2>Knowledge Quizzes</h2>
+            <p>Put your learning to the test</p>
+        </div>
+
+        <div class="quiz-grid">
+            <div class="quiz-card" data-quiz="hardware">
+                <div class="quiz-icon"><i class="fas fa-microchip"></i></div>
+                <h4>Hardware Basics</h4>
+                <p>5 questions about computer components</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="hw-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="binary">
+                <div class="quiz-icon"><i class="fas fa-code"></i></div>
+                <h4>Binary & Data</h4>
+                <p>5 questions about binary numbers</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="bin-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="coding">
+                <div class="quiz-icon"><i class="fas fa-laptop-code"></i></div>
+                <h4>Coding Concepts</h4>
+                <p>5 questions about programming</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="code-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="networking">
+                <div class="quiz-icon"><i class="fas fa-network-wired"></i></div>
+                <h4>Networking</h4>
+                <p>5 questions about computer networks</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="net-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Modal -->
+    <div class="modal" id="quizModal">
+        <div class="modal-content quiz-modal">
+            <button class="modal-close" id="closeQuizModal"><i class="fas fa-times"></i></button>
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-progress">
+                    <span id="quizProgress">Question 1 of 5</span>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quizProgressFill"></div>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizQuestion"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <button class="quiz-next-btn" id="quizNextBtn" style="display:none;">Next Question</button>
+            </div>
+            <div class="quiz-results" id="quizResults" style="display:none;">
+                <div class="results-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Quiz Complete!</h3>
+                <p id="quizResultText"></p>
+                <div class="results-actions">
+                    <button class="btn-retry" id="retryQuiz">Try Again</button>
+                    <button class="btn-done" id="closeResults">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- XP Notification -->
+    <div class="xp-notification" id="xpNotification">
+        <i class="fas fa-star"></i>
+        <span id="xpAmount">+10 XP</span>
+    </div>
+
+    <!-- Achievement Notification -->
+    <div class="achievement-popup" id="achievementPopup">
+        <div class="achievement-content">
+            <i class="fas fa-award"></i>
+            <div class="achievement-text">
+                <strong>Achievement Unlocked!</strong>
+                <span id="achievementName"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-cookie-bite"></i> Bagel Byte Academy
+            </div>
+            <p>Learn. Code. Connect.</p>
+            <a href="../../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Showcase
+            </a>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

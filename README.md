@@ -41,6 +41,7 @@ Class assignments and coursework from my studies:
 - 🎬 Documentary film website (Run Like A G.U.R.L)
 - 🛡️ Privacy-focused social media mockup
 - 🎮 Interactive 3D projects with Arduino & p5.js
+- 🌐 Dimensional Playground - Immersive WebVR experience with A-Frame & Three.js
 - 🌳 Community landmark project (Prospect Park)
 
 #### 💼 **Professional & Internship Work**
@@ -137,7 +138,7 @@ Development-Showcase/
 │   ├── RunLikeAG.U.R.L/
 │   ├── Social_Com's_Final/
 │   ├── Interactive_Project/
-│   └── Animation/
+│   └── Dimensional_Playground/ # Immersive WebVR experience
 ├── 📁 Professional_Projects/  # Bootcamp & professional work
 │   ├── DarkModes/
 │   ├── One_Heck_Of_A_Sandwich_Web_Edition/

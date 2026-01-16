@@ -124,36 +124,22 @@ function setupEventListeners() {
     // Get background music element
     backgroundMusic = document.getElementById('backgroundMusic');
 
-    // Toggle UI visibility
-    var toggleUIBtn = document.getElementById('toggleUI');
-    var mainContent = document.getElementById('mainContent');
-    var isUIVisible = true;
-
-    toggleUIBtn.addEventListener('click', function () {
-        isUIVisible = !isUIVisible;
-        if (isUIVisible) {
-            mainContent.classList.remove('hidden');
-            this.textContent = 'Hide UI';
-            this.classList.remove('hidden-state');
-        } else {
-            mainContent.classList.add('hidden');
-            this.textContent = 'Show UI';
-            this.classList.add('hidden-state');
-        }
-    });
-
     // About Project Modal
     var modal = document.getElementById('aboutModal');
     var aboutBtn = document.getElementById('aboutProject');
-    var closeBtn = document.getElementsByClassName('close')[0];
+    var closeBtn = document.querySelector('.modal-close');
 
-    aboutBtn.addEventListener('click', function () {
-        modal.style.display = 'block';
-    });
+    if (aboutBtn) {
+        aboutBtn.addEventListener('click', function () {
+            modal.style.display = 'block';
+        });
+    }
 
-    closeBtn.addEventListener('click', function () {
-        modal.style.display = 'none';
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+    }
 
     window.addEventListener('click', function (event) {
         if (event.target == modal) {
@@ -162,58 +148,81 @@ function setupEventListeners() {
     });
 
     // Toggle music button
-    document.getElementById('toggleMusic').addEventListener('click', function () {
-        if (isMusicPlaying) {
-            backgroundMusic.pause();
-            this.textContent = 'Play Music';
-            isMusicPlaying = false;
-        } else {
-            backgroundMusic.play();
-            this.textContent = 'Pause Music';
-            isMusicPlaying = true;
-        }
-    });
+    var musicBtn = document.getElementById('toggleMusic');
+    if (musicBtn) {
+        musicBtn.addEventListener('click', function () {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                isMusicPlaying = false;
+            } else {
+                backgroundMusic.play();
+                isMusicPlaying = true;
+            }
+        });
+    }
 
     // Toggle rotation button
-    document.getElementById('toggleRotation').addEventListener('click', function () {
-        isPaused = !isPaused;
-        this.textContent = isPaused ? 'Resume Rotation' : 'Pause Rotation';
-    });
+    var rotationBtn = document.getElementById('toggleRotation');
+    if (rotationBtn) {
+        rotationBtn.addEventListener('click', function () {
+            isPaused = !isPaused;
+        });
+    }
 
     // Reset view button
-    document.getElementById('resetView').addEventListener('click', function () {
-        camX = 0;
-        camY = 0;
-        sensorValue = 512;
-        sensorValue2 = 512;
-        rotationSpeedMultiplier = 1;
-        document.getElementById('rotationSpeed').value = 2;
-        document.getElementById('speedValue').textContent = '2x';
-    });
+    var resetBtn = document.getElementById('resetView');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+            targetCamX = 0;
+            targetCamY = 0;
+            targetOrbitX = 0;
+            targetOrbitY = 0;
+            targetZoom = 1;
+            targetExplosion = 0;
+            rotationSpeedMultiplier = 1;
+            document.getElementById('rotationSpeed').value = 2;
+            document.getElementById('speedValue').textContent = '1x';
+            updateZoomSlider();
+        });
+    }
 
     // Random colors button
-    document.getElementById('randomColors').addEventListener('click', function () {
-        var schemes = Object.keys(colorSchemes);
-        currentColorIndex = (currentColorIndex + 1) % schemes.length;
-        colorScheme = schemes[currentColorIndex];
-        document.getElementById('colorScheme').value = colorScheme;
-    });
+    var randomColorsBtn = document.getElementById('randomColors');
+    if (randomColorsBtn) {
+        randomColorsBtn.addEventListener('click', function () {
+            var schemes = Object.keys(colorSchemes);
+            currentColorIndex = (currentColorIndex + 1) % schemes.length;
+            colorScheme = schemes[currentColorIndex];
+            document.getElementById('colorScheme').value = colorScheme;
+            // Trigger change event for toolbar sync
+            document.getElementById('colorScheme').dispatchEvent(new Event('change'));
+        });
+    }
 
     // Rotation speed slider
-    document.getElementById('rotationSpeed').addEventListener('input', function () {
-        rotationSpeedMultiplier = this.value / 2;
-        document.getElementById('speedValue').textContent = this.value / 2 + 'x';
-    });
+    var speedSlider = document.getElementById('rotationSpeed');
+    if (speedSlider) {
+        speedSlider.addEventListener('input', function () {
+            rotationSpeedMultiplier = this.value / 2;
+            document.getElementById('speedValue').textContent = rotationSpeedMultiplier + 'x';
+        });
+    }
 
     // Shape type selector
-    document.getElementById('shapeType').addEventListener('change', function () {
-        shapeMode = this.value;
-    });
+    var shapeSelect = document.getElementById('shapeType');
+    if (shapeSelect) {
+        shapeSelect.addEventListener('change', function () {
+            shapeMode = this.value;
+        });
+    }
 
     // Color scheme selector
-    document.getElementById('colorScheme').addEventListener('change', function () {
-        colorScheme = this.value;
-    });
+    var colorSelect = document.getElementById('colorScheme');
+    if (colorSelect) {
+        colorSelect.addEventListener('change', function () {
+            colorScheme = this.value;
+        });
+    }
 
     // Zoom slider
     var zoomSlider = document.getElementById('zoomLevel');
@@ -229,7 +238,6 @@ function setupEventListeners() {
     if (explodeBtn) {
         explodeBtn.addEventListener('click', function () {
             targetExplosion = targetExplosion > 0 ? 0 : 1;
-            this.textContent = targetExplosion > 0 ? 'Collapse' : 'Explode';
         });
     }
 
@@ -238,7 +246,6 @@ function setupEventListeners() {
     if (particleBtn) {
         particleBtn.addEventListener('click', function () {
             maxParticles = maxParticles > 0 ? 0 : 100;
-            this.textContent = maxParticles > 0 ? 'Hide Particles' : 'Show Particles';
         });
     }
 }
@@ -418,7 +425,22 @@ function keyPressed() {
     // Space to toggle rotation
     if (key === ' ') {
         isPaused = !isPaused;
-        document.getElementById('toggleRotation').textContent = isPaused ? 'Resume Rotation' : 'Pause Rotation';
+        // Update button state via click simulation for icon toggle
+        var rotationBtn = document.getElementById('toggleRotation');
+        if (rotationBtn) {
+            var icon = rotationBtn.querySelector('i');
+            if (icon) {
+                if (isPaused) {
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                    rotationBtn.classList.add('active');
+                } else {
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                    rotationBtn.classList.remove('active');
+                }
+            }
+        }
         return false; // Prevent page scroll
     }
 
@@ -430,9 +452,20 @@ function keyPressed() {
         targetOrbitY = 0;
         targetZoom = 1;
         targetExplosion = 0;
+        rotationSpeedMultiplier = 1;
+        document.getElementById('rotationSpeed').value = 2;
+        document.getElementById('speedValue').textContent = '1x';
         updateZoomSlider();
+        // Reset explode button state
         var explodeBtn = document.getElementById('explodeShapes');
-        if (explodeBtn) explodeBtn.textContent = 'Explode';
+        if (explodeBtn) {
+            var icon = explodeBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-compress-alt');
+                icon.classList.add('fa-expand-alt');
+            }
+            explodeBtn.classList.remove('active');
+        }
     }
 
     // C to cycle colors
@@ -441,6 +474,8 @@ function keyPressed() {
         currentColorIndex = (currentColorIndex + 1) % schemes.length;
         colorScheme = schemes[currentColorIndex];
         document.getElementById('colorScheme').value = colorScheme;
+        // Trigger change event for toolbar sync
+        document.getElementById('colorScheme').dispatchEvent(new Event('change'));
     }
 
     // WASD for camera orbit
@@ -467,35 +502,69 @@ function keyPressed() {
     if (key === 'x' || key === 'X') {
         targetExplosion = targetExplosion > 0 ? 0 : 1;
         var explodeBtn = document.getElementById('explodeShapes');
-        if (explodeBtn) explodeBtn.textContent = targetExplosion > 0 ? 'Collapse' : 'Explode';
+        if (explodeBtn) {
+            var icon = explodeBtn.querySelector('i');
+            if (icon) {
+                if (targetExplosion > 0) {
+                    icon.classList.remove('fa-expand-alt');
+                    icon.classList.add('fa-compress-alt');
+                    explodeBtn.classList.add('active');
+                } else {
+                    icon.classList.remove('fa-compress-alt');
+                    icon.classList.add('fa-expand-alt');
+                    explodeBtn.classList.remove('active');
+                }
+            }
+        }
     }
 
     // P to toggle particles
     if (key === 'p' || key === 'P') {
         maxParticles = maxParticles > 0 ? 0 : 100;
         var particleBtn = document.getElementById('toggleParticles');
-        if (particleBtn) particleBtn.textContent = maxParticles > 0 ? 'Hide Particles' : 'Show Particles';
+        if (particleBtn) {
+            particleBtn.classList.toggle('active');
+        }
     }
 
     // Number keys 1-6 for shape modes
+    var shapeSelect = document.getElementById('shapeType');
     if (key === '1') {
         shapeMode = 'mixed';
-        document.getElementById('shapeType').value = 'mixed';
+        if (shapeSelect) {
+            shapeSelect.value = 'mixed';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     } else if (key === '2') {
         shapeMode = 'cones';
-        document.getElementById('shapeType').value = 'cones';
+        if (shapeSelect) {
+            shapeSelect.value = 'cones';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     } else if (key === '3') {
         shapeMode = 'boxes';
-        document.getElementById('shapeType').value = 'boxes';
+        if (shapeSelect) {
+            shapeSelect.value = 'boxes';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     } else if (key === '4') {
         shapeMode = 'spheres';
-        document.getElementById('shapeType').value = 'spheres';
+        if (shapeSelect) {
+            shapeSelect.value = 'spheres';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     } else if (key === '5') {
         shapeMode = 'torus';
-        document.getElementById('shapeType').value = 'torus';
+        if (shapeSelect) {
+            shapeSelect.value = 'torus';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     } else if (key === '6') {
         shapeMode = 'cylinders';
-        document.getElementById('shapeType').value = 'cylinders';
+        if (shapeSelect) {
+            shapeSelect.value = 'cylinders';
+            shapeSelect.dispatchEvent(new Event('change'));
+        }
     }
 
     // +/- for rotation speed

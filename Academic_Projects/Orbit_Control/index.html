@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="Final_Project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <title>Orbit Control - Interactive 3D Experience</title>
+</head>
+
+<body>
+    <!-- Floating Header -->
+    <header class="floating-header">
+        <div class="header-brand">
+            <span class="brand-icon">&#x1F30C;</span>
+            <span class="brand-text">Orbit Control</span>
+        </div>
+        <a href="../../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Showcase</span>
+        </a>
+    </header>
+
+    <!-- Floating Toolbar (Left Side) -->
+    <div class="floating-toolbar" id="toolbar">
+        <div class="toolbar-section">
+            <span class="toolbar-label">Controls</span>
+            <button id="toggleRotation" class="toolbar-btn" title="Pause/Resume Rotation (Space)">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button id="resetView" class="toolbar-btn" title="Reset View (R)">
+                <i class="fas fa-undo"></i>
+            </button>
+            <button id="explodeShapes" class="toolbar-btn accent" title="Explode/Collapse (X)">
+                <i class="fas fa-expand-alt"></i>
+            </button>
+            <button id="toggleParticles" class="toolbar-btn" title="Toggle Particles (P)">
+                <i class="fas fa-braille"></i>
+            </button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-section">
+            <span class="toolbar-label">Style</span>
+            <button id="randomColors" class="toolbar-btn" title="Random Colors">
+                <i class="fas fa-palette"></i>
+            </button>
+            <div class="toolbar-dropdown">
+                <button class="toolbar-btn dropdown-trigger" title="Color Scheme (C)">
+                    <i class="fas fa-swatchbook"></i>
+                </button>
+                <div class="dropdown-menu" id="colorDropdown">
+                    <button data-value="default" class="dropdown-item active">White & Teal</button>
+                    <button data-value="neon" class="dropdown-item">Neon</button>
+                    <button data-value="rainbow" class="dropdown-item">Rainbow</button>
+                    <button data-value="monochrome" class="dropdown-item">Monochrome</button>
+                    <button data-value="fire" class="dropdown-item">Fire</button>
+                    <button data-value="ocean" class="dropdown-item">Ocean</button>
+                    <button data-value="matrix" class="dropdown-item">Matrix</button>
+                </div>
+            </div>
+            <div class="toolbar-dropdown">
+                <button class="toolbar-btn dropdown-trigger" title="Shape Mode (1-6)">
+                    <i class="fas fa-shapes"></i>
+                </button>
+                <div class="dropdown-menu" id="shapeDropdown">
+                    <button data-value="mixed" class="dropdown-item active">Mixed</button>
+                    <button data-value="cones" class="dropdown-item">Cones</button>
+                    <button data-value="boxes" class="dropdown-item">Boxes</button>
+                    <button data-value="spheres" class="dropdown-item">Spheres</button>
+                    <button data-value="torus" class="dropdown-item">Torus</button>
+                    <button data-value="cylinders" class="dropdown-item">Cylinders</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-section">
+            <span class="toolbar-label">Speed</span>
+            <input type="range" id="rotationSpeed" class="toolbar-slider" min="0" max="10" value="2" step="0.5" title="Rotation Speed (+/-)">
+            <span id="speedValue" class="slider-value">1x</span>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-section">
+            <span class="toolbar-label">Zoom</span>
+            <input type="range" id="zoomLevel" class="toolbar-slider" min="0.3" max="3" value="1" step="0.1" title="Zoom Level (Q/E)">
+            <span id="zoomValue" class="slider-value">100%</span>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-section">
+            <button id="toggleMusic" class="toolbar-btn" title="Toggle Music">
+                <i class="fas fa-music"></i>
+            </button>
+            <button id="aboutProject" class="toolbar-btn" title="About This Project">
+                <i class="fas fa-info-circle"></i>
+            </button>
+            <button id="toggleHelp" class="toolbar-btn" title="Keyboard Shortcuts">
+                <i class="fas fa-keyboard"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toolbar Toggle (when collapsed) -->
+    <button id="toggleToolbar" class="toolbar-toggle" title="Toggle Controls">
+        <i class="fas fa-sliders-h"></i>
+    </button>
+
+    <!-- Help Panel (Keyboard Shortcuts) -->
+    <div class="help-panel" id="helpPanel">
+        <div class="help-header">
+            <span>Keyboard Shortcuts</span>
+            <button class="help-close" id="closeHelp"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="help-content">
+            <div class="help-group">
+                <span class="help-group-title">Camera</span>
+                <div class="help-item"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Orbit</div>
+                <div class="help-item"><kbd>Q</kbd><kbd>E</kbd> Zoom</div>
+                <div class="help-item"><kbd>Arrows</kbd> Pan</div>
+                <div class="help-item"><kbd>R</kbd> Reset</div>
+            </div>
+            <div class="help-group">
+                <span class="help-group-title">Effects</span>
+                <div class="help-item"><kbd>Space</kbd> Pause</div>
+                <div class="help-item"><kbd>X</kbd> Explode</div>
+                <div class="help-item"><kbd>P</kbd> Particles</div>
+                <div class="help-item"><kbd>C</kbd> Colors</div>
+            </div>
+            <div class="help-group">
+                <span class="help-group-title">Shapes</span>
+                <div class="help-item"><kbd>1</kbd>-<kbd>6</kbd> Shape modes</div>
+                <div class="help-item"><kbd>+</kbd><kbd>-</kbd> Speed</div>
+            </div>
+        </div>
+        <div class="help-footer">
+            <i class="fas fa-mouse"></i> Drag to orbit &bull; Scroll to zoom
+        </div>
+    </div>
+
+    <!-- Hidden selects for JS compatibility -->
+    <select id="shapeType" style="display:none;">
+        <option value="mixed">Mixed (Default)</option>
+        <option value="cones">Cones Only</option>
+        <option value="boxes">Boxes Only</option>
+        <option value="spheres">Spheres Only</option>
+        <option value="torus">Torus Only</option>
+        <option value="cylinders">Cylinders Only</option>
+    </select>
+    <select id="colorScheme" style="display:none;">
+        <option value="default">White & Teal</option>
+        <option value="neon">Neon</option>
+        <option value="rainbow">Rainbow</option>
+        <option value="monochrome">Monochrome</option>
+        <option value="fire">Fire</option>
+        <option value="ocean">Ocean</option>
+        <option value="matrix">Matrix</option>
+    </select>
+
+    <!-- Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- About Project Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <span class="modal-icon">&#x1F30C;</span>
+                <h2>About This Project</h2>
+            </div>
+            <div class="modal-body">
+                <p>This was my final project for class, created to demonstrate interactive user experiences in 3D space.</p>
+
+                <h3><i class="fas fa-bullseye"></i> Project Goals</h3>
+                <p>The assignment was to create something that users could interact with in meaningful ways. This interactive orbital visualization combines 3D graphics, responsive controls, particle effects, and immersive audio.</p>
+
+                <h3><i class="fas fa-star"></i> Features</h3>
+                <ul>
+                    <li>Click and drag to orbit the camera around the 3D scene</li>
+                    <li>Mouse wheel zoom for getting closer or further away</li>
+                    <li>WASD keyboard controls for precise camera movement</li>
+                    <li>Particle effects that float through the scene</li>
+                    <li>Explode/collapse animation for the shape formation</li>
+                    <li>7 color schemes and 6 shape types to choose from</li>
+                    <li>Pulsing animations and dynamic lighting effects</li>
+                </ul>
+
+                <h3><i class="fas fa-cog"></i> Technical Details</h3>
+                <p>Built with p5.js WebGL for hardware-accelerated 3D graphics. All animations use smooth interpolation (lerping) for fluid motion. The particle system creates depth while the dynamic lighting responds to mouse position.</p>
+
+                <div class="modal-note">
+                    <i class="fas fa-desktop"></i>
+                    <span>This experience works best on desktop/laptop computers. Mobile devices may experience performance issues.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="1-10. Space Junk Road.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Scripts -->
+    <script src="p5.min.js"></script>
+    <script src="sketch.js"></script>
+    <script src="toolbar.js"></script>
+
+</body>
+
+</html>

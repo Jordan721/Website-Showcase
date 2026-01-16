@@ -28,7 +28,7 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 
 - **📱 Fully Responsive** — Looks stunning on phones, tablets, and desktops
 - **🌓 Modern Glass Morphism Design** — Because flat is boring!
-- **🎬 Animated Background** — Mesmerizing gradient orbs (with a toggle if you prefer zen mode)
+- **🎬 Animated Background** — Interactive constellation network with floating particles (with a toggle if you prefer zen mode)
 - **⚡ Smooth Scroll Animations** — Everything fades in just right
 - **🔄 Live GitHub Activity** — See my recent commits in real-time
 - **🧭 Floating Navigation** — Always know where you are

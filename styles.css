@@ -114,26 +114,39 @@ html {
 
 body {
     font-family: var(--font-primary);
-    background: var(--color-dark);
+    background: linear-gradient(180deg, #1a0a2e 0%, #0d0d0d 30%, #0a0a0a 100%);
+    background-attachment: fixed;
     color: var(--color-light);
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    min-height: 100vh;
 }
 
-/* animated background */
+/* Constellation animated background */
 
 .animated-background {
     position: fixed;
-    top: -30%;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 180%;
+    height: 100%;
     z-index: -1;
-    background: linear-gradient(180deg, #1a0a2e 0%, #0a0a0a 100%);
-    overflow: hidden;
+    pointer-events: none;
+}
+
+#constellationCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
     transition: opacity 0.5s ease;
-    will-change: transform;
+}
+
+.animated-background.paused #constellationCanvas {
+    opacity: 0.3;
 }
 
 .animated-background.paused .gradient-orb {

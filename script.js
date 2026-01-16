@@ -1,3 +1,139 @@
+// Constellation Background Animation
+const canvas = document.getElementById('constellationCanvas');
+const ctx = canvas.getContext('2d');
+
+let particles = [];
+let animationId;
+let isAnimating = true;
+
+// Configuration
+const config = {
+    particleCount: 80,
+    particleSize: 2,
+    lineDistance: 150,
+    particleSpeed: 0.3,
+    primaryColor: 'rgba(168, 85, 247, ',  // Purple
+    secondaryColor: 'rgba(192, 132, 252, ', // Light purple
+};
+
+// Resize canvas to window size
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+// Particle class
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * config.particleSpeed;
+        this.vy = (Math.random() - 0.5) * config.particleSpeed;
+        this.size = Math.random() * config.particleSize + 1;
+        this.opacity = Math.random() * 0.5 + 0.3;
+        this.pulseSpeed = Math.random() * 0.02 + 0.01;
+        this.pulseOffset = Math.random() * Math.PI * 2;
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Wrap around edges
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+
+        // Pulse effect
+        this.currentOpacity = this.opacity + Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 0.2;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = config.primaryColor + this.currentOpacity + ')';
+        ctx.fill();
+
+        // Glow effect
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fillStyle = config.primaryColor + (this.currentOpacity * 0.3) + ')';
+        ctx.fill();
+    }
+}
+
+// Initialize particles
+function initParticles() {
+    particles = [];
+    for (let i = 0; i < config.particleCount; i++) {
+        particles.push(new Particle());
+    }
+}
+
+// Draw lines between nearby particles
+function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < config.lineDistance) {
+                const opacity = (1 - distance / config.lineDistance) * 0.4;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = config.secondaryColor + opacity + ')';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+// Animation loop
+function animate() {
+    if (!isAnimating) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw particles
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+
+    // Draw connecting lines
+    drawLines();
+
+    animationId = requestAnimationFrame(animate);
+}
+
+// Start animation
+function startAnimation() {
+    isAnimating = true;
+    animate();
+}
+
+// Stop animation
+function stopAnimation() {
+    isAnimating = false;
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+}
+
+// Initialize
+resizeCanvas();
+initParticles();
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    initParticles();
+});
+
 // Animation toggle functionality
 const animationToggle = document.getElementById('animationToggle');
 const animatedBackground = document.getElementById('animatedBackground');
@@ -12,6 +148,9 @@ if (!animationsEnabled) {
     animationToggle.classList.add('paused');
     toggleIcon.classList.remove('fa-play');
     toggleIcon.classList.add('fa-pause');
+    stopAnimation();
+} else {
+    startAnimation();
 }
 
 animationToggle.addEventListener('click', () => {
@@ -23,12 +162,14 @@ animationToggle.addEventListener('click', () => {
         toggleIcon.classList.remove('fa-pause');
         toggleIcon.classList.add('fa-play');
         localStorage.setItem('animationsEnabled', 'true');
+        startAnimation();
     } else {
         animatedBackground.classList.add('paused');
         animationToggle.classList.add('paused');
         toggleIcon.classList.remove('fa-play');
         toggleIcon.classList.add('fa-pause');
         localStorage.setItem('animationsEnabled', 'false');
+        stopAnimation();
     }
 });
 
@@ -80,15 +221,6 @@ function reveal() {
     });
 }
 
-// Parallax effect for background
-function parallaxScroll() {
-    const scrolled = window.pageYOffset;
-    const animatedBg = document.getElementById('animatedBackground');
-    if (animatedBg && !animatedBg.classList.contains('paused')) {
-        // Move background UP slightly as you scroll down for subtle depth effect
-        animatedBg.style.transform = `translateY(${scrolled * -0.15}px)`;
-    }
-}
 
 window.addEventListener('scroll', () => {
     // Update scroll progress bar
@@ -96,9 +228,6 @@ window.addEventListener('scroll', () => {
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrollPercentage = (scrollTop / scrollHeight) * 100;
     scrollProgress.style.width = scrollPercentage + '%';
-
-    // Parallax effect
-    parallaxScroll();
 
     // Reveal animations
     reveal();

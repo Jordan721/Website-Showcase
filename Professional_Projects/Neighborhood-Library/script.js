@@ -1,3 +1,96 @@
+// ===== GOLDEN DUST PARTICLE ANIMATION =====
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+class GoldenParticle {
+    constructor() {
+        this.reset();
+    }
+
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = -Math.random() * 0.5 - 0.1;
+        this.opacity = Math.random() * 0.5 + 0.2;
+        this.fadeSpeed = Math.random() * 0.005 + 0.002;
+        this.growing = Math.random() > 0.5;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Gentle floating motion
+        this.x += Math.sin(Date.now() * 0.001 + this.y * 0.01) * 0.1;
+
+        // Fade in/out
+        if (this.growing) {
+            this.opacity += this.fadeSpeed;
+            if (this.opacity >= 0.7) this.growing = false;
+        } else {
+            this.opacity -= this.fadeSpeed;
+            if (this.opacity <= 0.1) this.growing = true;
+        }
+
+        // Reset if out of bounds
+        if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
+            this.reset();
+            this.y = canvas.height + 10;
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 162, 39, ${this.opacity})`;
+        ctx.fill();
+
+        // Glow effect
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 162, 39, ${this.opacity * 0.3})`;
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new GoldenParticle());
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+    requestAnimationFrame(animateParticles);
+}
+
+// Initialize particles
+resizeCanvas();
+initParticles();
+animateParticles();
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    initParticles();
+});
+
+// ===== LIBRARY APPLICATION =====
+
 // Library data - matching the Java application with genres
 const library = [
     { id: 1, isbn: "9780061120084", title: "To Kill a Mockingbird", genre: "Classic", author: "Harper Lee" },
@@ -184,16 +277,16 @@ function renderCheckedOutBooks() {
     });
 }
 
-// Book color palette for variety
+// Book color palette - Dark Academia theme
 const bookColors = [
-    'linear-gradient(90deg, #8b4513 0%, #a0522d 2%, #cd853f 5%, #b8860b 50%, #cd853f 95%, #a0522d 98%, #8b4513 100%)', // Brown/Gold
-    'linear-gradient(90deg, #2c1810 0%, #4a2c1a 2%, #654321 5%, #8b4513 50%, #654321 95%, #4a2c1a 98%, #2c1810 100%)', // Dark Brown
-    'linear-gradient(90deg, #556b2f 0%, #6b8e23 2%, #808000 5%, #9acd32 50%, #808000 95%, #6b8e23 98%, #556b2f 100%)', // Green
-    'linear-gradient(90deg, #8b0000 0%, #a52a2a 2%, #cd5c5c 5%, #dc143c 50%, #cd5c5c 95%, #a52a2a 98%, #8b0000 100%)', // Red
-    'linear-gradient(90deg, #191970 0%, #000080 2%, #4169e1 5%, #4682b4 50%, #4169e1 95%, #000080 98%, #191970 100%)', // Blue
-    'linear-gradient(90deg, #4a2c5c 0%, #5a3c6c 2%, #7b5d8c 5%, #9370db 50%, #7b5d8c 95%, #5a3c6c 98%, #4a2c5c 100%)', // Purple
-    'linear-gradient(90deg, #704214 0%, #8b5a2b 2%, #a0754e 5%, #d2691e 50%, #a0754e 95%, #8b5a2b 98%, #704214 100%)', // Tan
-    'linear-gradient(90deg, #2f4f4f 0%, #3d6060 2%, #5f8a8b 5%, #708090 50%, #5f8a8b 95%, #3d6060 98%, #2f4f4f 100%)', // Slate
+    'linear-gradient(90deg, #2d1f1f 0%, #4a3535 2%, #5c4040 5%, #6b4a4a 50%, #5c4040 95%, #4a3535 98%, #2d1f1f 100%)', // Dark Burgundy
+    'linear-gradient(90deg, #1a2520 0%, #2d4035 2%, #3d5545 5%, #4a6652 50%, #3d5545 95%, #2d4035 98%, #1a2520 100%)', // Forest Green
+    'linear-gradient(90deg, #1a1a2e 0%, #2d2d4a 2%, #3d3d5c 5%, #4a4a6b 50%, #3d3d5c 95%, #2d2d4a 98%, #1a1a2e 100%)', // Deep Navy
+    'linear-gradient(90deg, #2e1f1f 0%, #4a2d2d 2%, #5c3535 5%, #722f37 50%, #5c3535 95%, #4a2d2d 98%, #2e1f1f 100%)', // Wine Red
+    'linear-gradient(90deg, #1f1a15 0%, #3d3025 2%, #524030 5%, #6b5a40 50%, #524030 95%, #3d3025 98%, #1f1a15 100%)', // Antique Brown
+    'linear-gradient(90deg, #1a1520 0%, #2d2535 2%, #3d3045 5%, #4a3d55 50%, #3d3045 95%, #2d2535 98%, #1a1520 100%)', // Dusty Purple
+    'linear-gradient(90deg, #252015 0%, #403520 2%, #554528 5%, #6b5830 50%, #554528 95%, #403520 98%, #252015 100%)', // Old Gold
+    'linear-gradient(90deg, #151515 0%, #252525 2%, #353535 5%, #454545 50%, #353535 95%, #252525 98%, #151515 100%)', // Charcoal
 ];
 
 // Create book card HTML
@@ -343,13 +436,15 @@ function showNotification(message) {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #2d5016;
-        color: #f5e6d3;
-        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #1a3c2a, #2a5c4a);
+        color: #f5e6c8;
+        padding: 1.25rem 2rem;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 2000;
-        font-family: Georgia, serif;
+        border: 1px solid rgba(201, 162, 39, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        z-index: 3000;
+        font-family: 'EB Garamond', Georgia, serif;
+        font-size: 1.05rem;
         animation: slideIn 0.3s ease;
     `;
     notification.textContent = message;
@@ -701,19 +796,19 @@ function createBookCard(book, index = 0) {
 // Setup Admin Mode
 function setupAdminMode() {
     const adminToggle = document.getElementById('admin-toggle');
-    const adminIcon = adminToggle.querySelector('.admin-icon');
-    const adminText = adminToggle.querySelector('.admin-text');
+    const adminIcon = adminToggle.querySelector('i');
+    const adminText = adminToggle.querySelector('span');
 
     adminToggle.addEventListener('click', () => {
         if (!isAdminMode) {
             // Prompt for password
-            const password = prompt('Enter admin password:');
+            const password = prompt('Enter curator password:');
             if (password === ADMIN_PASSWORD) {
                 isAdminMode = true;
-                adminIcon.textContent = '🔓';
-                adminText.textContent = 'Exit Admin';
+                adminIcon.className = 'fas fa-lock-open';
+                adminText.textContent = 'Exit';
                 adminToggle.classList.add('active-admin');
-                showNotification('Admin mode enabled');
+                showNotification('Curator mode enabled');
 
                 // Refresh the current view
                 if (currentSearchTerm || currentGenre !== 'all') {
@@ -723,15 +818,15 @@ function setupAdminMode() {
                     renderCheckedOutBooks();
                 }
             } else if (password !== null) {
-                alert('Incorrect password');
+                showNotification('Incorrect password');
             }
         } else {
             // Exit admin mode
             isAdminMode = false;
-            adminIcon.textContent = '🔒';
-            adminText.textContent = 'Admin';
+            adminIcon.className = 'fas fa-key';
+            adminText.textContent = 'Curator';
             adminToggle.classList.remove('active-admin');
-            showNotification('Admin mode disabled');
+            showNotification('Curator mode disabled');
 
             // Refresh the current view
             if (currentSearchTerm || currentGenre !== 'all') {

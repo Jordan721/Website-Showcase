@@ -3,123 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neighborhood Library</title>
+    <title>The Midnight Archive | Dark Academia Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <canvas id="particleCanvas"></canvas>
+        <div class="floating-books">
+            <span class="float-book">📖</span>
+            <span class="float-book">📚</span>
+            <span class="float-book">📕</span>
+            <span class="float-book">📗</span>
+            <span class="float-book">📘</span>
+        </div>
+    </div>
+
     <div class="library-container">
-        <!-- Library Header -->
+        <!-- Ornate Header -->
         <header class="library-header">
-            <div class="header-content">
-                <h1 class="library-title">📚 Neighborhood Library</h1>
-                <p class="library-subtitle">Discover, Borrow, and Enjoy</p>
+            <div class="header-ornament top-left"></div>
+            <div class="header-ornament top-right"></div>
+            <div class="candle left-candle">
+                <div class="flame"></div>
             </div>
+            <div class="header-content">
+                <div class="header-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <h1 class="library-title">
+                    <span class="title-line">The</span>
+                    <span class="title-main">Midnight Archive</span>
+                    <span class="title-line">Est. 2025</span>
+                </h1>
+                <p class="library-subtitle">
+                    <span class="subtitle-ornament">❦</span>
+                    Where Secrets Dwell Among the Shelves
+                    <span class="subtitle-ornament">❦</span>
+                </p>
+            </div>
+            <div class="candle right-candle">
+                <div class="flame"></div>
+            </div>
+            <div class="header-ornament bottom-left"></div>
+            <div class="header-ornament bottom-right"></div>
         </header>
 
         <!-- Navigation -->
         <nav class="library-nav">
-            <div class="nav-left">
-                <button class="nav-btn active" data-view="available">Available Books</button>
-                <button class="nav-btn" data-view="checkedout">Checked Out Books</button>
-                <button class="nav-btn" id="about-btn">About This Project</button>
-            </div>
-            <div class="nav-right">
-                <button class="nav-btn admin-nav-btn" id="admin-toggle">
-                    <span class="admin-icon">🔒</span>
-                    <span class="admin-text">Admin</span>
-                </button>
-                <button class="nav-btn back-btn" onclick="window.location.href='../../index.html'">Back to Showcase</button>
+            <div class="nav-inner">
+                <div class="nav-left">
+                    <button class="nav-btn active" data-view="available">
+                        <i class="fas fa-book"></i>
+                        <span>Available</span>
+                    </button>
+                    <button class="nav-btn" data-view="checkedout">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Borrowed</span>
+                    </button>
+                    <button class="nav-btn" id="about-btn">
+                        <i class="fas fa-scroll"></i>
+                        <span>About</span>
+                    </button>
+                </div>
+                <div class="nav-right">
+                    <button class="nav-btn admin-nav-btn" id="admin-toggle">
+                        <i class="fas fa-key"></i>
+                        <span>Curator</span>
+                    </button>
+                    <a href="../../index.html" class="nav-btn back-btn">
+                        <i class="fas fa-compass"></i>
+                        <span>Return</span>
+                    </a>
+                </div>
             </div>
         </nav>
 
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-wrapper">
-                <input type="text" id="search-input" class="search-input" placeholder="Search by title, ID, ISBN, or person name...">
-                <button id="clear-search" class="clear-search-btn" style="display: none;">&times;</button>
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input type="text" id="search-input" class="search-input" placeholder="Search the archives...">
+                <button id="clear-search" class="clear-search-btn" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div id="search-results-count" class="search-results-count"></div>
         </div>
 
-        <!-- Genre Filters & Stats -->
-        <div class="filters-stats-container">
+        <!-- Genre Filters & Controls -->
+        <div class="controls-section">
             <div class="genre-filters">
-                <button class="genre-btn active" data-genre="all">All Books</button>
-                <button class="genre-btn" data-genre="Classic">Classic</button>
-                <button class="genre-btn" data-genre="Fantasy">Fantasy</button>
-                <button class="genre-btn" data-genre="Dystopian">Dystopian</button>
-                <button class="genre-btn" data-genre="Romance">Romance</button>
-                <button class="genre-btn" data-genre="Young Adult">Young Adult</button>
-                <button class="genre-btn" data-genre="Adventure">Adventure</button>
-                <button class="genre-btn" data-genre="Historical">Historical</button>
+                <button class="genre-btn active" data-genre="all">
+                    <i class="fas fa-infinity"></i> All Tomes
+                </button>
+                <button class="genre-btn" data-genre="Classic">
+                    <i class="fas fa-feather-alt"></i> Classic
+                </button>
+                <button class="genre-btn" data-genre="Fantasy">
+                    <i class="fas fa-dragon"></i> Fantasy
+                </button>
+                <button class="genre-btn" data-genre="Dystopian">
+                    <i class="fas fa-skull"></i> Dystopian
+                </button>
+                <button class="genre-btn" data-genre="Romance">
+                    <i class="fas fa-heart"></i> Romance
+                </button>
+                <button class="genre-btn" data-genre="Young Adult">
+                    <i class="fas fa-star"></i> Young Adult
+                </button>
+                <button class="genre-btn" data-genre="Adventure">
+                    <i class="fas fa-compass"></i> Adventure
+                </button>
+                <button class="genre-btn" data-genre="Historical">
+                    <i class="fas fa-landmark"></i> Historical
+                </button>
             </div>
-            <button class="stats-toggle-btn" id="stats-toggle">
-                📊 Library Stats
-            </button>
-            <button class="donate-toggle-btn" id="donate-toggle">
-                ➕ Donate Book
-            </button>
+            <div class="action-buttons">
+                <button class="action-btn stats-btn" id="stats-toggle">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Archives</span>
+                </button>
+                <button class="action-btn donate-btn" id="donate-toggle">
+                    <i class="fas fa-plus"></i>
+                    <span>Donate</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Stats Dashboard (Hidden by default) -->
+        <!-- Stats Dashboard -->
         <div id="stats-dashboard" class="stats-dashboard" style="display: none;">
             <div class="stats-header">
-                <h2>📊 Library Dashboard</h2>
-                <button class="close-stats" id="close-stats">&times;</button>
+                <h2><i class="fas fa-scroll"></i> Library Archives</h2>
+                <button class="close-stats" id="close-stats"><i class="fas fa-times"></i></button>
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">📚</div>
+                    <div class="stat-icon"><i class="fas fa-book-open"></i></div>
                     <div class="stat-value" id="total-books">0</div>
                     <div class="stat-label">Total Collection</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">✓</div>
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                     <div class="stat-value" id="available-count">0</div>
                     <div class="stat-label">Available Now</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">📖</div>
+                    <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
                     <div class="stat-value" id="checkedout-count">0</div>
-                    <div class="stat-label">Currently Out</div>
+                    <div class="stat-label">Currently Borrowed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">★</div>
+                    <div class="stat-icon"><i class="fas fa-crown"></i></div>
                     <div class="stat-value" id="popular-genre">-</div>
                     <div class="stat-label">Popular Genre</div>
                 </div>
             </div>
             <div class="recommendations-section">
-                <h3>💡 Recommended Reading</h3>
+                <h3><i class="fas fa-magic"></i> Recommended Reading</h3>
                 <div id="recommendations-list" class="recommendations-list"></div>
             </div>
         </div>
 
-        <!-- Donate Book Form (Hidden by default) -->
+        <!-- Main Content -->
+        <main class="library-main">
+            <section id="available-books" class="books-section active">
+                <div class="section-header">
+                    <div class="section-ornament left"></div>
+                    <h2 class="section-title">
+                        <i class="fas fa-feather-alt"></i>
+                        Browse Our Collection
+                    </h2>
+                    <div class="section-ornament right"></div>
+                </div>
+                <div class="bookshelf-container">
+                    <div class="bookshelf" id="available-shelf"></div>
+                    <div class="shelf-wood"></div>
+                </div>
+            </section>
+
+            <section id="checkedout-books" class="books-section">
+                <div class="section-header">
+                    <div class="section-ornament left"></div>
+                    <h2 class="section-title">
+                        <i class="fas fa-bookmark"></i>
+                        Currently Borrowed
+                    </h2>
+                    <div class="section-ornament right"></div>
+                </div>
+                <div class="bookshelf-container">
+                    <div class="bookshelf" id="checkedout-shelf"></div>
+                    <div class="shelf-wood"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Book Detail Modal -->
+        <div id="book-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close"><i class="fas fa-times"></i></span>
+                </div>
+                <div class="modal-body">
+                    <div class="book-cover-large"><i class="fas fa-book"></i></div>
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-details">
+                        <p class="modal-info"><i class="fas fa-hashtag"></i> <span id="modal-id"></span></p>
+                        <p class="modal-info"><i class="fas fa-barcode"></i> <span id="modal-isbn"></span></p>
+                        <p class="modal-info" id="modal-checkout-info"></p>
+                    </div>
+                    <div class="modal-actions" id="modal-actions"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donate Modal -->
         <div id="donate-modal" class="modal" style="display: none;">
             <div class="modal-content">
-                <span class="close donate-close">&times;</span>
+                <div class="modal-header">
+                    <span class="close donate-close"><i class="fas fa-times"></i></span>
+                </div>
                 <div class="modal-body">
-                    <div class="book-cover-large">📚</div>
-                    <h2>Donate a Book to the Library</h2>
+                    <div class="book-cover-large"><i class="fas fa-gift"></i></div>
+                    <h2>Donate a Tome</h2>
                     <form id="donate-form" class="donate-form">
                         <div class="form-group">
-                            <label for="donate-title">Book Title *</label>
+                            <label for="donate-title"><i class="fas fa-heading"></i> Title</label>
                             <input type="text" id="donate-title" required placeholder="Enter book title">
                         </div>
                         <div class="form-group">
-                            <label for="donate-author">Author *</label>
+                            <label for="donate-author"><i class="fas fa-user-edit"></i> Author</label>
                             <input type="text" id="donate-author" required placeholder="Enter author name">
                         </div>
                         <div class="form-group">
-                            <label for="donate-isbn">ISBN *</label>
-                            <input type="text" id="donate-isbn" required placeholder="e.g., 9780123456789" pattern="[0-9]{13}">
-                            <small>13-digit ISBN number</small>
+                            <label for="donate-isbn"><i class="fas fa-barcode"></i> ISBN</label>
+                            <input type="text" id="donate-isbn" required placeholder="13-digit ISBN" pattern="[0-9]{13}">
                         </div>
                         <div class="form-group">
-                            <label for="donate-genre">Genre *</label>
+                            <label for="donate-genre"><i class="fas fa-tags"></i> Genre</label>
                             <select id="donate-genre" required>
-                                <option value="">Select a genre</option>
+                                <option value="">Select genre...</option>
                                 <option value="Classic">Classic</option>
                                 <option value="Fantasy">Fantasy</option>
                                 <option value="Dystopian">Dystopian</option>
@@ -131,63 +258,35 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="donor-name">Your Name (optional)</label>
+                            <label for="donor-name"><i class="fas fa-signature"></i> Your Name</label>
                             <input type="text" id="donor-name" placeholder="Anonymous">
                         </div>
                         <div class="modal-actions">
-                            <button type="submit" class="modal-btn">Donate Book</button>
-                            <button type="button" class="modal-btn cancel-btn" id="cancel-donate">Cancel</button>
+                            <button type="submit" class="modal-btn primary-btn">
+                                <i class="fas fa-gift"></i> Donate
+                            </button>
+                            <button type="button" class="modal-btn cancel-btn" id="cancel-donate">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content Area -->
-        <main class="library-main">
-            <!-- Available Books Section -->
-            <section id="available-books" class="books-section active">
-                <h2 class="section-title">Browse Our Collection</h2>
-                <div class="bookshelf" id="available-shelf">
-                    <!-- Books will be dynamically loaded here -->
-                </div>
-            </section>
-
-            <!-- Checked Out Books Section -->
-            <section id="checkedout-books" class="books-section">
-                <h2 class="section-title">Currently Checked Out</h2>
-                <div class="bookshelf" id="checkedout-shelf">
-                    <!-- Checked out books will be displayed here -->
-                </div>
-            </section>
-        </main>
-
-        <!-- Modal for Book Details -->
-        <div id="book-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-body">
-                    <div class="book-cover-large">📖</div>
-                    <h2 id="modal-title"></h2>
-                    <p class="modal-info"><strong>ID:</strong> <span id="modal-id"></span></p>
-                    <p class="modal-info"><strong>ISBN:</strong> <span id="modal-isbn"></span></p>
-                    <p class="modal-info" id="modal-checkout-info"></p>
-                    <div class="modal-actions" id="modal-actions"></div>
-                </div>
-            </div>
-        </div>
-
         <!-- About Modal -->
         <div id="about-modal" class="modal">
-            <div class="modal-content">
-                <span class="close about-close">&times;</span>
+            <div class="modal-content about-modal">
+                <div class="modal-header">
+                    <span class="close about-close"><i class="fas fa-times"></i></span>
+                </div>
                 <div class="modal-body">
-                    <div class="book-cover-large">🎓</div>
+                    <div class="book-cover-large"><i class="fas fa-graduation-cap"></i></div>
                     <h2>About This Project</h2>
                     <div class="about-content">
-                        <p>This was a project for the <strong>Year Up App Dev Bootcamp</strong> where I had to create a library management system for a neighborhood using Java.</p>
+                        <p>This was a project for the <strong>Year Up App Dev Bootcamp</strong> where I created a library management system using Java.</p>
 
-                        <h3 style="color: #2c1810; margin-top: 1.5rem;">Original Java Features:</h3>
+                        <h3><i class="fas fa-code"></i> Original Java Features</h3>
                         <ul>
                             <li>View available books in the library</li>
                             <li>Check out books by entering your name</li>
@@ -195,27 +294,23 @@
                             <li>Return books to the library</li>
                         </ul>
 
-                        <h3 style="color: #2c1810; margin-top: 1.5rem;">Enhanced Web Features:</h3>
+                        <h3><i class="fas fa-wand-magic-sparkles"></i> Enhanced Web Features</h3>
                         <ul>
-                            <li><strong>Warm Library Theme:</strong> Cozy, traditional library aesthetic with rich wooden browns, warm tans, and elegant parchment colors - designed to feel like stepping into a classic neighborhood library</li>
-                            <li><strong>Wide Bookshelf Display:</strong> Books displayed as colorful spines on a realistic wooden bookshelf with grain texture - hover to lift a book and reveal its information with smooth bouncy animations</li>
-                            <li><strong>Interactive Hover Cards:</strong> When you hover over a book spine, it lifts up with a satisfying animation and displays a detailed info window showing title, genre, ID, ISBN, and availability status</li>
-                            <li><strong>Custom Cursors:</strong> Interactive pointer hand (👆) when hovering over books and tapping finger (👇) when clicking - best experienced on desktop</li>
-                            <li><strong>Search System:</strong> Search by title, ID, ISBN, or person name with elegant, responsive input fields</li>
-                            <li><strong>Genre Filters:</strong> Browse books by 8 different genres with beautiful ripple effect buttons (Classic, Fantasy, Dystopian, Romance, Young Adult, Adventure, Historical)</li>
-                            <li><strong>Check In/Out:</strong> Click any book to check it out or return it through polished modal windows</li>
-                            <li><strong>Stats Dashboard:</strong> View library statistics and personalized recommendations in a beautifully styled dashboard</li>
-                            <li><strong>Donate Books:</strong> Add new books with ISBN and genre information through an elegant form interface</li>
-                            <li><strong>Admin Mode:</strong> Password-protected access (password: <code style="background: #e8d4bd; padding: 0.2rem 0.5rem; border-radius: 3px; font-family: 'Courier New', monospace;">library2025</code>) to permanently remove books from the library inventory</li>
-                            <li><strong>Persistent Storage:</strong> Your data saves automatically using browser local storage</li>
-                            <li><strong>Delightful Animations:</strong> Smooth transitions, bouncy button effects, glowing hovers, and professional micro-interactions throughout</li>
+                            <li><strong>Dark Academia Theme:</strong> Elegant, moody aesthetic with gold accents and vintage typography</li>
+                            <li><strong>Animated Particles:</strong> Floating golden dust particles creating an magical atmosphere</li>
+                            <li><strong>3D Book Spines:</strong> Interactive bookshelf with lift animations on hover</li>
+                            <li><strong>Flickering Candles:</strong> Animated candle flames in the header</li>
+                            <li><strong>Search & Filter:</strong> Find books by title, ISBN, or borrower name</li>
+                            <li><strong>Genre Categories:</strong> Browse by 8 different literary genres</li>
+                            <li><strong>Stats Dashboard:</strong> View library analytics and recommendations</li>
+                            <li><strong>Donate System:</strong> Add new books to the collection</li>
+                            <li><strong>Curator Mode:</strong> Admin access (password: <code>library2025</code>) to manage inventory</li>
+                            <li><strong>Persistent Storage:</strong> Data saves automatically to browser storage</li>
                         </ul>
 
-                        <p style="margin-top: 1.5rem;"><strong>Each book has:</strong> A unique ID number, 13-digit ISBN code, title, author, and genre classification. Browse the wide bookshelf, hover over book spines to see their details, and click to check out - all with a beautiful warm library aesthetic featuring rich wooden textures, soft lighting, and that cozy bookshop atmosphere!</p>
-
                         <div class="about-links">
-                            <a href="https://github.com/Year-Up-United-SPR-2025/Workshops/tree/main/neighborhood-library" target="_blank" class="modal-btn">
-                                View Original Assignment
+                            <a href="https://github.com/Year-Up-United-SPR-2025/Workshops/tree/main/neighborhood-library" target="_blank" class="modal-btn primary-btn">
+                                <i class="fab fa-github"></i> View Original Assignment
                             </a>
                         </div>
                     </div>
@@ -225,7 +320,13 @@
 
         <!-- Footer -->
         <footer class="library-footer">
-            <p>&copy; 2025 Neighborhood Library · Open to All Book Lovers</p>
+            <div class="footer-ornament"></div>
+            <p>
+                <i class="fas fa-book-open"></i>
+                The Midnight Archive · Est. 2025
+                <i class="fas fa-book-open"></i>
+            </p>
+            <p class="footer-quote">"In the midnight hour, the books whisper their secrets to those who listen." — Unknown</p>
         </footer>
     </div>
 

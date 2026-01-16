@@ -24,9 +24,9 @@
     <div class="content-wrapper" id="mainContent">
         <h1>Interactive Orbit Control</h1>
 
-        <p class="subtitle">Control the 3D space with your mouse, keyboard, or potentiometers</p>
+        <p class="subtitle">Immersive 3D space controlled entirely with mouse and keyboard</p>
 
-        <p class="info-text">Use Potentiometers to move left or right on axis. (May work slow on certain browsers and or computers with low video memory.)</p>
+        <p class="info-text">Click and drag to orbit, scroll to zoom, or use keyboard shortcuts for full control!</p>
 
         <!-- Interactive Controls Panel -->
         <div class="controls-panel">
@@ -34,14 +34,25 @@
                 <button id="toggleRotation" class="control-btn">Pause Rotation</button>
                 <button id="resetView" class="control-btn">Reset View</button>
                 <button id="randomColors" class="control-btn">Random Colors</button>
-                <button id="toggleMusic" class="control-btn">Play Music</button>
-                <button id="aboutProject" class="control-btn">About This Project</button>
+                <button id="explodeShapes" class="control-btn accent">Explode</button>
+                <button id="toggleParticles" class="control-btn">Hide Particles</button>
+            </div>
+
+            <div class="control-group">
+                <button id="toggleMusic" class="control-btn secondary">Play Music</button>
+                <button id="aboutProject" class="control-btn secondary">About This Project</button>
             </div>
 
             <div class="control-group">
                 <label for="rotationSpeed">Rotation Speed:</label>
                 <input type="range" id="rotationSpeed" min="0" max="10" value="2" step="0.5">
-                <span id="speedValue">2x</span>
+                <span id="speedValue">1x</span>
+            </div>
+
+            <div class="control-group">
+                <label for="zoomLevel">Zoom Level:</label>
+                <input type="range" id="zoomLevel" min="0.3" max="3" value="1" step="0.1">
+                <span id="zoomValue">100%</span>
             </div>
 
             <div class="control-group">
@@ -51,6 +62,8 @@
                     <option value="cones">Cones Only</option>
                     <option value="boxes">Boxes Only</option>
                     <option value="spheres">Spheres Only</option>
+                    <option value="torus">Torus Only</option>
+                    <option value="cylinders">Cylinders Only</option>
                 </select>
             </div>
 
@@ -61,19 +74,34 @@
                     <option value="neon">Neon</option>
                     <option value="rainbow">Rainbow</option>
                     <option value="monochrome">Monochrome</option>
+                    <option value="fire">Fire</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="matrix">Matrix</option>
                 </select>
             </div>
         </div>
 
         <!-- Instructions -->
         <div class="instructions">
-            <h3>Controls:</h3>
+            <h3>Mouse Controls:</h3>
             <ul>
-                <li><strong>Mouse:</strong> Move to orbit camera</li>
-                <li><strong>Arrow Keys:</strong> Fine-tune camera position</li>
-                <li><strong>Space:</strong> Toggle auto-rotation</li>
+                <li><strong>Click + Drag:</strong> Orbit around the scene</li>
+                <li><strong>Scroll Wheel:</strong> Zoom in/out</li>
+                <li><strong>Move Mouse:</strong> Subtle camera tracking</li>
+            </ul>
+
+            <h3>Keyboard Controls:</h3>
+            <ul>
+                <li><strong>W/A/S/D:</strong> Orbit camera around scene</li>
+                <li><strong>Q/E:</strong> Zoom out/in</li>
+                <li><strong>Arrow Keys:</strong> Pan camera</li>
+                <li><strong>Space:</strong> Pause/resume rotation</li>
+                <li><strong>X:</strong> Explode/collapse shapes</li>
+                <li><strong>P:</strong> Toggle particles</li>
+                <li><strong>C:</strong> Cycle color schemes</li>
                 <li><strong>R:</strong> Reset view</li>
-                <li><strong>C:</strong> Cycle colors</li>
+                <li><strong>1-6:</strong> Quick shape modes</li>
+                <li><strong>+/-:</strong> Adjust rotation speed</li>
             </ul>
         </div>
     </div>
@@ -89,18 +117,24 @@
             <p>This was my final project for class, created to demonstrate interactive user experiences in 3D space.</p>
 
             <h3>Project Goals</h3>
-            <p>The assignment was to create something that users could interact with in meaningful ways. This interactive orbital visualization is what I came up with - combining 3D graphics, responsive controls, and immersive audio.</p>
+            <p>The assignment was to create something that users could interact with in meaningful ways. This interactive orbital visualization combines 3D graphics, responsive controls, particle effects, and immersive audio.</p>
 
-            <h3>Arduino Integration</h3>
-            <p>This project was originally designed to work with an <strong>Arduino</strong> microcontroller using physical potentiometers (rotary knobs and dials). The Arduino would read the analog input from these physical controls and send the data through a serial port to control the 3D camera movement.</p>
+            <h3>Features</h3>
+            <ul style="color: #e0e7ff; line-height: 1.8; margin: 15px 0;">
+                <li>Click and drag to orbit the camera around the 3D scene</li>
+                <li>Mouse wheel zoom for getting closer or further away</li>
+                <li>WASD keyboard controls for precise camera movement</li>
+                <li>Particle effects that float through the scene</li>
+                <li>Explode/collapse animation for the shape formation</li>
+                <li>7 color schemes and 6 shape types to choose from</li>
+                <li>Pulsing animations and dynamic lighting effects</li>
+            </ul>
 
-            <p>However, since most users don't have access to an Arduino and the necessary hardware setup, I adapted the project to use <strong>mouse and keyboard controls</strong> as an alternative input method. This way, everyone can experience and interact with the visualization!</p>
-
-            <h3>How It Works</h3>
-            <p>The code still maintains the serial port functionality for those who do have Arduino hardware. If you have an Arduino with two potentiometers connected to analog inputs, you can use them to control the orbital camera by adjusting the physical knobs and dials.</p>
+            <h3>Technical Details</h3>
+            <p>Built with p5.js WebGL for hardware-accelerated 3D graphics. All animations use smooth interpolation (lerping) for fluid motion. The particle system creates depth while the dynamic lighting responds to mouse position.</p>
 
             <h3>Important Note</h3>
-            <p><strong>⚠️ Disclaimer:</strong> This website works best on desktop/laptop computers. Mobile devices are not fully supported and may experience performance issues or limited functionality. For the optimal experience, please view on a web browser on your computer. Sorry for any inconvenience!</p>
+            <p><strong>Note:</strong> This website works best on desktop/laptop computers. Mobile devices may experience performance issues. For the optimal experience, please view on a web browser on your computer.</p>
         </div>
     </div>
 
@@ -112,7 +146,6 @@
 
     <!-- Scripts -->
     <script src="p5.min.js"></script>
-    <script src="p5.serialport.js"></script>
     <script src="sketch.js"></script>
 
 </body>

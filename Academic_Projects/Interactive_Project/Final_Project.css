@@ -192,6 +192,26 @@ h1 {
     transform: translateY(0);
 }
 
+.control-btn.accent {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+    box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+}
+
+.control-btn.accent:hover {
+    background: linear-gradient(135deg, #e11d48, #be123c);
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.6);
+}
+
+.control-btn.secondary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.control-btn.secondary:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
 input[type="range"] {
     width: 200px;
     height: 6px;
@@ -237,11 +257,11 @@ input[type="range"]::-moz-range-thumb {
     background: rgba(59, 130, 246, 0.2);
 }
 
-#speedValue {
+#speedValue, #zoomValue {
     font-family: Arial, sans-serif;
     color: #60a5fa;
     font-weight: bold;
-    min-width: 40px;
+    min-width: 50px;
 }
 
 /* Instructions */

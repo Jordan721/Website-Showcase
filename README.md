@@ -137,7 +137,7 @@ Development-Showcase/
 ├── 📁 Academic_Projects/      # School & coursework projects
 │   ├── RunLikeAG.U.R.L/
 │   ├── Social_Com's_Final/
-│   ├── Interactive_Project/
+│   ├── Orbit_Control/
 │   └── Dimensional_Playground/ # Immersive WebVR experience
 ├── 📁 Professional_Projects/  # Bootcamp & professional work
 │   ├── DarkModes/

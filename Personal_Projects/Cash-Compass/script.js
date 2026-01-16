@@ -21,10 +21,10 @@ const categories = {
     ]
 };
 
-// === Chart Colors ===
+// === Chart Colors (matching new theme) ===
 const chartColors = [
-    '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
-    '#06B6D4', '#EC4899', '#14B8A6', '#F97316', '#6366F1'
+    '#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+    '#06b6d4', '#ec4899', '#14b8a6', '#f97316', '#3b82f6'
 ];
 
 // === State Management ===
@@ -105,11 +105,11 @@ function attachEventListeners() {
     budgetForm.addEventListener('submit', handleSetBudgets);
 
     // New button listeners
-    sampleDataBtn.addEventListener('click', toggleSampleData);
-    aboutBtn.addEventListener('click', () => aboutModal.classList.add('active'));
-    closeAboutModal.addEventListener('click', () => aboutModal.classList.remove('active'));
-    backBtn.addEventListener('click', () => window.location.href = '../../index.html');
-    clearAllBtn.addEventListener('click', handleClearAll);
+    if (sampleDataBtn) sampleDataBtn.addEventListener('click', toggleSampleData);
+    if (aboutBtn) aboutBtn.addEventListener('click', () => aboutModal.classList.add('active'));
+    if (closeAboutModal) closeAboutModal.addEventListener('click', () => aboutModal.classList.remove('active'));
+    if (backBtn) backBtn.addEventListener('click', () => window.location.href = '../../index.html');
+    if (clearAllBtn) clearAllBtn.addEventListener('click', handleClearAll);
 
     // Close modals on outside click
     budgetModal.addEventListener('click', (e) => {
@@ -409,32 +409,47 @@ function createExpenseChart() {
             datasets: [{
                 data: data,
                 backgroundColor: chartColors,
-                borderWidth: 0,
-                borderRadius: 4
+                borderWidth: 3,
+                borderColor: document.body.classList.contains('light-mode') ? '#ffffff' : '#1a1a2e',
+                borderRadius: 6,
+                hoverBorderWidth: 0,
+                hoverOffset: 8,
+                spacing: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '65%',
             plugins: {
                 legend: {
                     display: false
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
+                    backgroundColor: 'rgba(15, 15, 26, 0.95)',
+                    titleColor: '#f8fafc',
+                    bodyColor: '#94a3b8',
+                    borderColor: 'rgba(99, 102, 241, 0.3)',
+                    borderWidth: 1,
+                    padding: 14,
+                    cornerRadius: 10,
                     titleFont: { size: 14, weight: '600' },
                     bodyFont: { size: 13 },
+                    displayColors: true,
+                    boxPadding: 6,
                     callbacks: {
                         label: function(context) {
-                            const label = context.label || '';
                             const value = formatCurrency(context.parsed);
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
                             const percentage = ((context.parsed / total) * 100).toFixed(1);
-                            return `${label}: ${value} (${percentage}%)`;
+                            return ` ${value} (${percentage}%)`;
                         }
                     }
                 }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true
             }
         }
     });
@@ -475,9 +490,9 @@ function createTrendChart() {
         return;
     }
 
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-    const textColor = isDarkMode ? '#D1D5DB' : '#6B7280';
+    const isLightMode = document.body.classList.contains('light-mode');
+    const gridColor = isLightMode ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
+    const textColor = isLightMode ? '#64748b' : '#94a3b8';
 
     trendChart = new Chart(ctx, {
         type: 'line',
@@ -487,24 +502,36 @@ function createTrendChart() {
                 {
                     label: 'Income',
                     data: monthsData.income,
-                    borderColor: '#10B981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: isLightMode ? '#ffffff' : '#1a1a2e',
+                    pointBorderWidth: 2,
+                    pointHoverBackgroundColor: '#10b981',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 3
                 },
                 {
                     label: 'Expenses',
                     data: monthsData.expenses,
-                    borderColor: '#EF4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: '#ef4444',
+                    pointBorderColor: isLightMode ? '#ffffff' : '#1a1a2e',
+                    pointBorderWidth: 2,
+                    pointHoverBackgroundColor: '#ef4444',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 3
                 }
             ]
         },
@@ -522,19 +549,25 @@ function createTrendChart() {
                     labels: {
                         color: textColor,
                         font: { size: 13, weight: '600' },
-                        padding: 15,
+                        padding: 20,
                         usePointStyle: true,
                         pointStyle: 'circle'
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
+                    backgroundColor: 'rgba(15, 15, 26, 0.95)',
+                    titleColor: '#f8fafc',
+                    bodyColor: '#94a3b8',
+                    borderColor: 'rgba(99, 102, 241, 0.3)',
+                    borderWidth: 1,
+                    padding: 14,
+                    cornerRadius: 10,
                     titleFont: { size: 14, weight: '600' },
                     bodyFont: { size: 13 },
+                    boxPadding: 6,
                     callbacks: {
                         label: function(context) {
-                            return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
+                            return ` ${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                         }
                     }
                 }

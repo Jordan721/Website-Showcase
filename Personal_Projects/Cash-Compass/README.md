@@ -1,6 +1,6 @@
 # 🧭 Cash Compass
 
-Navigate your finances with confidence! A web application demonstrating data analytics and visualization techniques using HTML, CSS, JavaScript, and Chart.js. This project showcases interactive data management, real-time calculations, and dynamic chart rendering in a practical finance tracking context.
+Navigate your finances with confidence! A premium financial dashboard demonstrating modern web design with glassmorphism effects, animated backgrounds, and interactive data visualization using Chart.js.
 
 ## ✨ Features
 
@@ -10,19 +10,20 @@ Navigate your finances with confidence! A web application demonstrating data ana
 - **📊 Data Visualization** - Interactive charts showing expense breakdown and monthly trends
 - **🧮 Smart Analytics** - Automatic calculation of savings rate, net balance, and monthly changes
 - **📤 Data Export** - Export your financial data as CSV or JSON files
+- **🔍 Search** - Real-time search filtering for transactions
 
-### 🎨 User Experience
-- **🌙 Dark Mode** - Toggle between light and dark themes with persistent preference
-- **📱 Responsive Design** - Fully optimized for mobile, tablet, and desktop
-- **⚡ Real-time Updates** - All charts and statistics update instantly
-- **💾 Local Storage** - All data persists in your browser (no server required)
-- **🔍 Filter & Search** - Filter transactions by type and category
-- **✨ Premium Animations** - Gradient cards, smooth hover effects, and delightful interactions
+### 🎨 Premium UI Design
+- **🌌 Animated Background** - Floating gradient orbs with subtle animations
+- **🪟 Glassmorphism** - Semi-transparent cards with backdrop blur effects
+- **📱 Sidebar Navigation** - Fixed sidebar with smooth scroll navigation
+- **🌙 Dark/Light Themes** - Dark mode by default with light mode toggle
+- **✨ Hover Glow Effects** - Cards glow with theme colors on hover
+- **📱 Fully Responsive** - Collapsible sidebar on mobile, adaptive grid layouts
 
 ## 🛠️ Tech Stack
 
-- **HTML5** 📄 - Semantic markup structure
-- **CSS3** 🎨 - Premium gradient design with smooth animations
+- **HTML5** 📄 - Semantic markup with modern structure
+- **CSS3** 🎨 - Glassmorphism, CSS Grid, Flexbox, animations
 - **JavaScript (Vanilla)** ⚡ - No frameworks, pure JavaScript
 - **Chart.js** 📊 - Beautiful, responsive charts
 - **Font Awesome** 🎭 - Icon library
@@ -74,10 +75,11 @@ The dashboard automatically calculates:
 ## 🚀 Usage
 
 ### ➕ Adding Transactions
-1. Select transaction type (Income or Expense)
+1. Use the Income/Expense toggle buttons in the Quick Add panel
 2. Choose category from dropdown
 3. Enter amount, date, and description
 4. Click "Add Transaction"
+5. Or click the green "Add Transaction" button in the top bar to scroll to the form
 
 ### 🎯 Setting Budgets
 1. Click "Set Budgets" button
@@ -90,10 +92,11 @@ The dashboard automatically calculates:
 2. Choose format (CSV for Excel/Sheets, JSON for backup)
 3. File downloads automatically
 
-### 🌙 Dark Mode
-- Click the moon/sun icon in the header
+### 🌙 Dark/Light Mode
+- Dark mode is the default theme
+- Click the moon/sun icon in the top bar to toggle
 - Preference saved automatically
-- Charts adapt to theme
+- All UI elements adapt to theme
 
 ## 💻 Installation
 
@@ -147,9 +150,11 @@ Cash-Compass/
 Edit CSS variables in `styles.css`:
 ```css
 :root {
-    --primary-color: #2563EB;      /* Blue */
-    --secondary-color: #10B981;    /* Green */
-    --accent-color: #06B6D4;       /* Cyan */
+    --primary: #6366f1;       /* Indigo */
+    --secondary: #10b981;     /* Emerald */
+    --accent: #06b6d4;        /* Cyan */
+    --purple: #8b5cf6;        /* Purple */
+    --danger: #ef4444;        /* Red */
 }
 ```
 

@@ -10,220 +10,322 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-gradient"></div>
+        <div class="bg-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
                     <i class="fas fa-compass"></i>
-                    <h1>Cash Compass</h1>
                 </div>
-                <div class="header-controls">
-                    <button class="btn-icon" id="sampleDataBtn" aria-label="Toggle sample data" title="Load Sample Data">
-                        <i class="fas fa-database"></i>
-                    </button>
-                    <button class="btn-icon" id="aboutBtn" aria-label="About this project" title="About">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                    <button class="btn-icon" id="backBtn" aria-label="Back to showcase" title="Back to Showcase">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <button class="btn-icon" id="darkModeToggle" aria-label="Toggle dark mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="btn-export" id="exportBtn">
-                        <i class="fas fa-download"></i>
-                        <span>Export Data</span>
-                    </button>
-                </div>
+                <span class="logo-text">Cash Compass</span>
             </div>
         </div>
-    </header>
 
-    <!-- Main Dashboard -->
-    <main class="dashboard">
-        <div class="container">
+        <nav class="sidebar-nav">
+            <a href="#overview" class="nav-item active" data-section="overview">
+                <i class="fas fa-th-large"></i>
+                <span>Overview</span>
+            </a>
+            <a href="#transactions" class="nav-item" data-section="transactions">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="#analytics" class="nav-item" data-section="analytics">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#budget" class="nav-item" data-section="budget">
+                <i class="fas fa-bullseye"></i>
+                <span>Budget</span>
+            </a>
+        </nav>
 
-            <!-- Summary Cards -->
-            <section class="summary-section">
-                <div class="card summary-card income-card">
-                    <div class="card-icon income">
-                        <i class="fas fa-arrow-trend-up"></i>
+        <div class="sidebar-footer">
+            <button class="sidebar-btn" id="sampleDataBtn" title="Load Sample Data">
+                <i class="fas fa-database"></i>
+                <span>Sample Data</span>
+            </button>
+            <button class="sidebar-btn" id="aboutBtn" title="About">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </button>
+            <a href="../../index.html" class="sidebar-btn" title="Back to Showcase">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Financial Overview</h1>
+                    <p class="page-subtitle">Track your money, achieve your goals</p>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search transactions..." id="searchInput">
+                </div>
+                <button class="topbar-btn" id="darkModeToggle" title="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="topbar-btn primary" id="exportBtn" title="Export Data">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="add-btn" id="quickAddBtn">
+                    <i class="fas fa-plus"></i>
+                    <span>Add Transaction</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            <!-- Summary Cards Row -->
+            <section class="summary-section" id="overview">
+                <div class="summary-card income-card">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon income">
+                            <i class="fas fa-arrow-trend-up"></i>
+                        </div>
+                        <div class="card-badge positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="incomeChange">0%</span>
+                        </div>
                     </div>
                     <div class="card-content">
                         <p class="card-label">Total Income</p>
                         <h2 class="card-value" id="totalIncome">$0.00</h2>
-                        <p class="card-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span id="incomeChange">0%</span> from last month
-                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <span>vs last month</span>
                     </div>
                 </div>
 
-                <div class="card summary-card expense-card">
-                    <div class="card-icon expense">
-                        <i class="fas fa-arrow-trend-down"></i>
+                <div class="summary-card expense-card">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon expense">
+                            <i class="fas fa-arrow-trend-down"></i>
+                        </div>
+                        <div class="card-badge negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span id="expenseChange">0%</span>
+                        </div>
                     </div>
                     <div class="card-content">
                         <p class="card-label">Total Expenses</p>
                         <h2 class="card-value" id="totalExpenses">$0.00</h2>
-                        <p class="card-change negative">
-                            <i class="fas fa-arrow-down"></i>
-                            <span id="expenseChange">0%</span> from last month
-                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <span>vs last month</span>
                     </div>
                 </div>
 
-                <div class="card summary-card balance-card">
-                    <div class="card-icon balance">
-                        <i class="fas fa-chart-line"></i>
+                <div class="summary-card balance-card">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon balance">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="card-badge" id="balanceChange">
+                            <i class="fas fa-minus"></i>
+                            <span>0%</span>
+                        </div>
                     </div>
                     <div class="card-content">
                         <p class="card-label">Net Balance</p>
                         <h2 class="card-value" id="netBalance">$0.00</h2>
-                        <p class="card-change" id="balanceChange">
-                            <i class="fas fa-minus"></i>
-                            <span>0%</span> from last month
-                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <span>current period</span>
                     </div>
                 </div>
 
-                <div class="card summary-card savings-card">
-                    <div class="card-icon savings">
-                        <i class="fas fa-piggy-bank"></i>
+                <div class="summary-card savings-card">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon savings">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="card-badge neutral">
+                            <i class="fas fa-percentage"></i>
+                        </div>
                     </div>
                     <div class="card-content">
                         <p class="card-label">Savings Rate</p>
                         <h2 class="card-value" id="savingsRate">0%</h2>
-                        <p class="card-info">of income saved</p>
+                    </div>
+                    <div class="card-footer">
+                        <span>of income saved</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Add Transaction Section -->
-            <section class="add-transaction-section">
-                <div class="card">
-                    <h3 class="section-title">
-                        <i class="fas fa-plus-circle"></i>
-                        Add Transaction
-                    </h3>
-                    <form id="transactionForm" class="transaction-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="transactionType">Type</label>
-                                <select id="transactionType" required>
+            <!-- Main Grid Layout -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-col-main">
+                    <!-- Charts Section -->
+                    <section class="charts-section" id="analytics">
+                        <div class="card chart-card">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-pie"></i>
+                                Expense Breakdown
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="expenseChart"></canvas>
+                            </div>
+                            <div class="chart-legend" id="expenseLegend"></div>
+                        </div>
+
+                        <div class="card chart-card">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-area"></i>
+                                Monthly Trends
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Budget Section -->
+                    <section class="budget-section" id="budget">
+                        <div class="card">
+                            <div class="card-header-row">
+                                <h3 class="section-title">
+                                    <i class="fas fa-bullseye"></i>
+                                    Budget vs Actual
+                                </h3>
+                                <button class="btn-secondary" id="setBudgetBtn">
+                                    <i class="fas fa-sliders"></i>
+                                    Set Budgets
+                                </button>
+                            </div>
+                            <div class="budget-list" id="budgetList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-col-side">
+                    <!-- Quick Add Transaction -->
+                    <section class="add-transaction-section">
+                        <div class="card glass-card">
+                            <h3 class="section-title">
+                                <i class="fas fa-plus-circle"></i>
+                                Quick Add
+                            </h3>
+                            <form id="transactionForm" class="transaction-form">
+                                <div class="form-group">
+                                    <label for="transactionType">Type</label>
+                                    <div class="toggle-group">
+                                        <input type="radio" id="typeIncome" name="transactionType" value="income" checked>
+                                        <label for="typeIncome" class="toggle-btn income">
+                                            <i class="fas fa-arrow-up"></i> Income
+                                        </label>
+                                        <input type="radio" id="typeExpense" name="transactionType" value="expense">
+                                        <label for="typeExpense" class="toggle-btn expense">
+                                            <i class="fas fa-arrow-down"></i> Expense
+                                        </label>
+                                    </div>
+                                    <!-- Hidden select for JS compatibility -->
+                                    <select id="transactionType" style="display:none;">
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transactionAmount">Amount</label>
+                                    <div class="amount-input">
+                                        <span class="currency">$</span>
+                                        <input type="number" id="transactionAmount" step="0.01" min="0" placeholder="0.00" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transactionCategory">Category</label>
+                                    <select id="transactionCategory" required>
+                                        <!-- Populated dynamically -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transactionDate">Date</label>
+                                    <input type="date" id="transactionDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transactionDescription">Description</label>
+                                    <input type="text" id="transactionDescription" placeholder="What's this for?" required>
+                                </div>
+                                <button type="submit" class="btn-primary">
+                                    <i class="fas fa-plus"></i>
+                                    Add Transaction
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- Recent Transactions -->
+                    <section class="transactions-section" id="transactions">
+                        <div class="card">
+                            <div class="card-header-row">
+                                <h3 class="section-title">
+                                    <i class="fas fa-clock-rotate-left"></i>
+                                    Recent Activity
+                                </h3>
+                                <button class="action-btn danger" id="clearAllBtn" title="Clear All">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                            <div class="transaction-filters">
+                                <select id="filterType" class="filter-select">
+                                    <option value="all">All Types</option>
                                     <option value="income">Income</option>
                                     <option value="expense">Expense</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="transactionCategory">Category</label>
-                                <select id="transactionCategory" required>
-                                    <!-- Populated dynamically -->
+                                <select id="filterCategory" class="filter-select">
+                                    <option value="all">All Categories</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="transactionAmount">Amount ($)</label>
-                                <input type="number" id="transactionAmount" step="0.01" min="0" placeholder="0.00" required>
+                            <div class="transactions-list" id="transactionsList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-receipt"></i>
+                                    </div>
+                                    <p>No transactions yet</p>
+                                    <span>Add your first transaction to get started!</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="transactionDate">Date</label>
-                                <input type="date" id="transactionDate" required>
-                            </div>
-                            <div class="form-group flex-2">
-                                <label for="transactionDescription">Description</label>
-                                <input type="text" id="transactionDescription" placeholder="e.g., Grocery shopping" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-plus"></i>
-                            Add Transaction
-                        </button>
-                    </form>
+                    </section>
                 </div>
-            </section>
-
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <div class="card chart-card">
-                    <h3 class="section-title">
-                        <i class="fas fa-chart-pie"></i>
-                        Expense Breakdown
-                    </h3>
-                    <div class="chart-container">
-                        <canvas id="expenseChart"></canvas>
-                    </div>
-                    <div class="chart-legend" id="expenseLegend"></div>
-                </div>
-
-                <div class="card chart-card">
-                    <h3 class="section-title">
-                        <i class="fas fa-chart-line"></i>
-                        Monthly Trends
-                    </h3>
-                    <div class="chart-container">
-                        <canvas id="trendChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Budget vs Actual Section -->
-            <section class="budget-section">
-                <div class="card">
-                    <h3 class="section-title">
-                        <i class="fas fa-bullseye"></i>
-                        Budget vs Actual
-                    </h3>
-                    <div class="budget-controls">
-                        <button class="btn-secondary" id="setBudgetBtn">
-                            <i class="fas fa-sliders"></i>
-                            Set Budgets
-                        </button>
-                    </div>
-                    <div class="budget-list" id="budgetList">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recent Transactions -->
-            <section class="transactions-section">
-                <div class="card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-clock-rotate-left"></i>
-                            Recent Transactions
-                        </h3>
-                        <div class="transaction-filters">
-                            <select id="filterType" class="filter-select">
-                                <option value="all">All Types</option>
-                                <option value="income">Income Only</option>
-                                <option value="expense">Expense Only</option>
-                            </select>
-                            <select id="filterCategory" class="filter-select">
-                                <option value="all">All Categories</option>
-                            </select>
-                            <button class="btn-icon" id="clearAllBtn" aria-label="Clear all transactions" title="Clear All Transactions">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="transactions-list" id="transactionsList">
-                        <div class="empty-state">
-                            <i class="fas fa-receipt"></i>
-                            <p>No transactions yet. Add your first transaction above!</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </main>
+            </div>
+        </main>
+    </div>
 
     <!-- Budget Modal -->
     <div class="modal" id="budgetModal">
@@ -329,5 +431,116 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // New UI enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle buttons sync with hidden select
+            const typeIncome = document.getElementById('typeIncome');
+            const typeExpense = document.getElementById('typeExpense');
+            const typeSelect = document.getElementById('transactionType');
+
+            if (typeIncome && typeExpense && typeSelect) {
+                typeIncome.addEventListener('change', function() {
+                    if (this.checked) {
+                        typeSelect.value = 'income';
+                        typeSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+
+                typeExpense.addEventListener('change', function() {
+                    if (this.checked) {
+                        typeSelect.value = 'expense';
+                        typeSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.querySelector('.sidebar');
+
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('open');
+                });
+
+                // Close sidebar when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            }
+
+            // Smooth scroll navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    const section = this.getAttribute('data-section');
+                    if (section) {
+                        e.preventDefault();
+                        const target = document.getElementById(section);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        // Update active state
+                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                        // Close mobile sidebar
+                        if (sidebar) sidebar.classList.remove('open');
+                    }
+                });
+            });
+
+            // Quick add button scroll
+            const quickAddBtn = document.getElementById('quickAddBtn');
+            if (quickAddBtn) {
+                quickAddBtn.addEventListener('click', function() {
+                    const form = document.getElementById('transactionForm');
+                    if (form) {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        const amountInput = document.getElementById('transactionAmount');
+                        if (amountInput) amountInput.focus();
+                    }
+                });
+            }
+
+            // Dark mode uses light-mode class now (dark is default)
+            const darkToggle = document.getElementById('darkModeToggle');
+            if (darkToggle) {
+                // Check existing preference
+                if (localStorage.getItem('darkMode') === 'false') {
+                    document.body.classList.add('light-mode');
+                    darkToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('light-mode');
+                    const isLight = document.body.classList.contains('light-mode');
+                    localStorage.setItem('darkMode', !isLight);
+                    const icon = this.querySelector('i');
+                    if (isLight) {
+                        icon.classList.replace('fa-moon', 'fa-sun');
+                    } else {
+                        icon.classList.replace('fa-sun', 'fa-moon');
+                    }
+                });
+            }
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    document.querySelectorAll('.transaction-item').forEach(item => {
+                        const desc = item.querySelector('.transaction-description');
+                        if (desc) {
+                            const text = desc.textContent.toLowerCase();
+                            item.style.display = text.includes(query) ? '' : 'none';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

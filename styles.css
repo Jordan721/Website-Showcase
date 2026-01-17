@@ -626,10 +626,48 @@ body {
 
 .folder-symbol {
     font-size: 2rem;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .folder-symbol i {
-    transition: color var(--transition-base);
+    transition: color var(--transition-base), transform 0.3s ease, opacity 0.25s ease;
+}
+
+/* Folder open/close icon swap */
+.folder-symbol .folder-closed {
+    position: absolute;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.folder-symbol .folder-open {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+}
+
+.category-section.active .folder-symbol .folder-closed {
+    opacity: 0;
+    transform: scale(0.5) rotate(10deg);
+}
+
+.category-section.active .folder-symbol .folder-open {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+/* Folder hover effect */
+.category-header:hover .folder-symbol i {
+    transform: scale(1.15);
+}
+
+.category-section.active .category-header:hover .folder-symbol .folder-open {
+    transform: scale(1.15);
 }
 
 /* Folder colors - light to dark gradient */
@@ -670,6 +708,25 @@ body {
     overflow: visible;
     transition: max-height 0.4s ease, padding 0.4s ease, overflow 0s;
 }
+
+/* Staggered project card animations */
+.category-content .project-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all var(--transition-base), opacity 0.4s ease, transform 0.4s ease;
+}
+
+.category-section.active .category-content .project-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.category-section.active .category-content .project-card:nth-child(1) { transition-delay: 0.05s; }
+.category-section.active .category-content .project-card:nth-child(2) { transition-delay: 0.1s; }
+.category-section.active .category-content .project-card:nth-child(3) { transition-delay: 0.15s; }
+.category-section.active .category-content .project-card:nth-child(4) { transition-delay: 0.2s; }
+.category-section.active .category-content .project-card:nth-child(5) { transition-delay: 0.25s; }
+.category-section.active .category-content .project-card:nth-child(6) { transition-delay: 0.3s; }
 
 /* projects grid */
 

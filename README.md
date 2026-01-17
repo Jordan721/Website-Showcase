@@ -34,6 +34,7 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 - **🔄 Live GitHub Activity** — See my recent commits in real-time
 - **🧭 Floating Navigation** — Always know where you are
 - **🎨 Dynamic Color System** — Folder icons and project cards adapt to your chosen theme color
+- **📂 Animated Folders** — Folder icons swap from closed to open with smooth transitions, plus staggered card reveals
 
 ### 🗂️ Project Categories
 
@@ -177,6 +178,8 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 - 📱 The scroll indicator changes from a mouse to a phone on mobile devices
 - 🌟 The favicon is a custom SVG constellation network matching the animated background
 - 📁 Folder icons use a light-to-dark gradient across the three categories
+- 📂 Folders animate between closed/open icons with a satisfying rotate & scale effect
+- 🎴 Project cards cascade in one-by-one when a folder opens
 
 ---
 

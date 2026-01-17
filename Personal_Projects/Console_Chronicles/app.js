@@ -368,7 +368,12 @@ function createTimelineChart() {
             scales: {
                 x: {
                     title: { display: true, text: 'Release Year', color: '#f1f5f9' },
-                    ticks: { color: '#cbd5e1' },
+                    ticks: {
+                        color: '#cbd5e1',
+                        callback: function(value) {
+                            return value.toString();
+                        }
+                    },
                     grid: { color: 'rgba(71, 85, 105, 0.3)' }
                 },
                 y: {

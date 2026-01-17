@@ -413,6 +413,40 @@
             to { transform: rotate(360deg); }
         }
 
+        /* VR Button Styling */
+        .a-enter-vr-button {
+            bottom: 85px !important;
+            right: 20px !important;
+            background: linear-gradient(135deg, rgba(170, 150, 218, 0.9) 0%, rgba(130, 110, 180, 0.9) 100%) !important;
+            border: none !important;
+            border-radius: 14px !important;
+            padding: 14px 20px !important;
+            font-family: 'Orbitron', sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            box-shadow: 0 4px 15px rgba(170, 150, 218, 0.4) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .a-enter-vr-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .a-enter-vr-button:hover {
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(170, 150, 218, 0.5) !important;
+        }
+
+        .a-enter-vr-button .vr-icon {
+            font-size: 16px;
+            margin-right: 6px;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             #info-panel, #about-panel {
@@ -473,6 +507,13 @@
             .modal-btn {
                 padding: 12px 20px;
                 font-size: 13px;
+            }
+
+            .a-enter-vr-button {
+                bottom: 145px !important;
+                right: 10px !important;
+                padding: 10px 14px !important;
+                font-size: 10px !important;
             }
         }
     </style>
@@ -865,6 +906,15 @@
             scene.addEventListener('loaded', function() {
                 setTimeout(() => {
                     loadingScreen.classList.add('hidden');
+                    // Show VR button after loading screen fades
+                    setTimeout(() => {
+                        const vrButton = document.querySelector('.a-enter-vr-button');
+                        if (vrButton) {
+                            vrButton.classList.add('visible');
+                            // Add icon and text to VR button
+                            vrButton.innerHTML = '<span class="vr-icon">🥽</span> Enter VR';
+                        }
+                    }, 400);
                 }, 800);
                 console.log('Dimensional Playground loaded successfully!');
             });

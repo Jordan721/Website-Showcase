@@ -173,6 +173,170 @@ animationToggle.addEventListener('click', () => {
     }
 });
 
+// ===== THEME COLOR PICKER =====
+const themeToggle = document.getElementById('themeToggle');
+const themePanel = document.getElementById('themePanel');
+const themePanelClose = document.getElementById('themePanelClose');
+const colorPresets = document.querySelectorAll('.color-preset');
+const hueSlider = document.getElementById('hueSlider');
+const huePreview = document.getElementById('huePreview');
+const resetThemeBtn = document.getElementById('resetTheme');
+
+// Default hue (purple = 270)
+const DEFAULT_HUE = 270;
+
+// Convert HSL to hex for CSS variables
+function hslToHex(h, s, l) {
+    s /= 100;
+    l /= 100;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+// Apply theme color based on hue
+function applyThemeHue(hue) {
+    const root = document.documentElement;
+
+    // Generate colors from hue
+    const primary = hslToHex(hue, 80, 65);
+    const primaryDark = hslToHex(hue, 75, 55);
+    const primaryLight = hslToHex(hue, 85, 75);
+    const secondary = hslToHex(hue - 20, 75, 58);
+
+    // Set CSS variables
+    root.style.setProperty('--color-primary', primary);
+    root.style.setProperty('--color-primary-dark', primaryDark);
+    root.style.setProperty('--color-primary-light', primaryLight);
+    root.style.setProperty('--color-secondary', secondary);
+    root.style.setProperty('--color-accent', primary);
+    root.style.setProperty('--color-success', primary);
+
+    // Update gradients
+    root.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${secondary} 0%, ${primary} 100%)`);
+    root.style.setProperty('--gradient-secondary', `linear-gradient(135deg, ${primary} 0%, ${primaryLight} 100%)`);
+    root.style.setProperty('--gradient-accent', `linear-gradient(135deg, ${primaryDark} 0%, ${primary} 100%)`);
+
+    // Update shadow glow
+    root.style.setProperty('--shadow-glow', `0 0 20px ${primary}66`);
+
+    // Update constellation colors
+    const rgbPrimary = hexToRgb(primary);
+    const rgbLight = hexToRgb(primaryLight);
+    if (rgbPrimary && rgbLight) {
+        config.primaryColor = `rgba(${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b}, `;
+        config.secondaryColor = `rgba(${rgbLight.r}, ${rgbLight.g}, ${rgbLight.b}, `;
+    }
+
+    // Update hue preview
+    if (huePreview) {
+        huePreview.style.background = primary;
+        huePreview.style.boxShadow = `0 0 15px ${primary}`;
+    }
+
+    // Save to localStorage
+    localStorage.setItem('themeHue', hue);
+}
+
+// Convert hex to RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+// Toggle theme panel
+themeToggle.addEventListener('click', () => {
+    themePanel.classList.toggle('open');
+});
+
+// Close panel
+themePanelClose.addEventListener('click', () => {
+    themePanel.classList.remove('open');
+});
+
+// Close panel when clicking outside
+document.addEventListener('click', (e) => {
+    if (!themePanel.contains(e.target) && !themeToggle.contains(e.target)) {
+        themePanel.classList.remove('open');
+    }
+});
+
+// Color preset buttons
+colorPresets.forEach(preset => {
+    preset.addEventListener('click', () => {
+        const hue = parseInt(preset.dataset.hue);
+
+        // Update active state
+        colorPresets.forEach(p => p.classList.remove('active'));
+        preset.classList.add('active');
+
+        // Update slider
+        hueSlider.value = hue;
+
+        // Apply theme
+        applyThemeHue(hue);
+    });
+});
+
+// Hue slider
+hueSlider.addEventListener('input', (e) => {
+    const hue = parseInt(e.target.value);
+
+    // Remove active state from presets
+    colorPresets.forEach(p => p.classList.remove('active'));
+
+    // Check if slider matches a preset
+    colorPresets.forEach(preset => {
+        if (parseInt(preset.dataset.hue) === hue) {
+            preset.classList.add('active');
+        }
+    });
+
+    applyThemeHue(hue);
+});
+
+// Reset to default
+resetThemeBtn.addEventListener('click', () => {
+    // Reset slider
+    hueSlider.value = DEFAULT_HUE;
+
+    // Reset preset active state
+    colorPresets.forEach(p => {
+        p.classList.remove('active');
+        if (parseInt(p.dataset.hue) === DEFAULT_HUE) {
+            p.classList.add('active');
+        }
+    });
+
+    // Apply default theme
+    applyThemeHue(DEFAULT_HUE);
+});
+
+// Load saved theme on page load
+const savedHue = localStorage.getItem('themeHue');
+if (savedHue) {
+    const hue = parseInt(savedHue);
+    hueSlider.value = hue;
+
+    // Update preset active state
+    colorPresets.forEach(p => {
+        p.classList.remove('active');
+        if (parseInt(p.dataset.hue) === hue) {
+            p.classList.add('active');
+        }
+    });
+
+    applyThemeHue(hue);
+}
+
 // Toggle category function
 function toggleCategory(categoryId) {
     const content = document.getElementById(categoryId);

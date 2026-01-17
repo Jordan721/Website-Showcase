@@ -29,10 +29,11 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 - **📱 Fully Responsive** — Looks stunning on phones, tablets, and desktops
 - **🌓 Modern Glass Morphism Design** — Because flat is boring!
 - **🎬 Animated Background** — Interactive constellation network with floating particles (with a toggle if you prefer zen mode)
+- **🎨 Theme Color Picker** — Choose from 8 preset colors or use the custom hue slider to personalize the entire site
 - **⚡ Smooth Scroll Animations** — Everything fades in just right
 - **🔄 Live GitHub Activity** — See my recent commits in real-time
 - **🧭 Floating Navigation** — Always know where you are
-- **🎨 Purple/Violet Theme** — My signature color palette
+- **🎨 Dynamic Color System** — Folder icons and project cards adapt to your chosen theme color
 
 ### 🗂️ Project Categories
 
@@ -48,7 +49,7 @@ Class assignments and coursework from my studies:
 Real-world projects from bootcamps and professional experience:
 - 🌙 Dark Mode Showcase with customizable themes
 - 🥪 Interactive kiosk ordering system (Year Up United capstone)
-- 📚 Library management system
+- 📚 The Midnight Archive - Dark academia library with animated candles, golden dust particles & 3D book spines
 - ☕ Full-stack Java & Spring Boot projects
 
 #### 🎯 **Personal Projects**
@@ -116,6 +117,9 @@ I believe that **code is art** and **design matters**. This showcase embodies:
 ### 🎭 Animation Toggle
 Not a fan of moving backgrounds? No problem! Hit that toggle button and enjoy a peaceful, static experience. Your preference is saved too! 💾
 
+### 🎨 Theme Color Picker
+Click the palette button to open the theme panel! Choose from 8 beautiful preset colors (Purple, Blue, Emerald, Rose, Orange, Cyan, Pink, Yellow) or use the rainbow hue slider to pick any color you want. The entire site adapts — constellation particles, buttons, folder icons, project cards, and more! Your preference is saved to localStorage. 🌈
+
 ### 📊 GitHub Activity Feed
 See what I've been working on! The site fetches my latest commits from this very repository using the GitHub API. Click any commit to see the full details on GitHub! 🔍
 
@@ -134,6 +138,7 @@ Development-Showcase/
 ├── 📄 index.html              # Main HTML file
 ├── 🎨 styles.css              # All the beautiful styles
 ├── ⚡ script.js               # JavaScript magic
+├── 🌟 favicon.svg             # Constellation network favicon
 ├── 📁 Academic_Projects/      # School & coursework projects
 │   ├── RunLikeAG.U.R.L/
 │   ├── Social_Com's_Final/
@@ -142,10 +147,11 @@ Development-Showcase/
 ├── 📁 Professional_Projects/  # Bootcamp & professional work
 │   ├── DarkModes/
 │   ├── One_Heck_Of_A_Sandwich_Web_Edition/
-│   └── Neighborhood-Library/
+│   └── Neighborhood-Library/  # The Midnight Archive (Dark Academia)
 ├── 📁 Personal_Projects/      # Independent & passion projects
 │   ├── Cash-Compass/         # Finance tracker with Chart.js
-│   └── Console_Chronicles/   # SQL tutorial with gaming console data
+│   ├── Console_Chronicles/   # SQL tutorial with gaming console data
+│   └── Bagel_Byte_Academy/   # Computer education platform
 └── 📄 README.md              # You are here! 👋
 ```
 
@@ -164,11 +170,13 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 
 ## 💡 Fun Facts
 
-- 🎨 The entire color scheme is based on purple/violet (`#a855f7` to be exact!)
-- 🔢 There are **over 1,500 lines of CSS** making this look pretty
+- 🎨 The default color scheme is purple/violet (`#a855f7`) but you can change it to any color!
+- 🔢 There are **over 1,600 lines of CSS** making this look pretty
 - ⏱️ The scroll progress bar at the top tracks your exact position on the page
 - 🎯 Every animation delay is carefully timed for the smoothest experience
 - 📱 The scroll indicator changes from a mouse to a phone on mobile devices
+- 🌟 The favicon is a custom SVG constellation network matching the animated background
+- 📁 Folder icons use a light-to-dark gradient across the three categories
 
 ---
 

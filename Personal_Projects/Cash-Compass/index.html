@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,10 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- Animated Background -->
     <div class="animated-bg">
@@ -246,7 +249,8 @@
                                 <div class="form-group">
                                     <label for="transactionType">Type</label>
                                     <div class="toggle-group">
-                                        <input type="radio" id="typeIncome" name="transactionType" value="income" checked>
+                                        <input type="radio" id="typeIncome" name="transactionType" value="income"
+                                            checked>
                                         <label for="typeIncome" class="toggle-btn income">
                                             <i class="fas fa-arrow-up"></i> Income
                                         </label>
@@ -265,7 +269,8 @@
                                     <label for="transactionAmount">Amount</label>
                                     <div class="amount-input">
                                         <span class="currency">$</span>
-                                        <input type="number" id="transactionAmount" step="0.01" min="0" placeholder="0.00" required>
+                                        <input type="number" id="transactionAmount" step="0.01" min="0"
+                                            placeholder="0.00" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -280,7 +285,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="transactionDescription">Description</label>
-                                    <input type="text" id="transactionDescription" placeholder="What's this for?" required>
+                                    <input type="text" id="transactionDescription" placeholder="What's this for?"
+                                        required>
                                 </div>
                                 <button type="submit" class="btn-primary">
                                     <i class="fas fa-plus"></i>
@@ -390,7 +396,9 @@
             <div class="modal-body">
                 <div class="about-content">
                     <p class="about-intro">
-                        A web application demonstrating data analytics and visualization techniques using HTML, CSS, JavaScript, and Chart.js. This project showcases interactive data management, real-time calculations, and dynamic chart rendering in a practical finance tracking context.
+                        A web application demonstrating data analytics and visualization techniques using HTML, CSS,
+                        JavaScript, and Chart.js. This project showcases interactive data management, real-time
+                        calculations, and dynamic chart rendering in a practical finance tracking context.
                     </p>
 
                     <div class="about-section">
@@ -401,7 +409,8 @@
                             <li><i class="fas fa-check-circle"></i> Beautiful data visualizations with Chart.js</li>
                             <li><i class="fas fa-check-circle"></i> Dark mode support</li>
                             <li><i class="fas fa-check-circle"></i> Export data as CSV or JSON</li>
-                            <li><i class="fas fa-check-circle"></i> 100% local storage - your data never leaves your browser</li>
+                            <li><i class="fas fa-check-circle"></i> 100% local storage - your data never leaves your
+                                browser</li>
                         </ul>
                     </div>
 
@@ -434,21 +443,21 @@
     <script src="script.js"></script>
     <script>
         // New UI enhancements
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Toggle buttons sync with hidden select
             const typeIncome = document.getElementById('typeIncome');
             const typeExpense = document.getElementById('typeExpense');
             const typeSelect = document.getElementById('transactionType');
 
             if (typeIncome && typeExpense && typeSelect) {
-                typeIncome.addEventListener('change', function() {
+                typeIncome.addEventListener('change', function () {
                     if (this.checked) {
                         typeSelect.value = 'income';
                         typeSelect.dispatchEvent(new Event('change'));
                     }
                 });
 
-                typeExpense.addEventListener('change', function() {
+                typeExpense.addEventListener('change', function () {
                     if (this.checked) {
                         typeSelect.value = 'expense';
                         typeSelect.dispatchEvent(new Event('change'));
@@ -461,12 +470,12 @@
             const sidebar = document.querySelector('.sidebar');
 
             if (mobileMenuBtn && sidebar) {
-                mobileMenuBtn.addEventListener('click', function() {
+                mobileMenuBtn.addEventListener('click', function () {
                     sidebar.classList.toggle('open');
                 });
 
                 // Close sidebar when clicking outside
-                document.addEventListener('click', function(e) {
+                document.addEventListener('click', function (e) {
                     if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                         sidebar.classList.remove('open');
                     }
@@ -475,16 +484,20 @@
 
             // Smooth scroll navigation
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function(e) {
+                item.addEventListener('click', function (e) {
                     const section = this.getAttribute('data-section');
                     if (section) {
                         e.preventDefault();
                         const target = document.getElementById(section);
                         if (target) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
                         }
                         // Update active state
-                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove(
+                            'active'));
                         this.classList.add('active');
                         // Close mobile sidebar
                         if (sidebar) sidebar.classList.remove('open');
@@ -495,10 +508,13 @@
             // Quick add button scroll
             const quickAddBtn = document.getElementById('quickAddBtn');
             if (quickAddBtn) {
-                quickAddBtn.addEventListener('click', function() {
+                quickAddBtn.addEventListener('click', function () {
                     const form = document.getElementById('transactionForm');
                     if (form) {
-                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        form.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
                         const amountInput = document.getElementById('transactionAmount');
                         if (amountInput) amountInput.focus();
                     }
@@ -514,7 +530,7 @@
                     darkToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
                 }
 
-                darkToggle.addEventListener('click', function() {
+                darkToggle.addEventListener('click', function () {
                     document.body.classList.toggle('light-mode');
                     const isLight = document.body.classList.contains('light-mode');
                     localStorage.setItem('darkMode', !isLight);
@@ -530,7 +546,7 @@
             // Search functionality
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
-                searchInput.addEventListener('input', function() {
+                searchInput.addEventListener('input', function () {
                     const query = this.value.toLowerCase();
                     document.querySelectorAll('.transaction-item').forEach(item => {
                         const desc = item.querySelector('.transaction-description');
@@ -544,4 +560,5 @@
         });
     </script>
 </body>
+
 </html>

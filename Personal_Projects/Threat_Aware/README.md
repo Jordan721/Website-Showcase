@@ -26,10 +26,13 @@ An interactive cybersecurity education platform designed to teach you how to pro
 
 | Module | Description |
 |--------|-------------|
-| 🔐 **Password Security** | Create and manage strong, unbreakable passwords |
-| 📱 **Two-Factor Auth** | Add extra layers of protection to your accounts |
-| 🔒 **Encryption Basics** | Understand how your data stays private |
-| 👁️ **Online Privacy** | Control your digital footprint |
+| 🔐 **Security Fundamentals** | Password security, 2FA, encryption basics, online privacy |
+| 🚨 **Know Your Threats** | Phishing, malware, social engineering, man-in-the-middle attacks |
+| 🛡️ **Defense Strategies** | Personal, device, online, and data protection checklists |
+| 🆔 **Identity Theft Protection** | Credit freezes, account monitoring, SSN protection, fraud alerts |
+| 🤖 **AI & Emerging Threats** | Deepfakes, voice cloning, AI phishing, malicious chatbots |
+| 🚨 **If You've Been Hacked** | Step-by-step incident response and recovery guide |
+| 📖 **Security Resources** | Tools, apps, learning materials, and news sources |
 
 ### 🎮 Interactive Tools
 
@@ -49,6 +52,11 @@ An interactive cybersecurity education platform designed to teach you how to pro
   - Safe online behavior guidelines
   - Data protection best practices
 
+- **🚨 Recovery Checklist**
+  - 20-step interactive incident response guide
+  - Progress tracking with visual ring
+  - Saves progress to localStorage
+
 ### 🧠 Knowledge Quizzes
 
 | Quiz | Difficulty | Questions |
@@ -66,6 +74,8 @@ An interactive cybersecurity education platform designed to teach you how to pro
   <img src="https://media.giphy.com/media/077i6AULCXc0FKTj9s/giphy.gif" alt="Hacker" width="250"/>
 </p>
 
+### Classic Threats
+
 | Threat | Risk Level | Description |
 |--------|------------|-------------|
 | 🎣 **Phishing** | 🔴 High | Deceptive emails and websites stealing information |
@@ -74,6 +84,55 @@ An interactive cybersecurity education platform designed to teach you how to pro
 | 👤 **Man-in-the-Middle** | 🟡 Medium | Intercepting communications |
 | 🔨 **Brute Force** | 🟢 Low | Automated password guessing |
 | 📶 **WiFi Attacks** | 🟡 Medium | Public network vulnerabilities |
+
+### 🤖 AI & Emerging Threats (NEW!)
+
+| Threat | Risk Level | Description |
+|--------|------------|-------------|
+| 🎭 **Deepfakes** | 🔴 High | AI-generated fake videos and images |
+| 🎤 **Voice Cloning** | 🔴 High | AI voice replication for phone scams |
+| 📧 **AI Phishing** | 🔴 Very High | Perfect, personalized phishing without typos |
+| 💬 **Malicious Chatbots** | 🟡 Medium | Fake support bots and romance scammers |
+
+---
+
+## 🆔 Identity Theft Protection
+
+> New comprehensive section for protecting your identity
+
+| Feature | Description |
+|---------|-------------|
+| ❄️ **Credit Freeze Guide** | Step-by-step instructions with links to all 3 bureaus |
+| 👁️ **Account Monitoring** | Best practices for catching unauthorized activity |
+| 🔢 **SSN Protection** | Tips for safeguarding your Social Security Number |
+| 🔔 **Fraud Alerts** | Initial, extended, and active duty alert types explained |
+| ⚠️ **Warning Signs** | 6 indicators that your identity may be compromised |
+
+---
+
+## 🚨 If You've Been Hacked
+
+> Emergency incident response guide with interactive checklist
+
+<p align="center">
+  <img src="https://media.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif" alt="Emergency" width="200"/>
+</p>
+
+### Recovery Timeline
+
+| Phase | Timeframe | Actions |
+|-------|-----------|---------|
+| ⚡ **Immediate** | First 15 min | Disconnect, change passwords, enable 2FA, log out sessions |
+| 🔍 **Assess** | First hour | Check activity, review transactions, check sent emails |
+| 📞 **Report** | First 24 hrs | Contact bank, place fraud alerts, report to FTC |
+| 💻 **Secure** | First week | Antivirus scan, update software, check for keyloggers |
+| 🛡️ **Long-term** | Ongoing | Monitor credit, set alerts, use password manager |
+
+### Emergency Resources
+- [IdentityTheft.gov](https://identitytheft.gov) - FTC identity theft reporting
+- [FBI IC3](https://www.ic3.gov) - Report internet crimes
+- [AnnualCreditReport.com](https://www.annualcreditreport.com) - Free credit reports
+- [FTC Scam Alerts](https://consumer.ftc.gov/features/scam-alerts) - Latest warnings
 
 ---
 
@@ -121,8 +180,9 @@ An interactive cybersecurity education platform designed to teach you how to pro
 - 🔴 **Alert-Themed Color Scheme** - Red/orange gradient for urgency
 - 🛡️ **Animated Hexagonal Shield** - Pulsing security icon
 - 💻 **Matrix Background Effect** - Security-themed canvas animation
-- 📊 **Interactive Progress Tracking** - Visual security score
+- 📊 **Interactive Progress Tracking** - Visual security score & recovery tracker
 - 🌙 **Modern Dark UI** - Easy on the eyes, professional feel
+- 📱 **Fully Responsive** - Works on desktop and mobile
 
 ---
 
@@ -134,6 +194,7 @@ An interactive cybersecurity education platform designed to teach you how to pro
 | 🔥 **Streak System** | Build consecutive correct answers |
 | 🏅 **Achievements** | Unlock badges for milestones |
 | 📊 **Progress Tracking** | See your growth over time |
+| ✅ **Recovery Progress** | Track incident response completion |
 
 ---
 
@@ -160,6 +221,7 @@ Sometimes the best way to remember something is to teach it. By building this pl
 3. Start with the **Security Fundamentals** module
 4. Work through each section at your own pace
 5. Test your knowledge with the quizzes!
+6. Use the **If You've Been Hacked** section as a reference if needed
 
 ---
 
@@ -167,10 +229,40 @@ Sometimes the best way to remember something is to teach it. By building this pl
 
 ```
 Threat_Aware/
-├── 📄 index.html      # Main HTML structure
-├── 🎨 styles.css      # Styling and animations
-├── ⚙️ app.js          # Interactive functionality
+├── 📄 index.html      # Main HTML structure (6 modules + quizzes)
+├── 🎨 styles.css      # Styling and animations (~3200 lines)
+├── ⚙️ app.js          # Interactive functionality (~1360 lines)
+├── 🖼️ favicon.svg     # Custom shield favicon
 └── 📖 README.md       # You are here!
+```
+
+---
+
+## 📋 Module Overview
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  MODULE 01: Security Fundamentals                        │
+│  └── Password Security, 2FA, Encryption, Privacy         │
+├─────────────────────────────────────────────────────────┤
+│  MODULE 02: Know Your Threats                            │
+│  └── Phishing, Malware, Social Engineering, MITM         │
+├─────────────────────────────────────────────────────────┤
+│  MODULE 03: Defense Strategies                           │
+│  └── Personal, Device, Online, Data Protection           │
+├─────────────────────────────────────────────────────────┤
+│  MODULE 04: Identity Theft Protection          ✨ NEW    │
+│  └── Credit Freeze, Monitoring, SSN, Fraud Alerts        │
+├─────────────────────────────────────────────────────────┤
+│  MODULE 05: AI & Emerging Threats              ✨ NEW    │
+│  └── Deepfakes, Voice Cloning, AI Phishing, Chatbots     │
+├─────────────────────────────────────────────────────────┤
+│  EMERGENCY: If You've Been Hacked              ✨ NEW    │
+│  └── 5-Phase Recovery Timeline, Emergency Contacts       │
+├─────────────────────────────────────────────────────────┤
+│  MODULE 06: Security Resources                           │
+│  └── Tools, Apps, Learning, News                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---

@@ -1306,3 +1306,54 @@ const animateOnScroll = new IntersectionObserver((entries) => {
 document.querySelectorAll('.info-stat').forEach(stat => {
     animateOnScroll.observe(stat);
 });
+
+// ==================== RECOVERY CHECKLIST PROGRESS ====================
+function initRecoveryChecklist() {
+    const recoveryChecks = document.querySelectorAll('.recovery-check');
+    const totalSteps = recoveryChecks.length;
+
+    // Load saved state
+    const savedRecovery = localStorage.getItem('threataware_recovery');
+    if (savedRecovery) {
+        const checked = JSON.parse(savedRecovery);
+        checked.forEach(id => {
+            const checkbox = document.getElementById(id);
+            if (checkbox) checkbox.checked = true;
+        });
+    }
+
+    function updateRecoveryProgress() {
+        const checked = document.querySelectorAll('.recovery-check:checked').length;
+        const percentage = Math.round((checked / totalSteps) * 100);
+
+        // Update progress ring
+        const progressCircle = document.getElementById('recoveryProgress');
+        const percentText = document.getElementById('recoveryPercent');
+
+        if (progressCircle && percentText) {
+            const circumference = 2 * Math.PI * 45; // radius = 45
+            const offset = circumference - (percentage / 100) * circumference;
+            progressCircle.style.strokeDasharray = `${circumference - offset} ${circumference}`;
+            percentText.textContent = percentage + '%';
+        }
+
+        // Save state
+        const checkedIds = Array.from(document.querySelectorAll('.recovery-check:checked'))
+            .map(cb => cb.id);
+        localStorage.setItem('threataware_recovery', JSON.stringify(checkedIds));
+    }
+
+    recoveryChecks.forEach(check => {
+        check.addEventListener('change', updateRecoveryProgress);
+    });
+
+    // Initial update
+    updateRecoveryProgress();
+}
+
+// Initialize recovery checklist when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRecoveryChecklist);
+} else {
+    initRecoveryChecklist();
+}

@@ -35,6 +35,7 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 - **🧭 Floating Navigation** — Always know where you are
 - **🎨 Dynamic Color System** — Folder icons and project cards adapt to your chosen theme color
 - **📂 Animated Folders** — Folder icons swap from closed to open with smooth transitions, plus staggered card reveals
+- **🖼️ Custom SVG Favicons** — Every project has its own unique, themed favicon
 
 ### 🗂️ Project Categories
 
@@ -57,7 +58,8 @@ Real-world projects from bootcamps and professional experience:
 Independent projects showcasing creative problem-solving:
 - 🧭 Cash Compass - Personal finance tracker with data visualization
 - 🎮 Console Chronicles - Interactive SQL learning platform teaching database queries through gaming console history
-- 🌙 More projects in development!
+- 🥯 Bagel Byte Academy - Computer education platform with interactive lessons
+- 🛡️ **ThreatAware** - Cybersecurity education platform with AI threat detection, identity theft protection & incident response guides
 
 ---
 
@@ -143,18 +145,43 @@ Development-Showcase/
 ├── 📁 Academic_Projects/      # School & coursework projects
 │   ├── RunLikeAG.U.R.L/
 │   ├── Social_Com's_Final/
-│   ├── Orbit_Control/
-│   └── Dimensional_Playground/ # Immersive WebVR experience
+│   ├── Orbit_Control/         # 3D orbit experience (+ favicon)
+│   └── Dimensional_Playground/ # Immersive WebVR experience (+ favicon)
 ├── 📁 Professional_Projects/  # Bootcamp & professional work
-│   ├── DarkModes/
-│   ├── One_Heck_Of_A_Sandwich_Web_Edition/
-│   └── Neighborhood-Library/  # The Midnight Archive (Dark Academia)
+│   ├── DarkModes/             # Theme toggle showcase (+ favicon)
+│   ├── One_Heck_Of_A_Sandwich_Web_Edition/ # Kiosk ordering (+ favicon)
+│   └── Neighborhood-Library/  # The Midnight Archive (+ favicon)
 ├── 📁 Personal_Projects/      # Independent & passion projects
-│   ├── Cash-Compass/         # Finance tracker with Chart.js
-│   ├── Console_Chronicles/   # SQL tutorial with gaming console data
-│   └── Bagel_Byte_Academy/   # Computer education platform
-└── 📄 README.md              # You are here! 👋
+│   ├── Cash-Compass/          # Finance tracker (+ favicon)
+│   ├── Console_Chronicles/    # SQL tutorial (+ favicon)
+│   ├── Bagel_Byte_Academy/    # Computer education (+ favicon)
+│   └── Threat_Aware/          # 🛡️ Cybersecurity education platform (+ favicon)
+│       ├── index.html         # 6 modules + quizzes
+│       ├── styles.css         # ~3200 lines of styling
+│       ├── app.js             # ~1360 lines of interactivity
+│       ├── favicon.svg        # Shield with target icon
+│       └── README.md          # Detailed documentation
+└── 📄 README.md               # You are here! 👋
 ```
+
+---
+
+## 🖼️ Custom Favicons
+
+Each project now has its own unique, themed SVG favicon:
+
+| Project | Favicon Design |
+|---------|----------------|
+| 🛡️ ThreatAware | Shield with target/crosshair |
+| 🥯 Bagel Byte Academy | Bagel with binary code |
+| 🎮 Console Chronicles | Game controller with SQL text |
+| 🧭 Cash-Compass | Compass with dollar sign |
+| 🌙 DarkModes | Split sun/moon design |
+| 🍔 One Heck Of A Sandwich | Layered burger |
+| 📚 Neighborhood-Library | Dark academia book with moon |
+| 🪐 Orbit Control | Planet with orbit rings |
+| 🎲 Dimensional Playground | 3D cube with VR gradient |
+| 💬 Social Com's | Speech bubble with privacy shield |
 
 ---
 
@@ -172,7 +199,8 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 ## 💡 Fun Facts
 
 - 🎨 The default color scheme is purple/violet (`#a855f7`) but you can change it to any color!
-- 🔢 There are **over 1,600 lines of CSS** making this look pretty
+- 🔢 There are **over 1,600 lines of CSS** making the main showcase look pretty
+- 🛡️ ThreatAware alone has **~3,200 lines of CSS** and **~1,360 lines of JavaScript**
 - ⏱️ The scroll progress bar at the top tracks your exact position on the page
 - 🎯 Every animation delay is carefully timed for the smoothest experience
 - 📱 The scroll indicator changes from a mouse to a phone on mobile devices
@@ -180,6 +208,7 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 - 📁 Folder icons use a light-to-dark gradient across the three categories
 - 📂 Folders animate between closed/open icons with a satisfying rotate & scale effect
 - 🎴 Project cards cascade in one-by-one when a folder opens
+- 🖼️ All 10 project sub-pages now have custom SVG favicons
 
 ---
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle split -->
+  <circle cx="50" cy="50" r="45" fill="#0f172a"/>
+  <!-- Sun half (right) -->
+  <path d="M50 5 A45 45 0 0 1 50 95" fill="#fbbf24"/>
+  <!-- Moon (left side) -->
+  <circle cx="40" cy="50" r="30" fill="#e2e8f0"/>
+  <circle cx="55" cy="40" r="22" fill="#0f172a"/>
+  <!-- Stars on dark side -->
+  <circle cx="25" cy="25" r="2" fill="#fbbf24"/>
+  <circle cx="20" cy="45" r="1.5" fill="#fbbf24"/>
+  <circle cx="30" cy="70" r="2" fill="#fbbf24"/>
+  <circle cx="15" cy="60" r="1" fill="#fbbf24"/>
+  <!-- Sun rays -->
+  <line x1="85" y1="50" x2="95" y2="50" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+  <line x1="75" y1="25" x2="82" y2="18" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+  <line x1="75" y1="75" x2="82" y2="82" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+  <!-- Border -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="url(#darkGrad)" stroke-width="3"/>
+</svg>

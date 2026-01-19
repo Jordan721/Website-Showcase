@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+  </defs>
+  <!-- Compass outer ring -->
+  <circle cx="50" cy="50" r="45" fill="#1e293b"/>
+  <circle cx="50" cy="50" r="45" fill="none" stroke="url(#compassGrad)" stroke-width="4"/>
+  <!-- Inner circle -->
+  <circle cx="50" cy="50" r="35" fill="none" stroke="#334155" stroke-width="2"/>
+  <!-- Dollar sign -->
+  <text x="50" y="58" font-family="Arial, sans-serif" font-size="28" fill="url(#compassGrad)" font-weight="bold" text-anchor="middle">$</text>
+  <!-- Compass needle -->
+  <polygon points="50,15 45,45 50,40 55,45" fill="#ef4444"/>
+  <polygon points="50,85 45,55 50,60 55,55" fill="#94a3b8"/>
+  <!-- Center dot -->
+  <circle cx="50" cy="50" r="5" fill="url(#compassGrad)"/>
+  <!-- Direction markers -->
+  <circle cx="50" cy="12" r="3" fill="#10b981"/>
+  <circle cx="88" cy="50" r="3" fill="#334155"/>
+  <circle cx="50" cy="88" r="3" fill="#334155"/>
+  <circle cx="12" cy="50" r="3" fill="#334155"/>
+</svg>

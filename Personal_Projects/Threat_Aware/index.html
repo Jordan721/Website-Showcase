@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatAware - Cybersecurity Education Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="cyber-bg" id="cyberBg"></div>
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <span class="nav-logo">
+            <i class="fas fa-shield-halved"></i> ThreatAware
+        </span>
+        <div class="nav-links">
+            <a href="#learn" class="nav-link">Learn</a>
+            <a href="#threats" class="nav-link">Threats</a>
+            <a href="#defend" class="nav-link">Defend</a>
+            <a href="#resources" class="nav-link">Resources</a>
+            <button class="nav-link about-btn" id="aboutBtn"><i class="fas fa-info-circle"></i> About</button>
+            <a href="../../index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Back to Showcase</a>
+        </div>
+        <div class="nav-security-score">
+            <div class="score-ring">
+                <svg viewBox="0 0 36 36">
+                    <path class="score-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    <path class="score-fill" id="scoreFill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
+                <span class="score-value" id="securityScore">0</span>
+            </div>
+            <span class="score-label">Security IQ</span>
+        </div>
+    </nav>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content about-modal">
+            <button class="modal-close" id="closeAboutModal"><i class="fas fa-times"></i></button>
+            <div class="about-header">
+                <i class="fas fa-user-shield about-icon"></i>
+                <h2>About ThreatAware</h2>
+            </div>
+            <div class="about-body">
+                <p><strong>ThreatAware</strong> is an interactive cybersecurity education platform designed to teach you how to protect yourself in the digital world.</p>
+
+                <h3>Why I Built This:</h3>
+                <p>The digital landscape has never been more dangerous. With new threats emerging every day - from sophisticated phishing schemes to AI-powered scams - it's becoming increasingly difficult for everyday people to stay safe online. I created this project because I believe that if I can help even one person recognize a threat before it's too late, it's worth it.</p>
+
+                <p>Sometimes the best way to remember something is to teach it. By building this platform, I'm not just helping others learn - I'm reinforcing these critical safety habits for myself too. Because in cybersecurity, staying vigilant isn't a one-time thing; it's an ongoing practice.</p>
+
+                <h3>What You'll Learn:</h3>
+                <ul>
+                    <li><strong>Common Attack Types</strong> - Understand phishing, malware, social engineering, and more</li>
+                    <li><strong>Defense Strategies</strong> - Learn practical steps to protect your data</li>
+                    <li><strong>Security Best Practices</strong> - Build habits that keep you safe online</li>
+                    <li><strong>Real-World Scenarios</strong> - Practice identifying threats in interactive simulations</li>
+                </ul>
+
+                <h3>Why This Matters:</h3>
+                <p>Cybercrime costs the world trillions of dollars annually, and most attacks target individuals, not corporations. By understanding how hackers think, you become a much harder target.</p>
+
+                <p class="about-footer">Stay safe. Stay informed. Stay secure.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-lock"></i> Interactive Security Training</div>
+            <h1>Learn to <span class="gradient-text">Defend</span> Yourself Online</h1>
+            <p>Master cybersecurity fundamentals through interactive lessons, real-world simulations, and hands-on challenges</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="modulesCompleted">0</span>
+                    <span class="stat-label">Modules Completed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="threatsIdentified">0</span>
+                    <span class="stat-label">Threats Identified</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="defensesLearned">0</span>
+                    <span class="stat-label">Defenses Learned</span>
+                </div>
+            </div>
+            <button class="cta-btn" onclick="document.getElementById('learn').scrollIntoView({behavior: 'smooth'})">
+                Start Training <i class="fas fa-shield-halved"></i>
+            </button>
+        </div>
+        <div class="hero-visual">
+            <div class="shield-animation">
+                <div class="shield-outer"></div>
+                <div class="shield-inner">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="shield-pulse"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Learning Modules Section -->
+    <section id="learn" class="section">
+        <div class="section-header">
+            <span class="section-tag">Module 01</span>
+            <h2>Security Fundamentals</h2>
+            <p>Build your foundation in cybersecurity concepts</p>
+        </div>
+
+        <!-- Security Concepts Cards -->
+        <div class="concepts-grid">
+            <div class="concept-card" data-concept="passwords">
+                <div class="concept-icon"><i class="fas fa-key"></i></div>
+                <h4>Password Security</h4>
+                <p>Create and manage strong passwords</p>
+                <div class="concept-progress">
+                    <div class="progress-bar"><div class="progress-fill" data-progress="0"></div></div>
+                </div>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="2fa">
+                <div class="concept-icon"><i class="fas fa-mobile-screen"></i></div>
+                <h4>Two-Factor Auth</h4>
+                <p>Add extra layers of protection</p>
+                <div class="concept-progress">
+                    <div class="progress-bar"><div class="progress-fill" data-progress="0"></div></div>
+                </div>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="encryption">
+                <div class="concept-icon"><i class="fas fa-lock"></i></div>
+                <h4>Encryption Basics</h4>
+                <p>How data stays private</p>
+                <div class="concept-progress">
+                    <div class="progress-bar"><div class="progress-fill" data-progress="0"></div></div>
+                </div>
+                <span class="concept-status">Click to learn</span>
+            </div>
+            <div class="concept-card" data-concept="privacy">
+                <div class="concept-icon"><i class="fas fa-eye-slash"></i></div>
+                <h4>Online Privacy</h4>
+                <p>Control your digital footprint</p>
+                <div class="concept-progress">
+                    <div class="progress-bar"><div class="progress-fill" data-progress="0"></div></div>
+                </div>
+                <span class="concept-status">Click to learn</span>
+            </div>
+        </div>
+
+        <!-- Password Strength Checker -->
+        <div class="interactive-tool">
+            <div class="tool-header">
+                <h3><i class="fas fa-key"></i> Password Strength Analyzer</h3>
+                <p>Test how secure your passwords really are</p>
+            </div>
+            <div class="password-checker">
+                <div class="password-input-wrapper">
+                    <input type="password" id="passwordInput" placeholder="Enter a password to test...">
+                    <button class="toggle-visibility" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="strength-label" id="strengthLabel">Enter a password to check</div>
+                <div class="password-feedback" id="passwordFeedback">
+                    <div class="feedback-item" id="feedbackLength">
+                        <i class="fas fa-circle"></i> At least 12 characters
+                    </div>
+                    <div class="feedback-item" id="feedbackUpper">
+                        <i class="fas fa-circle"></i> Uppercase letters
+                    </div>
+                    <div class="feedback-item" id="feedbackLower">
+                        <i class="fas fa-circle"></i> Lowercase letters
+                    </div>
+                    <div class="feedback-item" id="feedbackNumber">
+                        <i class="fas fa-circle"></i> Numbers
+                    </div>
+                    <div class="feedback-item" id="feedbackSpecial">
+                        <i class="fas fa-circle"></i> Special characters
+                    </div>
+                </div>
+                <div class="crack-time" id="crackTime"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Threat Types Section -->
+    <section id="threats" class="section section-alt">
+        <div class="section-header">
+            <span class="section-tag">Module 02</span>
+            <h2>Know Your Threats</h2>
+            <p>Learn to identify common cyber attacks</p>
+        </div>
+
+        <!-- Threat Categories -->
+        <div class="threat-categories">
+            <div class="threat-card" data-threat="phishing">
+                <div class="threat-icon danger"><i class="fas fa-fish"></i></div>
+                <div class="threat-info">
+                    <h4>Phishing</h4>
+                    <p>Deceptive emails and websites designed to steal your information</p>
+                    <span class="threat-severity high">High Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="threat-card" data-threat="malware">
+                <div class="threat-icon danger"><i class="fas fa-bug"></i></div>
+                <div class="threat-info">
+                    <h4>Malware</h4>
+                    <p>Viruses, trojans, and ransomware that infect your devices</p>
+                    <span class="threat-severity high">High Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="threat-card" data-threat="social">
+                <div class="threat-icon warning"><i class="fas fa-masks-theater"></i></div>
+                <div class="threat-info">
+                    <h4>Social Engineering</h4>
+                    <p>Manipulation tactics that trick you into revealing information</p>
+                    <span class="threat-severity medium">Medium Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="threat-card" data-threat="mitm">
+                <div class="threat-icon warning"><i class="fas fa-user-secret"></i></div>
+                <div class="threat-info">
+                    <h4>Man-in-the-Middle</h4>
+                    <p>Attackers intercepting communication between you and websites</p>
+                    <span class="threat-severity medium">Medium Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="threat-card" data-threat="bruteforce">
+                <div class="threat-icon caution"><i class="fas fa-hammer"></i></div>
+                <div class="threat-info">
+                    <h4>Brute Force</h4>
+                    <p>Automated password guessing attacks</p>
+                    <span class="threat-severity low">Low Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="threat-card" data-threat="wifi">
+                <div class="threat-icon warning"><i class="fas fa-wifi"></i></div>
+                <div class="threat-info">
+                    <h4>WiFi Attacks</h4>
+                    <p>Dangers of public and unsecured wireless networks</p>
+                    <span class="threat-severity medium">Medium Risk</span>
+                </div>
+                <button class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Phishing Simulator -->
+        <div class="simulator-section">
+            <div class="sim-header">
+                <h3><i class="fas fa-envelope-open-text"></i> Phishing Detection Game</h3>
+                <p>Can you spot the fake emails? Test your detection skills!</p>
+            </div>
+            <div class="phishing-game" id="phishingGame">
+                <div class="email-preview" id="emailPreview">
+                    <div class="email-header">
+                        <div class="email-from">
+                            <span class="label">From:</span>
+                            <span class="value" id="emailFrom"></span>
+                        </div>
+                        <div class="email-subject">
+                            <span class="label">Subject:</span>
+                            <span class="value" id="emailSubject"></span>
+                        </div>
+                    </div>
+                    <div class="email-body" id="emailBody"></div>
+                    <div class="email-link" id="emailLink"></div>
+                </div>
+                <div class="game-controls">
+                    <button class="game-btn legitimate" id="btnLegit">
+                        <i class="fas fa-check"></i> Legitimate
+                    </button>
+                    <button class="game-btn phishing" id="btnPhish">
+                        <i class="fas fa-fish"></i> Phishing
+                    </button>
+                </div>
+                <div class="game-feedback" id="gameFeedback"></div>
+                <div class="game-score">
+                    <span>Score: <strong id="phishScore">0</strong>/10</span>
+                    <span>Streak: <strong id="phishStreak">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Defense Strategies Section -->
+    <section id="defend" class="section">
+        <div class="section-header">
+            <span class="section-tag">Module 03</span>
+            <h2>Defense Strategies</h2>
+            <p>Practical steps to protect yourself online</p>
+        </div>
+
+        <!-- Defense Checklist -->
+        <div class="defense-grid">
+            <div class="defense-category">
+                <h3><i class="fas fa-user"></i> Personal Security</h3>
+                <div class="checklist">
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="unique-passwords">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Use unique passwords for each account</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="password-manager">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Use a password manager</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="2fa-enabled">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Enable 2FA on important accounts</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="security-questions">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Use fake answers for security questions</span>
+                    </label>
+                </div>
+            </div>
+            <div class="defense-category">
+                <h3><i class="fas fa-laptop"></i> Device Security</h3>
+                <div class="checklist">
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="updates">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Keep software up to date</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="antivirus">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Use antivirus software</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="firewall">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Enable firewall protection</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="encryption">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Encrypt sensitive files</span>
+                    </label>
+                </div>
+            </div>
+            <div class="defense-category">
+                <h3><i class="fas fa-globe"></i> Online Behavior</h3>
+                <div class="checklist">
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="https">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Check for HTTPS before entering data</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="links">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Verify links before clicking</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="public-wifi">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Avoid sensitive tasks on public WiFi</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="vpn">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Use a VPN when needed</span>
+                    </label>
+                </div>
+            </div>
+            <div class="defense-category">
+                <h3><i class="fas fa-database"></i> Data Protection</h3>
+                <div class="checklist">
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="backups">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Regular data backups</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="privacy-settings">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Review privacy settings regularly</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="data-sharing">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Limit personal info shared online</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" class="defense-check" data-defense="secure-delete">
+                        <span class="checkmark"></span>
+                        <span class="check-text">Securely delete sensitive files</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Score Card -->
+        <div class="security-scorecard">
+            <div class="scorecard-header">
+                <h3>Your Security Posture</h3>
+                <p>Complete the checklist above to improve your score</p>
+            </div>
+            <div class="scorecard-visual">
+                <div class="big-score">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="score-track" cx="50" cy="50" r="45"/>
+                        <circle class="score-progress" id="scoreProgress" cx="50" cy="50" r="45" stroke-dasharray="0 283"/>
+                    </svg>
+                    <div class="score-center">
+                        <span class="score-number" id="defenseScore">0</span>
+                        <span class="score-percent">%</span>
+                    </div>
+                </div>
+                <div class="score-breakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Personal Security</span>
+                        <div class="breakdown-bar"><div class="breakdown-fill" id="personalFill"></div></div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Device Security</span>
+                        <div class="breakdown-bar"><div class="breakdown-fill" id="deviceFill"></div></div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Online Behavior</span>
+                        <div class="breakdown-bar"><div class="breakdown-fill" id="onlineFill"></div></div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Data Protection</span>
+                        <div class="breakdown-bar"><div class="breakdown-fill" id="dataFill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="section section-alt">
+        <div class="section-header">
+            <span class="section-tag">Module 04</span>
+            <h2>Security Resources</h2>
+            <p>Tools, apps, and further learning materials</p>
+        </div>
+
+        <!-- Resource Categories -->
+        <div class="resources-tabs">
+            <button class="resource-tab active" data-tab="tools">
+                <i class="fas fa-wrench"></i> Security Tools
+            </button>
+            <button class="resource-tab" data-tab="apps">
+                <i class="fas fa-mobile-alt"></i> Recommended Apps
+            </button>
+            <button class="resource-tab" data-tab="learning">
+                <i class="fas fa-graduation-cap"></i> Further Learning
+            </button>
+            <button class="resource-tab" data-tab="news">
+                <i class="fas fa-newspaper"></i> Stay Updated
+            </button>
+        </div>
+
+        <div class="resources-content">
+            <!-- Security Tools -->
+            <div class="resource-panel active" id="tools-panel">
+                <div class="resource-grid">
+                    <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-search"></i></div>
+                        <div class="resource-info">
+                            <h4>Have I Been Pwned</h4>
+                            <p>Check if your email or phone has been in a data breach</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-virus-slash"></i></div>
+                        <div class="resource-info">
+                            <h4>VirusTotal</h4>
+                            <p>Scan files and URLs for malware</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://bitwarden.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-key"></i></div>
+                        <div class="resource-info">
+                            <h4>Bitwarden</h4>
+                            <p>Free, open-source password manager</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://www.privacytools.io/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-user-secret"></i></div>
+                        <div class="resource-info">
+                            <h4>Privacy Tools</h4>
+                            <p>Comprehensive privacy tool recommendations</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recommended Apps -->
+            <div class="resource-panel" id="apps-panel">
+                <div class="resource-grid">
+                    <div class="resource-card app-card">
+                        <div class="resource-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="resource-info">
+                            <h4>Authenticator Apps</h4>
+                            <p>Google Authenticator, Authy, or Microsoft Authenticator for 2FA</p>
+                            <div class="app-badges">
+                                <span class="badge ios">iOS</span>
+                                <span class="badge android">Android</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource-card app-card">
+                        <div class="resource-icon"><i class="fas fa-envelope-circle-check"></i></div>
+                        <div class="resource-info">
+                            <h4>ProtonMail</h4>
+                            <p>End-to-end encrypted email service</p>
+                            <div class="app-badges">
+                                <span class="badge ios">iOS</span>
+                                <span class="badge android">Android</span>
+                                <span class="badge web">Web</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource-card app-card">
+                        <div class="resource-icon"><i class="fas fa-comment-dots"></i></div>
+                        <div class="resource-info">
+                            <h4>Signal</h4>
+                            <p>Secure, encrypted messaging app</p>
+                            <div class="app-badges">
+                                <span class="badge ios">iOS</span>
+                                <span class="badge android">Android</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource-card app-card">
+                        <div class="resource-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="resource-info">
+                            <h4>VPN Services</h4>
+                            <p>ProtonVPN, Mullvad, or NordVPN for secure browsing</p>
+                            <div class="app-badges">
+                                <span class="badge multi">Multi-platform</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Further Learning -->
+            <div class="resource-panel" id="learning-panel">
+                <div class="resource-grid">
+                    <a href="https://www.cybrary.it/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="resource-info">
+                            <h4>Cybrary</h4>
+                            <p>Free cybersecurity courses and training</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://tryhackme.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-flag"></i></div>
+                        <div class="resource-info">
+                            <h4>TryHackMe</h4>
+                            <p>Learn cybersecurity through hands-on exercises</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://www.sans.org/cyberaces/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-certificate"></i></div>
+                        <div class="resource-info">
+                            <h4>SANS Cyber Aces</h4>
+                            <p>Free courses from industry leader SANS</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://overthewire.org/wargames/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-terminal"></i></div>
+                        <div class="resource-info">
+                            <h4>OverTheWire</h4>
+                            <p>Security wargames to practice skills</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stay Updated -->
+            <div class="resource-panel" id="news-panel">
+                <div class="resource-grid">
+                    <a href="https://krebsonsecurity.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-newspaper"></i></div>
+                        <div class="resource-info">
+                            <h4>Krebs on Security</h4>
+                            <p>In-depth security news and investigation</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://thehackernews.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-rss"></i></div>
+                        <div class="resource-info">
+                            <h4>The Hacker News</h4>
+                            <p>Latest cybersecurity news and updates</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://www.schneier.com/" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-blog"></i></div>
+                        <div class="resource-info">
+                            <h4>Schneier on Security</h4>
+                            <p>Security expert Bruce Schneier's blog</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="https://www.cisa.gov/news-events/cybersecurity-advisories" target="_blank" rel="noopener noreferrer" class="resource-card">
+                        <div class="resource-icon"><i class="fas fa-landmark"></i></div>
+                        <div class="resource-info">
+                            <h4>CISA Advisories</h4>
+                            <p>Official US government security advisories</p>
+                        </div>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infographic Section -->
+        <div class="infographic-section">
+            <h3><i class="fas fa-chart-pie"></i> Cybersecurity at a Glance</h3>
+            <div class="infographic-grid">
+                <div class="info-stat">
+                    <div class="info-number">95%</div>
+                    <div class="info-label">of breaches caused by human error</div>
+                </div>
+                <div class="info-stat">
+                    <div class="info-number">$4.45M</div>
+                    <div class="info-label">average cost of a data breach</div>
+                </div>
+                <div class="info-stat">
+                    <div class="info-number">3.4B</div>
+                    <div class="info-label">phishing emails sent daily</div>
+                </div>
+                <div class="info-stat">
+                    <div class="info-number">277</div>
+                    <div class="info-label">days to identify a breach</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section">
+        <div class="section-header">
+            <span class="section-tag">Test Yourself</span>
+            <h2>Security Knowledge Quiz</h2>
+            <p>Put your cybersecurity knowledge to the test</p>
+        </div>
+
+        <div class="quiz-grid">
+            <div class="quiz-card" data-quiz="basics">
+                <div class="quiz-icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>Security Basics</h4>
+                <p>5 questions about fundamental concepts</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="basics-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="threats">
+                <div class="quiz-icon"><i class="fas fa-skull-crossbones"></i></div>
+                <h4>Threat Recognition</h4>
+                <p>5 questions about identifying attacks</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="threats-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="defense">
+                <div class="quiz-icon"><i class="fas fa-user-shield"></i></div>
+                <h4>Defense Strategies</h4>
+                <p>5 questions about staying safe</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="defense-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+            <div class="quiz-card" data-quiz="advanced">
+                <div class="quiz-icon"><i class="fas fa-brain"></i></div>
+                <h4>Advanced Security</h4>
+                <p>5 challenging questions for experts</p>
+                <div class="quiz-meta">
+                    <span class="quiz-score" id="advanced-score">Not attempted</span>
+                    <button class="quiz-start-btn">Start Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Modal -->
+    <div class="modal" id="quizModal">
+        <div class="modal-content quiz-modal">
+            <button class="modal-close" id="closeQuizModal"><i class="fas fa-times"></i></button>
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-progress">
+                    <span id="quizProgress">Question 1 of 5</span>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quizProgressFill"></div>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizQuestion"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <button class="quiz-next-btn" id="quizNextBtn" style="display:none;">Next Question</button>
+            </div>
+            <div class="quiz-results" id="quizResults" style="display:none;">
+                <div class="results-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Quiz Complete!</h3>
+                <p id="quizResultText"></p>
+                <div class="results-actions">
+                    <button class="btn-retry" id="retryQuiz">Try Again</button>
+                    <button class="btn-done" id="closeResults">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Threat Detail Modal -->
+    <div class="modal" id="threatModal">
+        <div class="modal-content threat-modal">
+            <button class="modal-close" id="closeThreatModal"><i class="fas fa-times"></i></button>
+            <div id="threatModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Concept Detail Modal -->
+    <div class="modal" id="conceptModal">
+        <div class="modal-content concept-modal">
+            <button class="modal-close" id="closeConceptModal"><i class="fas fa-times"></i></button>
+            <div id="conceptModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Score Notification -->
+    <div class="score-notification" id="scoreNotification">
+        <i class="fas fa-star"></i>
+        <span id="scoreAmount">+10 Security IQ</span>
+    </div>
+
+    <!-- Achievement Notification -->
+    <div class="achievement-popup" id="achievementPopup">
+        <div class="achievement-content">
+            <i class="fas fa-award"></i>
+            <div class="achievement-text">
+                <strong>Achievement Unlocked!</strong>
+                <span id="achievementName"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-shield-halved"></i> ThreatAware
+            </div>
+            <p>Learn. Defend. Stay Secure.</p>
+            <a href="../../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Showcase
+            </a>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

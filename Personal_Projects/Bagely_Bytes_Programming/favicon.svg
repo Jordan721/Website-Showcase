@@ -5,9 +5,9 @@
       <stop offset="100%" style="stop-color:#00d4ff"/>
     </linearGradient>
   </defs>
-  <!-- Bagel outer -->
-  <circle cx="50" cy="50" r="42" fill="#d4a574"/>
-  <circle cx="50" cy="50" r="42" fill="none" stroke="#c4956a" stroke-width="3"/>
+  <!-- Bagel outer - dark pumpernickel style -->
+  <circle cx="50" cy="50" r="42" fill="#3d2914"/>
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#2a1c0d" stroke-width="3"/>
   <!-- Bagel hole -->
   <circle cx="50" cy="50" r="16" fill="#1a1a2e"/>
   <!-- Binary/byte decoration -->

@@ -201,7 +201,7 @@ An interactive cybersecurity education platform designed to teach you how to pro
 ## 💡 Why I Built This
 
 <p align="center">
-  <img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" alt="Learning" width="250"/>
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWRsMmVlbmZrMjBraHJkdmRlbDNia2o3YTlxeTQ0emI5cDFhczdvYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TOWeGr70V2R1K/giphy.gif" alt="Learning" width="250"/>
 </p>
 
 The digital landscape has never been more dangerous. With new threats emerging every day—from sophisticated phishing schemes to AI-powered scams—it's becoming increasingly difficult for everyday people to stay safe online.

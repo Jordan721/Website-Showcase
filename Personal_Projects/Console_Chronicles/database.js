@@ -10,7 +10,10 @@ const consoleData = {
         { id: 5, name: 'Atari', founded: 1972, country: 'USA' },
         { id: 6, name: 'NEC', founded: 1899, country: 'Japan' },
         { id: 7, name: 'SNK', founded: 1978, country: 'Japan' },
-        { id: 8, name: '3DO', founded: 1991, country: 'USA' }
+        { id: 8, name: '3DO', founded: 1991, country: 'USA' },
+        { id: 9, name: 'Valve', founded: 1996, country: 'USA' },
+        { id: 10, name: 'ASUS', founded: 1989, country: 'Taiwan' },
+        { id: 11, name: 'Lenovo', founded: 1984, country: 'China' }
     ],
 
     consoles: [
@@ -56,8 +59,13 @@ const consoleData = {
         { id: 25, name: 'Nintendo Switch', company_id: 1, year: 2017, generation: 8, units_sold: 139.36, price: 299.99 },
 
         // Generation 9
-        { id: 26, name: 'PlayStation 5', company_id: 2, year: 2020, generation: 9, units_sold: 54.8, price: 499.99 },
-        { id: 27, name: 'Xbox Series X/S', company_id: 3, year: 2020, generation: 9, units_sold: 28.3, price: 499.99 }
+        { id: 26, name: 'PlayStation 5', company_id: 2, year: 2020, generation: 9, units_sold: 59.3, price: 499.99 },
+        { id: 27, name: 'Xbox Series X/S', company_id: 3, year: 2020, generation: 9, units_sold: 31.0, price: 499.99 },
+        { id: 28, name: 'Steam Deck', company_id: 9, year: 2022, generation: 9, units_sold: 5.0, price: 399.99 },
+        { id: 29, name: 'PlayStation Portal', company_id: 2, year: 2023, generation: 9, units_sold: 2.0, price: 199.99 },
+        { id: 30, name: 'Nintendo Switch OLED', company_id: 1, year: 2021, generation: 8, units_sold: 25.0, price: 349.99 },
+        { id: 31, name: 'ASUS ROG Ally', company_id: 10, year: 2023, generation: 9, units_sold: 1.5, price: 699.99 },
+        { id: 32, name: 'Lenovo Legion Go', company_id: 11, year: 2023, generation: 9, units_sold: 0.5, price: 699.99 }
     ],
 
     games: [
@@ -108,8 +116,32 @@ const consoleData = {
         { id: 28, title: 'The Legend of Zelda: Breath of the Wild', console_id: 25, year: 2017, copies_sold: 31.85 },
 
         // PlayStation 5 Games
-        { id: 29, title: 'Spider-Man: Miles Morales', console_id: 26, year: 2020, copies_sold: 6.5 },
-        { id: 30, title: 'Demon\'s Souls', console_id: 26, year: 2020, copies_sold: 1.4 }
+        { id: 29, title: 'Spider-Man: Miles Morales', console_id: 26, year: 2020, copies_sold: 10.8 },
+        { id: 30, title: 'Demon\'s Souls', console_id: 26, year: 2020, copies_sold: 1.4 },
+        { id: 31, title: 'God of War Ragnarök', console_id: 26, year: 2022, copies_sold: 15.0 },
+        { id: 32, title: 'Hogwarts Legacy', console_id: 26, year: 2023, copies_sold: 22.0 },
+        { id: 33, title: 'Spider-Man 2', console_id: 26, year: 2023, copies_sold: 11.0 },
+        { id: 34, title: 'Final Fantasy XVI', console_id: 26, year: 2023, copies_sold: 3.0 },
+        { id: 35, title: 'Stellar Blade', console_id: 26, year: 2024, copies_sold: 1.0 },
+
+        // Nintendo Switch Games (2021-2024)
+        { id: 36, title: 'Pokémon Legends: Arceus', console_id: 25, year: 2022, copies_sold: 14.83 },
+        { id: 37, title: 'Pokémon Scarlet/Violet', console_id: 25, year: 2022, copies_sold: 25.29 },
+        { id: 38, title: 'The Legend of Zelda: Tears of the Kingdom', console_id: 25, year: 2023, copies_sold: 20.80 },
+        { id: 39, title: 'Super Mario Bros. Wonder', console_id: 25, year: 2023, copies_sold: 8.0 },
+        { id: 40, title: 'Splatoon 3', console_id: 25, year: 2022, copies_sold: 12.21 },
+        { id: 41, title: 'Fire Emblem Engage', console_id: 25, year: 2023, copies_sold: 2.0 },
+        { id: 42, title: 'Princess Peach: Showtime!', console_id: 25, year: 2024, copies_sold: 1.2 },
+
+        // Xbox Series X/S Games
+        { id: 43, title: 'Halo Infinite', console_id: 27, year: 2021, copies_sold: 6.0 },
+        { id: 44, title: 'Forza Horizon 5', console_id: 27, year: 2021, copies_sold: 35.0 },
+        { id: 45, title: 'Starfield', console_id: 27, year: 2023, copies_sold: 13.0 },
+        { id: 46, title: 'Hi-Fi Rush', console_id: 27, year: 2023, copies_sold: 3.0 },
+
+        // Steam Deck Games
+        { id: 47, title: 'Elden Ring', console_id: 28, year: 2022, copies_sold: 25.0 },
+        { id: 48, title: 'Baldur\'s Gate 3', console_id: 28, year: 2023, copies_sold: 15.0 }
     ]
 };
 
@@ -124,7 +156,9 @@ const companyHistory = {
             '1989: Released Game Boy',
             '1996: Introduced 3D gaming with N64',
             '2006: Revolutionary motion controls with Wii',
-            '2017: Hybrid console with Switch'
+            '2017: Hybrid console with Switch',
+            '2021: Switch OLED model released',
+            '2023: Zelda: Tears of the Kingdom breaks records'
         ]
     },
     2: {
@@ -135,7 +169,9 @@ const companyHistory = {
             '2000: PS2 becomes best-selling console ever',
             '2006: Blu-ray integration with PS3',
             '2013: PS4 dominates generation 8',
-            '2020: PS5 launches with cutting-edge technology'
+            '2020: PS5 launches with cutting-edge technology',
+            '2022: God of War Ragnarök released',
+            '2023: PlayStation Portal streaming device'
         ]
     },
     3: {
@@ -146,7 +182,9 @@ const companyHistory = {
             '2002: Xbox Live revolutionizes online gaming',
             '2005: Xbox 360 leads HD gaming era',
             '2013: Xbox One multimedia focus',
-            '2020: Game Pass and Series X/S launch'
+            '2020: Game Pass and Series X/S launch',
+            '2023: Activision Blizzard acquisition completed',
+            '2023: Starfield exclusive release'
         ]
     },
     4: {

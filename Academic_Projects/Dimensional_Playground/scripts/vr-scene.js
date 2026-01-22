@@ -17,6 +17,13 @@ let lastClickTime = 0;
 let orbsCollected = 0;
 let totalOrbs = 5;
 
+// Store initial state for reset
+const initialState = {
+    positions: new Map(),
+    animations: new Map(),
+    initialized: false
+};
+
 // Achievements
 const achievements = {
     firstClick: { unlocked: false, name: 'First Contact', description: 'Click your first object' },
@@ -26,6 +33,103 @@ const achievements = {
     score100: { unlocked: false, name: 'Century', description: 'Reach 100 points' },
     score500: { unlocked: false, name: 'High Scorer', description: 'Reach 500 points' }
 };
+
+// Store initial object states
+function storeInitialState() {
+    if (initialState.initialized) return;
+
+    document.querySelectorAll('.clickable').forEach((obj, index) => {
+        const id = obj.id || `clickable-${index}`;
+        initialState.positions.set(id, { ...obj.getAttribute('position') });
+
+        // Store all animation attributes
+        const anims = {};
+        Array.from(obj.attributes).forEach(attr => {
+            if (attr.name.startsWith('animation')) {
+                anims[attr.name] = attr.value;
+            }
+        });
+        initialState.animations.set(id, anims);
+    });
+
+    initialState.initialized = true;
+}
+
+// Reset scene to initial state
+function resetScene() {
+    // Reset game state
+    score = 0;
+    partyModeActive = false;
+    gravityEnabled = true;
+    physicsEnabled = false;
+    comboCount = 0;
+    if (comboTimer) clearTimeout(comboTimer);
+
+    // Update UI
+    document.getElementById('score-display').textContent = 'Score: 0';
+    document.getElementById('combo-display').classList.remove('visible');
+    document.getElementById('combo-display').classList.add('hidden');
+
+    // Reset button states
+    document.getElementById('party-mode').classList.remove('active');
+    document.getElementById('party-mode').innerHTML = '<span class="icon">&#127881;</span> Party Mode';
+    document.getElementById('gravity-toggle').classList.remove('active');
+    document.getElementById('gravity-toggle').innerHTML = '<span class="icon">&#127758;</span> Gravity';
+    document.getElementById('physics-drop').classList.remove('active');
+    document.getElementById('physics-drop').innerHTML = '<span class="icon">&#11015;</span> Drop All';
+
+    // Reset sky
+    const sky = document.querySelector('a-sky');
+    sky.setAttribute('color', '#050510');
+    sky.setAttribute('animation', {
+        property: 'color',
+        to: '#0a0a20',
+        dur: 20000,
+        dir: 'alternate',
+        loop: true,
+        easing: 'easeInOutSine'
+    });
+
+    // Reset clickable objects
+    document.querySelectorAll('.clickable').forEach((obj, index) => {
+        const id = obj.id || `clickable-${index}`;
+
+        // Remove any current animations
+        Array.from(obj.attributes).forEach(attr => {
+            if (attr.name.startsWith('animation')) {
+                obj.removeAttribute(attr.name);
+            }
+        });
+
+        // Restore position
+        if (initialState.positions.has(id)) {
+            obj.setAttribute('position', initialState.positions.get(id));
+        }
+
+        // Restore original animations
+        if (initialState.animations.has(id)) {
+            const anims = initialState.animations.get(id);
+            Object.entries(anims).forEach(([name, value]) => {
+                obj.setAttribute(name, value);
+            });
+        }
+
+        // Reset material
+        obj.setAttribute('material', 'emissiveIntensity', 0);
+        obj.classList.remove('proximity-active');
+    });
+
+    // Remove any spawned objects (those without stored initial state)
+    document.querySelectorAll('.clickable').forEach((obj, index) => {
+        const id = obj.id || `clickable-${index}`;
+        if (!initialState.positions.has(id) && obj.parentNode) {
+            obj.parentNode.removeChild(obj);
+        }
+    });
+
+    playSound(500, 0.2, 'sine');
+    playSound(700, 0.15, 'sine');
+}
 
 // Audio context for sound effects
 let audioContext;
@@ -291,6 +395,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 400);
         }, 800);
         console.log('Dimensional Playground loaded successfully!');
+
+        // Store initial state for reset functionality
+        setTimeout(storeInitialState, 100);
     }
 
     // Primary: wait for scene loaded event
@@ -422,10 +529,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const partyModeBtn = document.getElementById('party-mode');
     const gravityToggleBtn = document.getElementById('gravity-toggle');
     const addObjectBtn = document.getElementById('add-object');
+    const resetSceneBtn = document.getElementById('reset-scene');
     const backButton = document.getElementById('back-button');
     const exitModal = document.getElementById('exit-modal');
     const confirmExitBtn = document.getElementById('confirm-exit');
     const cancelExitBtn = document.getElementById('cancel-exit');
+
+    // Reset Scene button
+    resetSceneBtn.addEventListener('click', function() {
+        initAudio();
+        resetScene();
+    });
 
     // Panel toggles with smooth animations
     toggleInfoBtn.addEventListener('click', function() {
@@ -585,8 +699,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             this.classList.remove('active');
             this.innerHTML = '<span class="icon">&#127881;</span> Party Mode';
-            playSound(400, 0.2, 'sine');
-            location.reload();
+            resetScene();
         }
     });
 
@@ -614,8 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             this.classList.remove('active');
             this.innerHTML = '<span class="icon">&#127758;</span> Gravity';
-            playSound(100, 0.3, 'triangle');
-            location.reload();
+            resetScene();
         }
     });
 
@@ -720,10 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             this.classList.remove('active');
             this.innerHTML = '<span class="icon">&#11015;</span> Drop All';
-            playSound(400, 0.2, 'sine');
-
-            // Reset - reload page to restore original state
-            location.reload();
+            resetScene();
         }
     });
 

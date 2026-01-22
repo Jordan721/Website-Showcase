@@ -3,7 +3,8 @@ let score = 0;
 let partyModeActive = false;
 let gravityEnabled = true;
 let physicsEnabled = false;
-let proximityEnabled = true;
+let proximityEnabled = false;
+let grabModeEnabled = false;
 let originalAnimations = new Map();
 let originalPositions = new Map();
 
@@ -16,6 +17,34 @@ let lastClickTime = 0;
 // Collectibles
 let orbsCollected = 0;
 let totalOrbs = 5;
+
+// Grab and throw system
+let grabbedObject = null;
+let grabOffset = { x: 0, y: 0, z: 0 };
+let velocityHistory = [];
+let lastMousePos = { x: 0, y: 0 };
+let lastMouseTime = 0;
+const GRAVITY = 9.8;
+const GROUND_Y = 0.3;
+const BOUNCE_DAMPING = 0.6;
+const FRICTION = 0.98;
+
+// Keyboard control for grabbed objects
+const grabKeys = {
+    left: false,
+    right: false,
+    up: false,
+    down: false,
+    forward: false,
+    backward: false
+};
+let grabVelocity = { x: 0, y: 0, z: 0 };
+const GRAB_ACCELERATION = 0.02;
+const GRAB_MAX_SPEED = 0.3;
+const GRAB_DECELERATION = 0.92;
+
+// Active physics objects (objects that have been thrown)
+let physicsObjects = new Map();
 
 // Store initial state for reset
 const initialState = {
@@ -194,6 +223,253 @@ function playAchievementSound() {
         setTimeout(() => playSound(note, 0.3, 'sine', 0.15), i * 100);
     });
 }
+
+// Grab and throw physics functions
+function grabObject(obj, mouseX, mouseY) {
+    if (!grabModeEnabled || grabbedObject) return;
+
+    grabbedObject = obj;
+    velocityHistory = [];
+    grabVelocity = { x: 0, y: 0, z: 0 };
+    lastMousePos = { x: mouseX, y: mouseY };
+    lastMouseTime = performance.now();
+
+    // Stop any physics on this object
+    if (physicsObjects.has(obj)) {
+        physicsObjects.delete(obj);
+    }
+
+    // Remove animations while grabbed
+    const attrs = obj.attributes;
+    for (let i = attrs.length - 1; i >= 0; i--) {
+        const attrName = attrs[i].name;
+        if (attrName.startsWith('animation')) {
+            obj.removeAttribute(attrName);
+        }
+    }
+
+    // Visual feedback
+    obj.setAttribute('material', 'emissive', obj.getAttribute('color'));
+    obj.setAttribute('material', 'emissiveIntensity', 0.5);
+
+    playSound(400, 0.1, 'sine', 0.2);
+
+    // Start keyboard control loop for grabbed object
+    requestAnimationFrame(updateGrabbedObjectMovement);
+}
+
+// Update grabbed object position based on keyboard input
+function updateGrabbedObjectMovement() {
+    if (!grabbedObject || !grabModeEnabled) return;
+
+    // Apply acceleration based on keys pressed
+    if (grabKeys.left) grabVelocity.x -= GRAB_ACCELERATION;
+    if (grabKeys.right) grabVelocity.x += GRAB_ACCELERATION;
+    if (grabKeys.up) grabVelocity.y += GRAB_ACCELERATION;
+    if (grabKeys.down) grabVelocity.y -= GRAB_ACCELERATION;
+    if (grabKeys.forward) grabVelocity.z -= GRAB_ACCELERATION;
+    if (grabKeys.backward) grabVelocity.z += GRAB_ACCELERATION;
+
+    // Clamp velocity
+    grabVelocity.x = Math.max(-GRAB_MAX_SPEED, Math.min(GRAB_MAX_SPEED, grabVelocity.x));
+    grabVelocity.y = Math.max(-GRAB_MAX_SPEED, Math.min(GRAB_MAX_SPEED, grabVelocity.y));
+    grabVelocity.z = Math.max(-GRAB_MAX_SPEED, Math.min(GRAB_MAX_SPEED, grabVelocity.z));
+
+    // Apply deceleration when no keys pressed
+    if (!grabKeys.left && !grabKeys.right) grabVelocity.x *= GRAB_DECELERATION;
+    if (!grabKeys.up && !grabKeys.down) grabVelocity.y *= GRAB_DECELERATION;
+    if (!grabKeys.forward && !grabKeys.backward) grabVelocity.z *= GRAB_DECELERATION;
+
+    // Update position
+    const pos = grabbedObject.getAttribute('position');
+    grabbedObject.setAttribute('position', {
+        x: pos.x + grabVelocity.x,
+        y: Math.max(GROUND_Y + 0.2, pos.y + grabVelocity.y),
+        z: pos.z + grabVelocity.z
+    });
+
+    // Store velocity for throwing
+    velocityHistory.push({
+        vx: grabVelocity.x * 50,
+        vy: grabVelocity.y * 50,
+        vz: grabVelocity.z * 50,
+        time: performance.now()
+    });
+    if (velocityHistory.length > 10) velocityHistory.shift();
+
+    requestAnimationFrame(updateGrabbedObjectMovement);
+}
+
+function dragObject(mouseX, mouseY) {
+    if (!grabbedObject) return;
+
+    const now = performance.now();
+    const deltaTime = (now - lastMouseTime) / 1000;
+
+    // Calculate velocity from mouse movement
+    if (deltaTime > 0) {
+        const vx = (mouseX - lastMousePos.x) / deltaTime;
+        const vy = (mouseY - lastMousePos.y) / deltaTime;
+
+        // Keep last 5 velocity samples for smoothing
+        velocityHistory.push({ vx, vy, time: now });
+        if (velocityHistory.length > 5) velocityHistory.shift();
+    }
+
+    lastMousePos = { x: mouseX, y: mouseY };
+    lastMouseTime = now;
+
+    // Move object based on mouse position (projected into 3D space)
+    const camera = document.querySelector('#camera-rig');
+    if (!camera) return;
+
+    const cameraPos = camera.getAttribute('position');
+    const currentPos = grabbedObject.getAttribute('position');
+
+    // Convert screen movement to 3D movement
+    const moveScale = 0.01;
+    const newX = currentPos.x + (mouseX - window.innerWidth / 2) * moveScale * 0.1;
+    const newY = Math.max(GROUND_Y + 0.2, currentPos.y - (mouseY - window.innerHeight / 2) * moveScale * 0.05);
+
+    grabbedObject.setAttribute('position', {
+        x: currentPos.x + (mouseX - lastMousePos.x) * 0.02,
+        y: newY,
+        z: currentPos.z
+    });
+}
+
+function releaseObject() {
+    if (!grabbedObject) return;
+
+    // Calculate throw velocity from velocity history (keyboard-based)
+    let avgVx = 0, avgVy = 0, avgVz = 0;
+    if (velocityHistory.length > 0) {
+        velocityHistory.forEach(v => {
+            avgVx += v.vx || 0;
+            avgVy += v.vy || 0;
+            avgVz += v.vz || 0;
+        });
+        avgVx /= velocityHistory.length;
+        avgVy /= velocityHistory.length;
+        avgVz /= velocityHistory.length;
+    }
+
+    const pos = grabbedObject.getAttribute('position');
+
+    // Calculate throw strength based on current grab velocity
+    const speed = Math.sqrt(grabVelocity.x ** 2 + grabVelocity.y ** 2 + grabVelocity.z ** 2);
+    const throwMultiplier = 15; // Amplify for good throwing feel
+
+    // Add to physics simulation with velocity from keyboard movement
+    physicsObjects.set(grabbedObject, {
+        vx: grabVelocity.x * throwMultiplier,
+        vy: grabVelocity.y * throwMultiplier + (speed > 0.05 ? 3 : 1), // Add upward boost if moving fast
+        vz: grabVelocity.z * throwMultiplier,
+        x: pos.x,
+        y: pos.y,
+        z: pos.z,
+        bounces: 0
+    });
+
+    // Visual feedback
+    grabbedObject.setAttribute('material', 'emissiveIntensity', 0);
+
+    playSound(300 + speed * 500, 0.15, 'sine', 0.2);
+
+    grabbedObject = null;
+    velocityHistory = [];
+    grabVelocity = { x: 0, y: 0, z: 0 };
+}
+
+// Physics simulation loop
+let lastPhysicsTime = performance.now();
+
+function updatePhysics() {
+    if (!grabModeEnabled && physicsObjects.size === 0) {
+        requestAnimationFrame(updatePhysics);
+        return;
+    }
+
+    const now = performance.now();
+    const deltaTime = Math.min((now - lastPhysicsTime) / 1000, 0.05); // Cap delta time
+    lastPhysicsTime = now;
+
+    physicsObjects.forEach((physics, obj) => {
+        if (!obj.parentNode) {
+            physicsObjects.delete(obj);
+            return;
+        }
+
+        // Apply gravity
+        physics.vy -= GRAVITY * deltaTime;
+
+        // Apply friction
+        physics.vx *= FRICTION;
+        physics.vz *= FRICTION;
+
+        // Update position
+        physics.x += physics.vx * deltaTime * 60;
+        physics.y += physics.vy * deltaTime * 60;
+        physics.z += physics.vz * deltaTime * 60;
+
+        // Ground collision
+        if (physics.y < GROUND_Y) {
+            physics.y = GROUND_Y;
+            physics.vy = -physics.vy * BOUNCE_DAMPING;
+            physics.bounces++;
+
+            // Play bounce sound
+            if (Math.abs(physics.vy) > 0.5) {
+                playSound(80 + physics.bounces * 20, 0.1, 'triangle', 0.15);
+            }
+
+            // Stop bouncing after too many bounces or low velocity
+            if (physics.bounces > 5 || Math.abs(physics.vy) < 0.3) {
+                physics.vy = 0;
+                physics.vx *= 0.5;
+                physics.vz *= 0.5;
+            }
+        }
+
+        // Wall boundaries
+        if (Math.abs(physics.x) > 20) {
+            physics.x = Math.sign(physics.x) * 20;
+            physics.vx = -physics.vx * BOUNCE_DAMPING;
+        }
+        if (physics.z < -25 || physics.z > 5) {
+            physics.z = physics.z < -25 ? -25 : 5;
+            physics.vz = -physics.vz * BOUNCE_DAMPING;
+        }
+
+        // Update object position
+        obj.setAttribute('position', {
+            x: physics.x,
+            y: physics.y,
+            z: physics.z
+        });
+
+        // Add rotation based on velocity
+        const currentRot = obj.getAttribute('rotation') || { x: 0, y: 0, z: 0 };
+        obj.setAttribute('rotation', {
+            x: currentRot.x + physics.vz * 2,
+            y: currentRot.y + (physics.vx + physics.vz) * 0.5,
+            z: currentRot.z - physics.vx * 2
+        });
+
+        // Remove from physics if nearly stopped
+        if (physics.bounces > 5 &&
+            Math.abs(physics.vx) < 0.01 &&
+            Math.abs(physics.vy) < 0.01 &&
+            Math.abs(physics.vz) < 0.01) {
+            physicsObjects.delete(obj);
+        }
+    });
+
+    requestAnimationFrame(updatePhysics);
+}
+
+// Start physics loop
+requestAnimationFrame(updatePhysics);
 
 // Combo system functions
 function updateCombo() {
@@ -469,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pushStrength = 0.08; // How much objects move away
 
     function updateProximityEffects() {
-        if (!proximityEnabled || physicsEnabled) return;
+        if (!proximityEnabled) return;
 
         const camera = document.querySelector('#camera-rig');
         if (!camera) return;
@@ -488,18 +764,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (distance < proximityRadius && distance > 0.1) {
                 // Calculate push direction (away from player)
-                const pushX = (dx / distance) * pushStrength;
-                const pushZ = (dz / distance) * pushStrength;
+                // Stronger push when physics is enabled (objects on ground are easier to push)
+                const currentPushStrength = physicsEnabled ? pushStrength * 1.5 : pushStrength;
+                const pushX = (dx / distance) * currentPushStrength;
+                const pushZ = (dz / distance) * currentPushStrength;
 
                 // Stronger push when closer
                 const proximityFactor = 1 - (distance / proximityRadius);
 
-                // Apply gentle push
-                obj.setAttribute('position', {
-                    x: objPos.x + pushX * proximityFactor,
-                    y: objPos.y + (Math.sin(Date.now() / 200) * 0.02 * proximityFactor), // Slight bobbing
-                    z: objPos.z + pushZ * proximityFactor
-                });
+                // Apply push - if physics enabled, keep Y constant (slide on ground)
+                if (physicsEnabled) {
+                    // Slide along ground only (no Y movement)
+                    obj.setAttribute('position', {
+                        x: objPos.x + pushX * proximityFactor,
+                        y: objPos.y, // Keep Y fixed on ground
+                        z: objPos.z + pushZ * proximityFactor
+                    });
+
+                    // Add slight rotation when pushed (rolling effect)
+                    const currentRot = obj.getAttribute('rotation') || {x: 0, y: 0, z: 0};
+                    obj.setAttribute('rotation', {
+                        x: currentRot.x + pushZ * proximityFactor * 5,
+                        y: currentRot.y,
+                        z: currentRot.z - pushX * proximityFactor * 5
+                    });
+                } else {
+                    // Normal floating push with bobbing
+                    obj.setAttribute('position', {
+                        x: objPos.x + pushX * proximityFactor,
+                        y: objPos.y + (Math.sin(Date.now() / 200) * 0.02 * proximityFactor),
+                        z: objPos.z + pushZ * proximityFactor
+                    });
+                }
 
                 // Add a glow effect when close
                 if (!obj.classList.contains('proximity-active')) {
@@ -731,27 +1027,263 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Proximity Toggle
+    // Grab Mode Toggle (replaces proximity)
     const proximityToggleBtn = document.getElementById('proximity-toggle');
     proximityToggleBtn.addEventListener('click', function() {
         initAudio();
-        proximityEnabled = !proximityEnabled;
+        grabModeEnabled = !grabModeEnabled;
 
-        if (proximityEnabled) {
+        if (grabModeEnabled) {
             this.classList.add('active');
-            this.innerHTML = '<span class="icon">&#128400;</span> Push';
+            this.innerHTML = '<span class="icon">&#9995;</span> Grab ON';
             playSound(500, 0.15, 'sine');
-            updateProximityEffects(); // Restart the loop
+
+            // Disable proximity push when grab mode is on
+            proximityEnabled = false;
+
+            // Add visual hint - make objects glow slightly
+            document.querySelectorAll('.clickable').forEach(obj => {
+                obj.setAttribute('material', 'emissive', obj.getAttribute('color'));
+                obj.setAttribute('material', 'emissiveIntensity', 0.15);
+            });
         } else {
             this.classList.remove('active');
-            this.innerHTML = '<span class="icon">&#128400;</span> Push Off';
+            this.innerHTML = '<span class="icon">&#128400;</span> Push';
             playSound(300, 0.15, 'sine');
 
-            // Remove all glow effects
-            document.querySelectorAll('.proximity-active').forEach(obj => {
-                obj.classList.remove('proximity-active');
+            // Re-enable proximity
+            proximityEnabled = true;
+
+            // Release any grabbed object
+            if (grabbedObject) {
+                releaseObject();
+            }
+
+            // Remove glow effects
+            document.querySelectorAll('.clickable').forEach(obj => {
                 obj.setAttribute('material', 'emissiveIntensity', 0);
             });
+
+            // Clear all physics objects and reset
+            physicsObjects.clear();
+            updateProximityEffects();
+        }
+    });
+
+    // Mouse/touch events for grab and throw
+    let isMouseDown = false;
+
+    // Create a Three.js raycaster for mouse-based picking
+    const mouseRaycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // Helper to get object under mouse position using Three.js raycaster
+    function getObjectAtMousePosition(clientX, clientY) {
+        // Convert mouse position to normalized device coordinates (-1 to +1)
+        mouse.x = (clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+
+        // Get the camera from A-Frame
+        const camera = document.querySelector('a-camera');
+        if (!camera || !camera.components || !camera.components.camera) return null;
+
+        const threeCamera = camera.components.camera.camera;
+        if (!threeCamera) return null;
+
+        // Update the raycaster
+        mouseRaycaster.setFromCamera(mouse, threeCamera);
+
+        // Get all clickable objects' 3D meshes
+        const clickableEls = document.querySelectorAll('.clickable');
+        const meshes = [];
+
+        clickableEls.forEach(el => {
+            if (el.object3D) {
+                el.object3D.traverse(child => {
+                    if (child.isMesh) {
+                        child.userData.aframeEl = el; // Store reference to A-Frame element
+                        meshes.push(child);
+                    }
+                });
+            }
+        });
+
+        // Check for intersections
+        const intersects = mouseRaycaster.intersectObjects(meshes, false);
+
+        if (intersects.length > 0) {
+            // Return the A-Frame element of the first intersection
+            return intersects[0].object.userData.aframeEl;
+        }
+
+        return null;
+    }
+
+    // Global mousedown - use Three.js raycaster to find object
+    document.addEventListener('mousedown', function(e) {
+        if (!grabModeEnabled) return;
+
+        // Check if clicking on UI elements
+        if (e.target.closest('#fun-controls') ||
+            e.target.closest('.toggle-btn') ||
+            e.target.closest('.glass-panel') ||
+            e.target.closest('#back-button') ||
+            e.target.closest('#exit-modal')) {
+            return;
+        }
+
+        isMouseDown = true;
+        initAudio();
+
+        // Use Three.js raycaster to find object at mouse position
+        const targetObj = getObjectAtMousePosition(e.clientX, e.clientY);
+        if (targetObj) {
+            grabObject(targetObj, e.clientX, e.clientY);
+        }
+    });
+
+    // Global mouse move for dragging (optional - keyboard is primary)
+    document.addEventListener('mousemove', function(e) {
+        if (grabModeEnabled && grabbedObject && isMouseDown) {
+            // Only track mouse position, don't move object (keyboard controls movement)
+            lastMousePos = { x: e.clientX, y: e.clientY };
+            lastMouseTime = performance.now();
+        }
+    });
+
+    // Global mouse up for releasing/throwing
+    document.addEventListener('mouseup', function(e) {
+        if (grabModeEnabled && grabbedObject) {
+            releaseObject();
+        }
+        isMouseDown = false;
+    });
+
+    // Touch support for mobile
+    document.addEventListener('touchstart', function(e) {
+        if (!grabModeEnabled) return;
+
+        // Check if touching UI elements
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && (
+            element.closest('#fun-controls') ||
+            element.closest('.toggle-btn') ||
+            element.closest('.glass-panel') ||
+            element.closest('#back-button'))) {
+            return;
+        }
+
+        isMouseDown = true;
+        initAudio();
+
+        // Use Three.js raycaster to find object at touch position
+        const targetObj = getObjectAtMousePosition(touch.clientX, touch.clientY);
+        if (targetObj) {
+            grabObject(targetObj, touch.clientX, touch.clientY);
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function(e) {
+        if (grabModeEnabled && grabbedObject) {
+            e.preventDefault();
+            const touch = e.touches[0];
+
+            const pos = grabbedObject.getAttribute('position');
+            const now = performance.now();
+            const deltaTime = (now - lastMouseTime) / 1000;
+
+            // For touch, allow direct movement (mobile doesn't have keyboard)
+            if (deltaTime > 0 && deltaTime < 0.1) {
+                const sensitivity = 0.015;
+                const dx = (touch.clientX - lastMousePos.x) * sensitivity;
+                const dy = -(touch.clientY - lastMousePos.y) * sensitivity;
+
+                grabbedObject.setAttribute('position', {
+                    x: pos.x + dx,
+                    y: Math.max(GROUND_Y + 0.2, pos.y + dy),
+                    z: pos.z
+                });
+
+                // Store velocity for throwing
+                grabVelocity.x = dx;
+                grabVelocity.y = dy;
+            }
+
+            lastMousePos = { x: touch.clientX, y: touch.clientY };
+            lastMouseTime = now;
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchend', function() {
+        if (grabModeEnabled && grabbedObject) {
+            releaseObject();
+        }
+        isMouseDown = false;
+    });
+
+    // Keyboard controls for grabbed objects
+    // Arrow keys: move left/right/up/down
+    // W/S: move forward/backward (depth)
+    // Space: release/throw
+    document.addEventListener('keydown', function(e) {
+        if (!grabModeEnabled || !grabbedObject) return;
+
+        // Prevent default for arrow keys to avoid scrolling
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyS', 'KeyA', 'KeyD', 'Space'].includes(e.code)) {
+            e.preventDefault();
+        }
+
+        switch (e.code) {
+            case 'ArrowLeft':
+            case 'KeyA':
+                grabKeys.left = true;
+                break;
+            case 'ArrowRight':
+            case 'KeyD':
+                grabKeys.right = true;
+                break;
+            case 'ArrowUp':
+                grabKeys.up = true;
+                break;
+            case 'ArrowDown':
+                grabKeys.down = true;
+                break;
+            case 'KeyW':
+                grabKeys.forward = true;
+                break;
+            case 'KeyS':
+                grabKeys.backward = true;
+                break;
+            case 'Space':
+                // Release/throw the object
+                releaseObject();
+                break;
+        }
+    });
+
+    document.addEventListener('keyup', function(e) {
+        switch (e.code) {
+            case 'ArrowLeft':
+            case 'KeyA':
+                grabKeys.left = false;
+                break;
+            case 'ArrowRight':
+            case 'KeyD':
+                grabKeys.right = false;
+                break;
+            case 'ArrowUp':
+                grabKeys.up = false;
+                break;
+            case 'ArrowDown':
+                grabKeys.down = false;
+                break;
+            case 'KeyW':
+                grabKeys.forward = false;
+                break;
+            case 'KeyS':
+                grabKeys.backward = false;
+                break;
         }
     });
 

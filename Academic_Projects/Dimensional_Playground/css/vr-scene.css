@@ -191,6 +191,129 @@ body {
     transform: translateX(-50%) scale(1);
 }
 
+/* Combo Display */
+#combo-display {
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.95) 0%, rgba(255, 150, 100, 0.95) 100%);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#combo-display.visible {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+#combo-display.pulse {
+    animation: comboPulse 0.2s ease-out;
+}
+
+@keyframes comboPulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.15); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+#combo-count {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+#combo-text {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+/* Orb Counter */
+#orb-counter {
+    position: absolute;
+    top: 15px;
+    right: 120px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.9) 0%, rgba(255, 180, 0, 0.9) 100%);
+    color: #1a1a2e;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.orb-icon {
+    font-size: 16px;
+    animation: orbGlow 2s ease-in-out infinite;
+}
+
+@keyframes orbGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+/* Achievement Popup */
+#achievement-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.98) 0%, rgba(255, 180, 0, 0.98) 100%);
+    color: #1a1a2e;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5),
+                0 0 60px rgba(255, 215, 0, 0.3);
+    text-align: center;
+    pointer-events: none;
+}
+
+#achievement-popup.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.achievement-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 10px;
+    animation: achievementBounce 0.5s ease-out;
+}
+
+@keyframes achievementBounce {
+    0% { transform: scale(0) rotate(-20deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+#achievement-text {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 /* Fun Controls */
 #fun-controls {
     position: absolute;
@@ -501,5 +624,36 @@ body {
         right: 10px !important;
         padding: 10px 14px !important;
         font-size: 10px !important;
+    }
+
+    #combo-display {
+        top: 55px;
+        padding: 8px 16px;
+    }
+
+    #combo-count {
+        font-size: 16px;
+    }
+
+    #combo-text {
+        font-size: 10px;
+    }
+
+    #orb-counter {
+        right: 100px;
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    #achievement-popup {
+        padding: 15px 25px;
+    }
+
+    .achievement-icon {
+        font-size: 30px;
+    }
+
+    #achievement-text {
+        font-size: 12px;
     }
 }

@@ -652,6 +652,204 @@ body {
     100% { transform: translateX(400%); }
 }
 
+/* Origins Section */
+.origins-section {
+    padding: 4rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.origins-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.quote-block {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(145deg, rgba(168, 85, 247, 0.1) 0%, rgba(233, 69, 96, 0.05) 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    position: relative;
+}
+
+.quote-icon {
+    font-size: 2rem;
+    color: var(--neon-purple);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.quote-block blockquote {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 600;
+    color: var(--light);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.quote-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--neon-purple);
+    font-weight: 500;
+}
+
+.origins-text {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.origins-text p {
+    color: var(--gray);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.origins-text .highlight {
+    color: var(--neon-blue);
+    font-weight: 600;
+}
+
+.origins-text .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
+
+.origins-text .note i {
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+}
+
+.legacy-downloads {
+    background: linear-gradient(145deg, rgba(15, 52, 96, 0.3) 0%, rgba(22, 33, 62, 0.5) 100%);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+
+.legacy-downloads h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--light);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.legacy-downloads h3 i {
+    color: var(--primary);
+    margin-right: 0.75rem;
+}
+
+.download-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.download-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.download-card:hover {
+    border-color: var(--neon-green);
+    background: rgba(74, 222, 128, 0.05);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2);
+}
+
+.download-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--neon-yellow);
+    flex-shrink: 0;
+}
+
+.download-card:hover .download-icon {
+    background: linear-gradient(135deg, var(--neon-green) 0%, #22c55e 100%);
+    color: white;
+}
+
+.download-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.download-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--light);
+}
+
+.download-meta {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.download-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid var(--neon-green);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neon-green);
+    transition: all 0.3s ease;
+}
+
+.download-card:hover .download-btn {
+    background: var(--neon-green);
+    color: white;
+}
+
+.legacy-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.legacy-note i {
+    color: var(--neon-yellow);
+}
+
 /* Stats Section */
 .stats-section {
     padding: 4rem 0;
@@ -874,5 +1072,30 @@ body {
 
     .header-line {
         max-width: 50px;
+    }
+
+    .origins-section {
+        padding: 2rem 0;
+    }
+
+    .quote-block {
+        padding: 2rem 1rem;
+    }
+
+    .quote-block blockquote {
+        font-size: 1rem;
+    }
+
+    .legacy-downloads {
+        padding: 1.5rem;
+    }
+
+    .download-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .origins-text .note {
+        flex-direction: column;
+        text-align: center;
     }
 }

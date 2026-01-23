@@ -372,6 +372,58 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================
+// Random Origin Quote
+// ========================================
+
+const originQuotes = [
+    {
+        text: "Every expert was once a beginner.",
+        author: "Helen Hayes"
+    },
+    {
+        text: "The secret of getting ahead is getting started.",
+        author: "Mark Twain"
+    },
+    {
+        text: "Small steps lead to big changes.",
+        author: "Unknown"
+    },
+    {
+        text: "You don't have to be great to start, but you have to start to be great.",
+        author: "Zig Ziglar"
+    },
+    {
+        text: "The journey of a thousand miles begins with a single step.",
+        author: "Lao Tzu"
+    },
+    {
+        text: "Great things are not done by impulse, but by a series of small things brought together.",
+        author: "Vincent Van Gogh"
+    },
+    {
+        text: "What you do today can improve all your tomorrows.",
+        author: "Ralph Marston"
+    },
+    {
+        text: "From small beginnings come great things.",
+        author: "Proverb"
+    }
+];
+
+function displayRandomQuote() {
+    const quoteElement = document.getElementById('origin-quote');
+    const authorElement = document.getElementById('quote-author');
+
+    if (quoteElement && authorElement) {
+        const randomQuote = originQuotes[Math.floor(Math.random() * originQuotes.length)];
+        quoteElement.textContent = `"${randomQuote.text}"`;
+        authorElement.textContent = `— ${randomQuote.author}`;
+    }
+}
+
+displayRandomQuote();
+
+// ========================================
 // Initialize
 // ========================================
 

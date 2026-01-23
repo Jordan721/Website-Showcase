@@ -683,6 +683,10 @@ body {
     color: var(--color-primary-dark);
 }
 
+.folder-symbol.folder-games i {
+    color: var(--color-secondary);
+}
+
 .category-info h3 {
     font-size: 1.5rem;
     color: var(--color-white);

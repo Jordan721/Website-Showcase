@@ -1,4 +1,154 @@
+// ========================================
+// Sound Effects System
+// ========================================
+
+class SoundEffects {
+    constructor() {
+        this.audioContext = null;
+        this.enabled = localStorage.getItem('soundEnabled') !== 'false';
+        this.initialized = false;
+    }
+
+    init() {
+        if (this.initialized) return;
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.initialized = true;
+    }
+
+    play(type) {
+        if (!this.enabled) return;
+
+        // Initialize on first interaction
+        if (!this.initialized) {
+            this.init();
+        }
+
+        if (!this.audioContext) return;
+
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+
+        const now = this.audioContext.currentTime;
+
+        switch (type) {
+            case 'hover':
+                // Short blip sound
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(800, now);
+                oscillator.frequency.exponentialRampToValueAtTime(1200, now + 0.05);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                oscillator.start(now);
+                oscillator.stop(now + 0.1);
+                break;
+
+            case 'click':
+                // Satisfying click
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(600, now);
+                oscillator.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+                gainNode.gain.setValueAtTime(0.15, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                oscillator.start(now);
+                oscillator.stop(now + 0.15);
+                break;
+
+            case 'success':
+                // Ascending arpeggio
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(523, now); // C5
+                oscillator.frequency.setValueAtTime(659, now + 0.1); // E5
+                oscillator.frequency.setValueAtTime(784, now + 0.2); // G5
+                gainNode.gain.setValueAtTime(0.12, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                oscillator.start(now);
+                oscillator.stop(now + 0.4);
+                break;
+
+            case 'toggle':
+                // Toggle switch sound
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(this.enabled ? 880 : 440, now);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                oscillator.start(now);
+                oscillator.stop(now + 0.1);
+                break;
+
+            case 'download':
+                // Download whoosh
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(400, now);
+                oscillator.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+                gainNode.gain.setValueAtTime(0.08, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                oscillator.start(now);
+                oscillator.stop(now + 0.3);
+                break;
+        }
+    }
+
+    toggle() {
+        this.enabled = !this.enabled;
+        localStorage.setItem('soundEnabled', this.enabled);
+        this.play('toggle');
+        return this.enabled;
+    }
+}
+
+const sfx = new SoundEffects();
+
+// Sound Toggle Button
+const soundToggle = document.getElementById('soundToggle');
+const soundIcon = document.getElementById('soundIcon');
+
+if (soundToggle) {
+    // Set initial state
+    if (!sfx.enabled) {
+        soundToggle.classList.add('muted');
+        soundIcon.className = 'fas fa-volume-mute';
+    }
+
+    soundToggle.addEventListener('click', () => {
+        const enabled = sfx.toggle();
+        soundToggle.classList.toggle('muted', !enabled);
+        soundIcon.className = enabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+    });
+}
+
+// Add sound effects to interactive elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Game cards hover
+    document.querySelectorAll('.game-card:not(.empty-slot)').forEach(card => {
+        card.addEventListener('mouseenter', () => sfx.play('hover'));
+        card.addEventListener('click', () => sfx.play('click'));
+    });
+
+    // Download cards
+    document.querySelectorAll('.download-card').forEach(card => {
+        card.addEventListener('mouseenter', () => sfx.play('hover'));
+        card.addEventListener('click', () => sfx.play('download'));
+    });
+
+    // Buttons
+    document.querySelectorAll('button, .back-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => sfx.play('hover'));
+        btn.addEventListener('click', () => sfx.play('click'));
+    });
+
+    // Stat cards
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', () => sfx.play('hover'));
+    });
+});
+
+// ========================================
 // Background Canvas Animation
+// ========================================
+
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -236,6 +386,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 function activateEasterEgg() {
+    sfx.play('success');
     const overlay = document.getElementById('easterEgg');
     overlay.classList.add('active');
 

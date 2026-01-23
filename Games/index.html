@@ -28,16 +28,21 @@
                 <i class="fas fa-arrow-left"></i>
                 <span>EXIT</span>
             </a>
-            <div class="player-stats">
-                <div class="stat-item">
-                    <i class="fas fa-gamepad"></i>
-                    <span class="stat-value">2</span>
-                    <span class="stat-label">GAMES</span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-code"></i>
-                    <span class="stat-value">WEB</span>
-                    <span class="stat-label">PLATFORM</span>
+            <div class="header-controls">
+                <button class="sound-toggle" id="soundToggle" title="Toggle Sound Effects">
+                    <i class="fas fa-volume-up" id="soundIcon"></i>
+                </button>
+                <div class="player-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span class="stat-value">2</span>
+                        <span class="stat-label">GAMES</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-code"></i>
+                        <span class="stat-value">WEB</span>
+                        <span class="stat-label">PLATFORM</span>
+                    </div>
                 </div>
             </div>
         </header>
@@ -72,9 +77,16 @@
 
             <div class="games-grid">
                 <!-- The Unfair Game -->
-                <a href="The_Unfair_Game_Web_Ed/index.html" class="game-card" data-game="unfair">
+                <a href="The_Unfair_Game_Web_Ed/index.html" class="game-card" data-game="unfair" data-preview="previews/unfair-game.gif">
                     <div class="card-glow"></div>
                     <div class="card-border"></div>
+                    <div class="game-preview">
+                        <img src="previews/unfair-game.gif" alt="Game Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>PREVIEW</span>
+                        </div>
+                    </div>
                     <div class="card-content">
                         <div class="game-icon">
                             <i class="fas fa-skull-crossbones"></i>
@@ -111,9 +123,16 @@
                 </a>
 
                 <!-- THW Game -->
-                <div class="game-card coming-soon" data-game="thw">
+                <div class="game-card coming-soon" data-game="thw" data-preview="previews/thw-game.gif">
                     <div class="card-glow"></div>
                     <div class="card-border"></div>
+                    <div class="game-preview">
+                        <img src="previews/thw-game.gif" alt="Game Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <i class="fas fa-eye"></i>
+                            <span>SNEAK PEEK</span>
+                        </div>
+                    </div>
                     <div class="card-content">
                         <div class="game-icon">
                             <i class="fas fa-question"></i>

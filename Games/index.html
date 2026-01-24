@@ -20,6 +20,9 @@
     <!-- Animated background -->
     <canvas id="bgCanvas"></canvas>
 
+    <!-- Cursor trail canvas -->
+    <canvas id="cursorTrail"></canvas>
+
     <!-- Main container -->
     <div class="game-hub">
         <!-- Header -->
@@ -272,6 +275,90 @@
             </div>
         </section>
 
+        <!-- Achievements Section -->
+        <section class="achievements-section">
+            <div class="section-header">
+                <div class="header-line"></div>
+                <h2><i class="fas fa-trophy"></i> ACHIEVEMENTS</h2>
+                <div class="header-line"></div>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card unlocked" data-achievement="first-visit">
+                    <div class="achievement-icon">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Welcome!</span>
+                        <span class="achievement-desc">Visit the Game Vault</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="achievement-card" data-achievement="konami">
+                    <div class="achievement-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Code Master</span>
+                        <span class="achievement-desc">Enter the Konami Code</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-card" data-achievement="snake-10">
+                    <div class="achievement-icon">
+                        <i class="fas fa-apple-alt"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Hungry Snake</span>
+                        <span class="achievement-desc">Score 10 in the terminal Snake game</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-card" data-achievement="snake-25">
+                    <div class="achievement-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Snake Charmer</span>
+                        <span class="achievement-desc">Score 25 in the terminal Snake game</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-card" data-achievement="terminal">
+                    <div class="achievement-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Hacker</span>
+                        <span class="achievement-desc">Access the secret terminal</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-card" data-achievement="explorer">
+                    <div class="achievement-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="achievement-name">Explorer</span>
+                        <span class="achievement-desc">Download a legacy game</span>
+                    </div>
+                    <div class="achievement-status">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+            </div>
+            <p class="achievements-hint"><i class="fas fa-lightbulb"></i> Hint: Press <kbd>~</kbd> to open the terminal...</p>
+        </section>
+
         <!-- Footer -->
         <footer class="hub-footer">
             <div class="footer-content">
@@ -283,6 +370,53 @@
                 <span>Try the Konami Code...</span>
             </div>
         </footer>
+    </div>
+
+    <!-- Terminal overlay -->
+    <div class="terminal-overlay" id="terminalOverlay">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span class="terminal-btn close" onclick="closeTerminal()"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <span class="terminal-title">vault_terminal.exe</span>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="terminal-output" id="terminalOutput">
+                    <p class="terminal-line system">GAME VAULT TERMINAL v1.0</p>
+                    <p class="terminal-line system">Type 'help' for available commands.</p>
+                    <p class="terminal-line system">-----------------------------------</p>
+                </div>
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">guest@vault:~$</span>
+                    <input type="text" id="terminalInput" class="terminal-input" autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snake Game overlay -->
+    <div class="snake-game-overlay" id="snakeGameOverlay">
+        <div class="snake-game-window">
+            <div class="snake-game-header">
+                <span class="snake-game-title"><i class="fas fa-gamepad"></i> SNAKE</span>
+                <button class="snake-close-btn" onclick="closeSnakeGame()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="snake-game-body">
+                <canvas id="snakeCanvas" width="300" height="300"></canvas>
+                <div class="snake-overlay" id="snakeOverlay">
+                    <i class="fas fa-play-circle"></i>
+                    <span>CLICK TO PLAY</span>
+                </div>
+            </div>
+            <div class="snake-game-footer">
+                <span class="snake-score">SCORE: <span id="snakeScore">0</span></span>
+                <span class="snake-high">BEST: <span id="snakeHigh">0</span></span>
+            </div>
+            <p class="snake-hint"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i><i class="fas fa-arrow-left"></i><i class="fas fa-arrow-right"></i> or WASD to move</p>
+        </div>
     </div>
 
     <!-- Easter egg overlay -->

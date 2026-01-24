@@ -387,6 +387,12 @@ document.addEventListener('keydown', (e) => {
 
 function activateEasterEgg() {
     sfx.play('success');
+
+    // Unlock konami achievement
+    if (typeof unlockAchievement === 'function') {
+        unlockAchievement('konami');
+    }
+
     const overlay = document.getElementById('easterEgg');
     overlay.classList.add('active');
 
@@ -575,8 +581,482 @@ function displayRandomQuote() {
 displayRandomQuote();
 
 // ========================================
+// Cursor Trail Effect
+// ========================================
+
+const cursorCanvas = document.getElementById('cursorTrail');
+const cursorCtx = cursorCanvas ? cursorCanvas.getContext('2d') : null;
+
+if (cursorCanvas && cursorCtx) {
+    cursorCanvas.width = window.innerWidth;
+    cursorCanvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        cursorCanvas.width = window.innerWidth;
+        cursorCanvas.height = window.innerHeight;
+    });
+
+    const trail = [];
+    const maxTrailLength = 20;
+
+    document.addEventListener('mousemove', (e) => {
+        trail.push({
+            x: e.clientX,
+            y: e.clientY,
+            alpha: 1
+        });
+
+        if (trail.length > maxTrailLength) {
+            trail.shift();
+        }
+    });
+
+    function animateCursorTrail() {
+        cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+
+        for (let i = 0; i < trail.length; i++) {
+            const point = trail[i];
+            const size = (i / trail.length) * 8;
+            const alpha = (i / trail.length) * 0.6;
+
+            cursorCtx.beginPath();
+            cursorCtx.arc(point.x, point.y, size, 0, Math.PI * 2);
+            cursorCtx.fillStyle = `rgba(233, 69, 96, ${alpha})`;
+            cursorCtx.fill();
+
+            // Add glow
+            cursorCtx.beginPath();
+            cursorCtx.arc(point.x, point.y, size * 2, 0, Math.PI * 2);
+            cursorCtx.fillStyle = `rgba(168, 85, 247, ${alpha * 0.3})`;
+            cursorCtx.fill();
+        }
+
+        requestAnimationFrame(animateCursorTrail);
+    }
+
+    animateCursorTrail();
+}
+
+// ========================================
+// Achievement System
+// ========================================
+
+const achievements = {
+    'first-visit': { name: 'Welcome!', unlocked: true },
+    'konami': { name: 'Code Master', unlocked: false },
+    'snake-10': { name: 'Hungry Snake', unlocked: false },
+    'snake-25': { name: 'Snake Charmer', unlocked: false },
+    'terminal': { name: 'Hacker', unlocked: false },
+    'explorer': { name: 'Explorer', unlocked: false }
+};
+
+// Load achievements from localStorage
+function loadAchievements() {
+    const saved = localStorage.getItem('gameVaultAchievements');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.keys(parsed).forEach(key => {
+            if (achievements[key]) {
+                achievements[key].unlocked = parsed[key].unlocked;
+            }
+        });
+    }
+    updateAchievementUI();
+}
+
+function saveAchievements() {
+    localStorage.setItem('gameVaultAchievements', JSON.stringify(achievements));
+}
+
+function unlockAchievement(id) {
+    if (achievements[id] && !achievements[id].unlocked) {
+        achievements[id].unlocked = true;
+        saveAchievements();
+        updateAchievementUI(id);
+        showAchievementToast(id);
+        sfx.play('success');
+    }
+}
+
+function updateAchievementUI(justUnlocked = null) {
+    Object.keys(achievements).forEach(id => {
+        const card = document.querySelector(`[data-achievement="${id}"]`);
+        if (card) {
+            if (achievements[id].unlocked) {
+                card.classList.add('unlocked');
+                card.querySelector('.achievement-status i').className = 'fas fa-check-circle';
+            }
+            if (id === justUnlocked) {
+                card.classList.add('just-unlocked');
+                setTimeout(() => card.classList.remove('just-unlocked'), 600);
+            }
+        }
+    });
+}
+
+function showAchievementToast(id) {
+    const achievement = achievements[id];
+    const toast = document.createElement('div');
+    toast.className = 'achievement-toast';
+    toast.innerHTML = `
+        <i class="fas fa-trophy"></i>
+        <div class="toast-content">
+            <span class="toast-title">Achievement Unlocked!</span>
+            <span class="toast-desc">${achievement.name}</span>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+loadAchievements();
+
+// Track download clicks for explorer achievement
+document.querySelectorAll('.download-card').forEach(card => {
+    card.addEventListener('click', () => unlockAchievement('explorer'));
+});
+
+// ========================================
+// Snake Game
+// ========================================
+
+const snakeGameOverlay = document.getElementById('snakeGameOverlay');
+const snakeCanvas = document.getElementById('snakeCanvas');
+const snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
+const snakeOverlay = document.getElementById('snakeOverlay');
+const snakeScoreEl = document.getElementById('snakeScore');
+const snakeHighEl = document.getElementById('snakeHigh');
+
+function openSnakeGame() {
+    if (snakeGameOverlay) {
+        snakeGameOverlay.classList.add('active');
+        sfx.play('click');
+    }
+}
+
+function closeSnakeGame() {
+    if (snakeGameOverlay) {
+        snakeGameOverlay.classList.remove('active');
+        // Stop the game if running
+        if (gameLoop) {
+            clearInterval(gameLoop);
+            gameRunning = false;
+        }
+    }
+}
+
+window.closeSnakeGame = closeSnakeGame;
+window.openSnakeGame = openSnakeGame;
+
+let gameRunning = false;
+let gameLoop = null;
+
+if (snakeCanvas && snakeCtx) {
+    const gridSize = 15;
+    const tileCount = 20;
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: 15, y: 15 };
+    let dx = 0;
+    let dy = 0;
+    let score = 0;
+    let highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
+
+    snakeHighEl.textContent = highScore;
+
+    function startGame() {
+        snake = [{ x: 10, y: 10 }];
+        dx = 1;
+        dy = 0;
+        score = 0;
+        snakeScoreEl.textContent = score;
+        placeFood();
+        gameRunning = true;
+        snakeOverlay.classList.add('hidden');
+        if (gameLoop) clearInterval(gameLoop);
+        gameLoop = setInterval(gameStep, 100);
+    }
+
+    function placeFood() {
+        food.x = Math.floor(Math.random() * tileCount);
+        food.y = Math.floor(Math.random() * tileCount);
+        // Don't place on snake
+        for (let segment of snake) {
+            if (segment.x === food.x && segment.y === food.y) {
+                placeFood();
+                return;
+            }
+        }
+    }
+
+    function gameStep() {
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+        // Wall collision
+        if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+            gameOver();
+            return;
+        }
+
+        // Self collision
+        for (let segment of snake) {
+            if (segment.x === head.x && segment.y === head.y) {
+                gameOver();
+                return;
+            }
+        }
+
+        snake.unshift(head);
+
+        // Food collision
+        if (head.x === food.x && head.y === food.y) {
+            score++;
+            snakeScoreEl.textContent = score;
+            sfx.play('hover');
+            placeFood();
+
+            // Check achievements
+            if (score >= 10) unlockAchievement('snake-10');
+            if (score >= 25) unlockAchievement('snake-25');
+        } else {
+            snake.pop();
+        }
+
+        draw();
+    }
+
+    function draw() {
+        // Clear
+        snakeCtx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+        snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+        // Draw grid
+        snakeCtx.strokeStyle = 'rgba(74, 222, 128, 0.1)';
+        for (let i = 0; i <= tileCount; i++) {
+            snakeCtx.beginPath();
+            snakeCtx.moveTo(i * gridSize, 0);
+            snakeCtx.lineTo(i * gridSize, snakeCanvas.height);
+            snakeCtx.stroke();
+            snakeCtx.beginPath();
+            snakeCtx.moveTo(0, i * gridSize);
+            snakeCtx.lineTo(snakeCanvas.width, i * gridSize);
+            snakeCtx.stroke();
+        }
+
+        // Draw snake
+        snake.forEach((segment, index) => {
+            const alpha = 1 - (index / snake.length) * 0.5;
+            snakeCtx.fillStyle = `rgba(74, 222, 128, ${alpha})`;
+            snakeCtx.fillRect(
+                segment.x * gridSize + 1,
+                segment.y * gridSize + 1,
+                gridSize - 2,
+                gridSize - 2
+            );
+        });
+
+        // Draw food
+        snakeCtx.fillStyle = '#e94560';
+        snakeCtx.beginPath();
+        snakeCtx.arc(
+            food.x * gridSize + gridSize / 2,
+            food.y * gridSize + gridSize / 2,
+            gridSize / 2 - 2,
+            0,
+            Math.PI * 2
+        );
+        snakeCtx.fill();
+
+        // Food glow
+        snakeCtx.shadowColor = '#e94560';
+        snakeCtx.shadowBlur = 10;
+        snakeCtx.fill();
+        snakeCtx.shadowBlur = 0;
+    }
+
+    function gameOver() {
+        gameRunning = false;
+        clearInterval(gameLoop);
+        sfx.play('click');
+
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('snakeHighScore', highScore);
+            snakeHighEl.textContent = highScore;
+        }
+
+        snakeOverlay.innerHTML = `
+            <i class="fas fa-redo"></i>
+            <span>GAME OVER</span>
+            <span style="font-size: 0.7rem; margin-top: 0.5rem;">Score: ${score}</span>
+        `;
+        snakeOverlay.classList.remove('hidden');
+    }
+
+    // Controls
+    document.addEventListener('keydown', (e) => {
+        if (!gameRunning) return;
+
+        switch (e.key) {
+            case 'ArrowUp':
+            case 'w':
+            case 'W':
+                if (dy !== 1) { dx = 0; dy = -1; }
+                break;
+            case 'ArrowDown':
+            case 's':
+            case 'S':
+                if (dy !== -1) { dx = 0; dy = 1; }
+                break;
+            case 'ArrowLeft':
+            case 'a':
+            case 'A':
+                if (dx !== 1) { dx = -1; dy = 0; }
+                break;
+            case 'ArrowRight':
+            case 'd':
+            case 'D':
+                if (dx !== -1) { dx = 1; dy = 0; }
+                break;
+        }
+    });
+
+    snakeOverlay.addEventListener('click', startGame);
+
+    // Initial draw
+    draw();
+}
+
+// ========================================
+// Interactive Terminal
+// ========================================
+
+const terminalOverlay = document.getElementById('terminalOverlay');
+const terminalOutput = document.getElementById('terminalOutput');
+const terminalInput = document.getElementById('terminalInput');
+
+const terminalCommands = {
+    help: () => `Available commands:
+  help     - Show this help message
+  about    - About the Game Vault
+  games    - List available games
+  stats    - Show dev stats
+  snake    - Play Snake!
+  secret   - ???
+  clear    - Clear terminal
+  exit     - Close terminal`,
+    about: () => `GAME VAULT v1.0
+Created by Jordan Alexis
+A collection of games built with passion.
+From humble FPS Creator beginnings to modern web games.`,
+    games: () => `[01] The Unfair Game - PLAYABLE
+[02] THW - IN DEVELOPMENT
+[03] Snake - Type 'snake' to play!`,
+    stats: () => `Games Created: 2
+Lines of Code: 5000+
+Energy Drinks: 99
+Bugs Squashed: 404`,
+    secret: () => {
+        unlockAchievement('terminal');
+        return `
+ ██████╗  █████╗ ███╗   ███╗███████╗██████╗
+██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔══██╗
+██║  ███╗███████║██╔████╔██║█████╗  ██████╔╝
+██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
+╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
+
+Achievement Unlocked: Hacker!`;
+    },
+    clear: () => {
+        terminalOutput.innerHTML = '';
+        return null;
+    },
+    exit: () => {
+        closeTerminal();
+        return 'Goodbye!';
+    },
+    snake: () => {
+        closeTerminal();
+        openSnakeGame();
+        return 'Launching Snake...';
+    },
+    konami: () => `The code is: ↑↑↓↓←→←→BA`,
+    matrix: () => `Wake up, Neo...`,
+    hello: () => `Hello, World!`,
+    sudo: () => `Nice try. Permission denied.`,
+    ls: () => `games/  assets/  scripts/  styles/  index.html`
+};
+
+function addTerminalLine(text, className = '') {
+    const line = document.createElement('p');
+    line.className = `terminal-line ${className}`;
+    line.textContent = text;
+    terminalOutput.appendChild(line);
+    terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
+}
+
+function processCommand(cmd) {
+    const trimmed = cmd.trim().toLowerCase();
+    addTerminalLine(`guest@vault:~$ ${cmd}`);
+
+    if (!trimmed) return;
+
+    if (terminalCommands[trimmed]) {
+        const result = terminalCommands[trimmed]();
+        if (result) {
+            result.split('\n').forEach(line => addTerminalLine(line, 'system'));
+        }
+    } else {
+        addTerminalLine(`Command not found: ${trimmed}. Type 'help' for available commands.`, 'error');
+    }
+}
+
+if (terminalInput) {
+    terminalInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            processCommand(terminalInput.value);
+            terminalInput.value = '';
+        }
+    });
+}
+
+function openTerminal() {
+    terminalOverlay.classList.add('active');
+    terminalInput.focus();
+    unlockAchievement('terminal');
+}
+
+function closeTerminal() {
+    terminalOverlay.classList.remove('active');
+}
+
+window.closeTerminal = closeTerminal;
+
+// Open terminal with ~ key
+document.addEventListener('keydown', (e) => {
+    if (e.key === '`' || e.key === '~') {
+        e.preventDefault();
+        if (terminalOverlay.classList.contains('active')) {
+            closeTerminal();
+        } else {
+            openTerminal();
+        }
+    }
+    // Close with Escape
+    if (e.key === 'Escape') {
+        if (terminalOverlay.classList.contains('active')) {
+            closeTerminal();
+        }
+        if (snakeGameOverlay && snakeGameOverlay.classList.contains('active')) {
+            closeSnakeGame();
+        }
+    }
+});
+
+// ========================================
 // Initialize
 // ========================================
 
 console.log('%c🎮 GAME VAULT LOADED', 'color: #e94560; font-size: 20px; font-weight: bold;');
 console.log('%cTry the Konami Code: ↑↑↓↓←→←→BA', 'color: #00d4ff; font-size: 12px;');
+console.log('%cPress ~ to open the secret terminal', 'color: #a855f7; font-size: 12px;');

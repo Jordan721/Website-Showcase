@@ -39,6 +39,12 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 
 ### 🗂️ Project Categories
 
+#### 🎮 **Games**
+A collection of games I originally made years ago, remade for the web:
+- 👻 The Unfair Game - Survival horror puzzle game with invisible danger zones and jump scares
+- 🏃 The Hard Hallway (THW) - Brutal 2D action platformer inspired by "I Wanna Be The Guy"
+- 📦 Origins section with downloadable legacy versions (original FPS Creator builds)
+
 #### 📚 **Academic Projects**
 Class assignments and coursework from my studies:
 - 🎬 Documentary film website (Run Like A G.U.R.L)
@@ -132,6 +138,9 @@ The floating navigation dots track your scroll position and highlight where you 
 ### 🎨 Glass Morphism Cards
 Those beautiful, semi-transparent cards with blur effects? That's glass morphism, baby! Each project card has hover animations that make exploring feel interactive and fun!
 
+### 🎮 Game Vault
+A dedicated arcade-themed section for playable web games! Features retro CRT scanline effects, game preview GIFs, and an "Origins" section with downloadable legacy versions and random nostalgic quotes about each game's history.
+
 ---
 
 ## 📂 Project Structure
@@ -142,6 +151,12 @@ Development-Showcase/
 ├── 🎨 styles.css              # All the beautiful styles
 ├── ⚡ script.js               # JavaScript magic
 ├── 🌟 favicon.svg             # Constellation network favicon
+├── 📁 Games/                  # Game vault with web remakes
+│   ├── index.html             # Arcade-themed game hub
+│   ├── The_Unfair_Game_Web_Ed/# Survival horror puzzle game
+│   ├── THW/                   # The Hard Hallway platformer
+│   ├── previews/              # Game preview GIFs
+│   └── Zips/                  # Legacy downloadable versions
 ├── 📁 Academic_Projects/      # School & coursework projects
 │   ├── RunLikeAG.U.R.L/
 │   ├── Social_Com's_Final/
@@ -172,6 +187,9 @@ Each project now has its own unique, themed SVG favicon:
 
 | Project | Favicon Design |
 |---------|----------------|
+| 🎮 Game Vault | Retro arcade joystick |
+| 👻 The Unfair Game | Ghost/skull horror icon |
+| 🏃 The Hard Hallway | Platformer character |
 | 🛡️ ThreatAware | Shield with target/crosshair |
 | 🥯 Bagel Byte Academy | Bagel with binary code |
 | 🎮 Console Chronicles | Game controller with SQL text |
@@ -201,14 +219,18 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 - 🎨 The default color scheme is purple/violet (`#a855f7`) but you can change it to any color!
 - 🔢 There are **over 1,600 lines of CSS** making the main showcase look pretty
 - 🛡️ ThreatAware alone has **~3,200 lines of CSS** and **~1,360 lines of JavaScript**
+- 🎮 The Games section features an arcade/retro theme with scanline effects and CRT aesthetics
+- 👻 The Unfair Game includes invisible danger zones, jump scares, and a sanity system
+- 🏃 The Hard Hallway (THW) is inspired by notoriously difficult games like "I Wanna Be The Guy"
+- 📦 The Origins section displays random nostalgic quotes about the games' history
 - ⏱️ The scroll progress bar at the top tracks your exact position on the page
 - 🎯 Every animation delay is carefully timed for the smoothest experience
 - 📱 The scroll indicator changes from a mouse to a phone on mobile devices
 - 🌟 The favicon is a custom SVG constellation network matching the animated background
-- 📁 Folder icons use a light-to-dark gradient across the three categories
+- 📁 Folder icons use a light-to-dark gradient across the categories
 - 📂 Folders animate between closed/open icons with a satisfying rotate & scale effect
 - 🎴 Project cards cascade in one-by-one when a folder opens
-- 🖼️ All 10 project sub-pages now have custom SVG favicons
+- 🖼️ All project sub-pages now have custom SVG favicons
 
 ---
 

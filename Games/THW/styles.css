@@ -1,0 +1,472 @@
+/* THW - The Hard Hallway Styles */
+
+:root {
+    --bg-dark: #0f0f1a;
+    --wall-color: #2a2a4a;
+    --player-color: #4ade80;
+    --enemy-color: #e94560;
+    --projectile-color: #fbbf24;
+    --trap-color: #a855f7;
+    --checkpoint-color: #00d4ff;
+    --text-color: #ffffff;
+    --text-shadow: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-dark);
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-color);
+}
+
+/* Back to Vault Button */
+.back-to-vault {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: rgba(15, 15, 26, 0.9);
+    border: 2px solid var(--checkpoint-color);
+    color: var(--checkpoint-color);
+    text-decoration: none;
+    font-size: 10px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    image-rendering: pixelated;
+}
+
+.back-to-vault:hover {
+    background: var(--checkpoint-color);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--checkpoint-color);
+}
+
+/* Game Container */
+#gameContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-dark);
+}
+
+#gameCanvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    background: var(--bg-dark);
+}
+
+/* Scanlines */
+#scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 100;
+    opacity: 0.3;
+}
+
+/* HUD */
+#hud {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 200px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 20px;
+    z-index: 50;
+    pointer-events: none;
+}
+
+#health {
+    display: flex;
+    gap: 8px;
+}
+
+.heart {
+    font-size: 20px;
+    color: #333;
+    text-shadow: 2px 2px 0 var(--text-shadow);
+    transition: all 0.2s ease;
+}
+
+.heart.active {
+    color: var(--enemy-color);
+    animation: heartPulse 1s ease-in-out infinite;
+}
+
+.heart.damage {
+    animation: heartDamage 0.3s ease-out;
+}
+
+@keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes heartDamage {
+    0% { transform: scale(1.5); color: #fff; }
+    100% { transform: scale(1); }
+}
+
+#stats {
+    text-align: right;
+    font-size: 10px;
+    text-shadow: 2px 2px 0 var(--text-shadow);
+}
+
+#deathCounter {
+    color: var(--enemy-color);
+    margin-bottom: 5px;
+}
+
+#levelDisplay {
+    color: var(--checkpoint-color);
+}
+
+/* Overlays */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 15, 26, 0.95);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Title Screen */
+.title-content {
+    text-align: center;
+}
+
+.game-title {
+    font-size: 36px;
+    color: var(--enemy-color);
+    text-shadow:
+        4px 4px 0 var(--text-shadow),
+        0 0 20px var(--enemy-color);
+    margin-bottom: 10px;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from { text-shadow: 4px 4px 0 var(--text-shadow), 0 0 20px var(--enemy-color); }
+    to { text-shadow: 4px 4px 0 var(--text-shadow), 0 0 40px var(--enemy-color), 0 0 60px var(--enemy-color); }
+}
+
+.subtitle {
+    font-size: 12px;
+    color: var(--projectile-color);
+    margin-bottom: 40px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.menu-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    padding: 15px 30px;
+    background: transparent;
+    border: 3px solid var(--checkpoint-color);
+    color: var(--checkpoint-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 250px;
+}
+
+.menu-btn:hover {
+    background: var(--checkpoint-color);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--checkpoint-color);
+    transform: scale(1.05);
+}
+
+.menu-btn:active {
+    transform: scale(0.95);
+}
+
+.death-stats {
+    font-size: 10px;
+    color: #666;
+}
+
+/* Controls Screen */
+.controls-content {
+    text-align: center;
+}
+
+.controls-content h2 {
+    font-size: 24px;
+    color: var(--checkpoint-color);
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 0 var(--text-shadow);
+}
+
+.control-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.control-item {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 10px;
+}
+
+.keys {
+    color: var(--projectile-color);
+    min-width: 150px;
+    text-align: right;
+}
+
+.action {
+    color: var(--text-color);
+    min-width: 100px;
+    text-align: left;
+}
+
+.warning-text {
+    font-size: 8px;
+    color: var(--enemy-color);
+    margin-bottom: 30px;
+    animation: blink 0.5s step-end infinite;
+}
+
+/* Pause Menu */
+.pause-content h2 {
+    font-size: 24px;
+    color: var(--projectile-color);
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 0 var(--text-shadow);
+}
+
+/* Death Screen */
+#deathScreen {
+    background: rgba(233, 69, 96, 0.3);
+}
+
+.death-content {
+    text-align: center;
+}
+
+.death-text {
+    font-size: 48px;
+    color: var(--enemy-color);
+    text-shadow:
+        4px 4px 0 var(--text-shadow),
+        0 0 30px var(--enemy-color);
+    animation: deathShake 0.1s ease-in-out infinite;
+}
+
+@keyframes deathShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.death-message {
+    font-size: 10px;
+    color: var(--text-color);
+    margin-top: 20px;
+}
+
+/* Level Complete Screen */
+.complete-content {
+    text-align: center;
+}
+
+.complete-text {
+    font-size: 32px;
+    color: var(--player-color);
+    text-shadow:
+        4px 4px 0 var(--text-shadow),
+        0 0 20px var(--player-color);
+    margin-bottom: 20px;
+}
+
+.level-stats {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.level-stats p {
+    margin: 10px 0;
+}
+
+.continue-text {
+    font-size: 10px;
+    color: #666;
+    animation: blink 1s step-end infinite;
+}
+
+/* Boss Warning */
+#bossWarning {
+    background: rgba(233, 69, 96, 0.5);
+}
+
+.boss-content {
+    text-align: center;
+}
+
+.boss-text {
+    font-size: 48px;
+    color: var(--projectile-color);
+    text-shadow: 4px 4px 0 var(--text-shadow);
+    animation: bossFlash 0.2s step-end infinite;
+}
+
+@keyframes bossFlash {
+    50% { color: var(--enemy-color); }
+}
+
+.boss-name {
+    font-size: 16px;
+    color: var(--enemy-color);
+    margin-top: 20px;
+}
+
+/* Victory Screen */
+#victoryScreen {
+    background: rgba(74, 222, 128, 0.2);
+}
+
+.victory-content {
+    text-align: center;
+}
+
+.victory-text {
+    font-size: 36px;
+    color: var(--player-color);
+    text-shadow:
+        4px 4px 0 var(--text-shadow),
+        0 0 30px var(--player-color);
+    margin-bottom: 10px;
+}
+
+.victory-subtitle {
+    font-size: 12px;
+    color: var(--checkpoint-color);
+    margin-bottom: 30px;
+}
+
+.final-stats {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.final-stats p {
+    margin: 10px 0;
+}
+
+.victory-message {
+    font-size: 8px;
+    color: var(--enemy-color);
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* Screen Effects */
+.screen-shake {
+    animation: screenShake 0.1s ease-in-out;
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-5px, 5px); }
+    50% { transform: translate(5px, -5px); }
+    75% { transform: translate(-5px, -5px); }
+}
+
+.screen-flash {
+    animation: screenFlash 0.1s ease-out;
+}
+
+@keyframes screenFlash {
+    from { filter: brightness(3); }
+    to { filter: brightness(1); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 24px;
+    }
+
+    .menu-btn {
+        font-size: 10px;
+        padding: 12px 20px;
+        min-width: 200px;
+    }
+
+    .death-text {
+        font-size: 32px;
+    }
+
+    .back-to-vault {
+        font-size: 8px;
+        padding: 8px 12px;
+    }
+
+    #hud {
+        width: calc(100% - 100px);
+    }
+
+    .heart {
+        font-size: 16px;
+    }
+
+    #stats {
+        font-size: 8px;
+    }
+}

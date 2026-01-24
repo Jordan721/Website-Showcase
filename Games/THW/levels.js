@@ -45,6 +45,21 @@ const DEATH_MESSAGES = [
     "The checkpoint was RIGHT THERE.",
     "Speed isn't everything.",
     "Patience... or not.",
+    "BZZZZT! Laser'd.",
+    "Sliced and diced.",
+    "Crushed dreams. And bones.",
+    "That exit was too good to be true.",
+    "The saw says hello.",
+    "Instant karma. Instant death.",
+    "One touch. One death.",
+    "The spikes don't negotiate.",
+    "You zigged when you should've zagged.",
+    "Red means stop. Permanently.",
+    "That laser had your name on it.",
+    "Congratulations! You found the trap.",
+    "The crusher sends its regards.",
+    "Death by rotating blade. Classic.",
+    "You almost made it. Almost.",
 ];
 
 // Level 1: Welcome to Hell
@@ -73,6 +88,7 @@ const LEVEL_1 = {
             traps: [
                 { type: 'fallingCeiling', x: 8, y: 1, triggerX: 7 },
                 { type: 'fallingCeiling', x: 9, y: 1, triggerX: 7 },
+                { type: 'sawblade', x: 12, y: 5, patrolLength: 4, speed: 1.5 },
             ],
             enemies: [
                 { type: 'basic', x: 16, y: 5, patrol: true },
@@ -107,10 +123,10 @@ const LEVEL_1 = {
                 '##############################',
             ],
             traps: [
-                { type: 'fakeHealth', x: 6, y: 7 },
                 { type: 'fakeCheckpoint', x: 24, y: 7 },
-                { type: 'risingSpike', x: 12, y: 10, triggerX: 11 },
-                { type: 'risingSpike', x: 13, y: 10, triggerX: 11 },
+                { type: 'laser', x: 0, y: 6, length: 10, direction: 'right', onTime: 90, offTime: 45 },
+                { type: 'crusher', x: 18, y: 1, width: 2, height: 2, direction: 'down' },
+                { type: 'sawblade', x: 10, y: 8, patrolLength: 6, speed: 2 },
             ],
             enemies: [
                 { type: 'basic', x: 20, y: 5, patrol: true },
@@ -147,7 +163,10 @@ const LEVEL_1 = {
             traps: [
                 { type: 'fallingCeiling', x: 10, y: 1, triggerX: 9 },
                 { type: 'fallingCeiling', x: 20, y: 1, triggerX: 19 },
-                { type: 'crumblePlatform', positions: [[4, 9], [8, 9], [12, 9]] },
+                { type: 'sawblade', x: 6, y: 6, patrolLength: 5, speed: 2.5 },
+                { type: 'sawblade', x: 18, y: 4, patrolLength: 4, speed: 2, vertical: true },
+                { type: 'laser', x: 15, y: 1, length: 8, direction: 'down', onTime: 60, offTime: 60 },
+                { type: 'crusher', x: 28, y: 1, width: 3, height: 2, direction: 'down' },
             ],
             enemies: [
                 { type: 'turret', x: 3, y: 2, direction: 'right' },
@@ -183,7 +202,14 @@ const LEVEL_1 = {
                 '######B##########X######',
                 '#########################',
             ],
-            traps: [],
+            traps: [
+                // Sawblades on the edges - arena hazards!
+                { type: 'sawblade', x: 1, y: 3, patrolLength: 8, speed: 1.5, vertical: true },
+                { type: 'sawblade', x: 22, y: 3, patrolLength: 8, speed: 1.5, vertical: true },
+                // Lasers from the walls
+                { type: 'laser', x: 0, y: 7, length: 6, direction: 'right', onTime: 45, offTime: 90 },
+                { type: 'laser', x: 24, y: 10, length: 6, direction: 'left', onTime: 45, offTime: 90 },
+            ],
             enemies: [],
             checkpoints: [
                 { x: 3, y: 13, real: true },
@@ -208,36 +234,85 @@ const LEVEL_1 = {
 const LEVEL_2 = {
     name: "The Gauntlet",
     rooms: [
-        // Room 2-1: Conveyor Introduction
+        // Room 2-1: Death Corridor
         {
-            width: 30,
+            width: 35,
             height: 12,
             playerStart: { x: 2, y: 9 },
             layout: [
-                '##############################',
-                '#............................#',
-                '#............................#',
-                '#....T..............T........#',
-                '#............................#',
-                '#........>>>>>>>>>>>.........#',
-                '#...---..................---X#',
-                '#.......<<<<<<<<<<<..........#',
-                '#...........................##',
-                '#.S....................######',
-                '###########################',
-                '##############################',
+                '###################################',
+                '#.................................#',
+                '#.................................#',
+                '#....T..............T.........T..#',
+                '#.................................#',
+                '#.................................#',
+                '#...---...---...---...---...---..#',
+                '#.................................#',
+                '#..^^^.....^^^.....^^^.....^^^...#',
+                '#.S.............................X#',
+                '###################################',
+                '###################################',
             ],
             traps: [
-                { type: 'conveyor', x: 8, y: 5, width: 11, direction: 'right', speed: 2 },
-                { type: 'conveyor', x: 7, y: 7, width: 11, direction: 'left', speed: 2 },
-                { type: 'crusher', x: 15, y: 1, interval: 120 },
+                { type: 'sawblade', x: 8, y: 5, patrolLength: 4, speed: 3 },
+                { type: 'sawblade', x: 16, y: 5, patrolLength: 4, speed: 3 },
+                { type: 'sawblade', x: 24, y: 5, patrolLength: 4, speed: 3 },
+                { type: 'laser', x: 0, y: 5, length: 12, direction: 'right', onTime: 30, offTime: 60 },
+                { type: 'laser', x: 34, y: 7, length: 12, direction: 'left', onTime: 30, offTime: 60 },
+                { type: 'crusher', x: 12, y: 1, width: 2, height: 2, direction: 'down' },
+                { type: 'crusher', x: 22, y: 1, width: 2, height: 2, direction: 'down' },
+                { type: 'fakeExit', x: 30, y: 6 }, // GOTCHA! Fake exit before the real one
             ],
             enemies: [
                 { type: 'turret', x: 4, y: 3, direction: 'down' },
                 { type: 'turret', x: 18, y: 3, direction: 'down' },
+                { type: 'turret', x: 30, y: 3, direction: 'down' },
             ],
             checkpoints: [
                 { x: 5, y: 9, real: true },
+                { x: 20, y: 9, real: true },
+            ],
+            events: [],
+        },
+        // Room 2-2: Vertical Nightmare
+        {
+            width: 20,
+            height: 18,
+            playerStart: { x: 2, y: 15 },
+            layout: [
+                '####################',
+                '#..................#',
+                '#...---............#',
+                '#..................#',
+                '#............---...#',
+                '#..................#',
+                '#...---............#',
+                '#..................#',
+                '#............---...#',
+                '#..................#',
+                '#...---............#',
+                '#..................#',
+                '#............---..X#',
+                '#..................#',
+                '#...---............#',
+                '#.S................#',
+                '####################',
+                '####################',
+            ],
+            traps: [
+                { type: 'sawblade', x: 8, y: 2, patrolLength: 12, speed: 2.5, vertical: true },
+                { type: 'sawblade', x: 12, y: 4, patrolLength: 10, speed: 2, vertical: true },
+                { type: 'laser', x: 0, y: 4, length: 8, direction: 'right', onTime: 45, offTime: 45 },
+                { type: 'laser', x: 0, y: 8, length: 8, direction: 'right', onTime: 45, offTime: 45 },
+                { type: 'laser', x: 0, y: 12, length: 8, direction: 'right', onTime: 45, offTime: 45 },
+                { type: 'fakeCheckpoint', x: 16, y: 5 },
+            ],
+            enemies: [
+                { type: 'basic', x: 10, y: 6, patrol: true },
+                { type: 'basic', x: 10, y: 10, patrol: true },
+            ],
+            checkpoints: [
+                { x: 3, y: 10, real: true },
             ],
             events: [],
         },

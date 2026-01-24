@@ -326,12 +326,12 @@ class Player {
                     }
                 }
 
-                // Spikes
+                // Spikes - INSTANT DEATH
                 if (tile.spike && !this.invincible && !this.dashing) {
                     const tileX = tx * CONFIG.TILE_SIZE;
                     const tileY = ty * CONFIG.TILE_SIZE;
                     if (this.checkTileCollision(tileX, tileY)) {
-                        this.takeDamage(1);
+                        this.die(); // No mercy
                     }
                 }
 
@@ -1045,6 +1045,396 @@ class FakeCheckpoint {
     }
 }
 
+// Sawblade - rotating death that patrols a path - INSTANT KILL
+class Sawblade {
+    constructor(x, y, patrolLength, speed = 2, vertical = false) {
+        this.startX = x * CONFIG.TILE_SIZE;
+        this.startY = y * CONFIG.TILE_SIZE;
+        this.x = this.startX;
+        this.y = this.startY;
+        this.width = 20;
+        this.height = 20;
+        this.patrolLength = patrolLength * CONFIG.TILE_SIZE;
+        this.speed = speed;
+        this.direction = 1;
+        this.vertical = vertical;
+        this.rotation = 0;
+    }
+
+    update() {
+        // Move along patrol path
+        if (this.vertical) {
+            this.y += this.speed * this.direction;
+            if (this.y > this.startY + this.patrolLength || this.y < this.startY) {
+                this.direction *= -1;
+            }
+        } else {
+            this.x += this.speed * this.direction;
+            if (this.x > this.startX + this.patrolLength || this.x < this.startX) {
+                this.direction *= -1;
+            }
+        }
+
+        this.rotation += 0.3;
+
+        // Check collision with player - INSTANT DEATH
+        if (game.player && !game.player.invincible && !game.player.dashing) {
+            const dx = (this.x + this.width/2) - (game.player.x + game.player.width/2);
+            const dy = (this.y + this.height/2) - (game.player.y + game.player.height/2);
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 14) {
+                game.player.die();
+            }
+        }
+    }
+
+    draw(ctx) {
+        const drawX = Math.floor(this.x - game.camera.x);
+        const drawY = Math.floor(this.y - game.camera.y);
+        const cx = drawX + this.width/2;
+        const cy = drawY + this.height/2;
+
+        // Draw rotating sawblade
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(this.rotation);
+
+        // Blade body
+        ctx.fillStyle = '#6b7280';
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Teeth
+        ctx.fillStyle = '#e94560';
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(angle) * 6, Math.sin(angle) * 6);
+            ctx.lineTo(Math.cos(angle + 0.2) * 12, Math.sin(angle + 0.2) * 12);
+            ctx.lineTo(Math.cos(angle - 0.2) * 12, Math.sin(angle - 0.2) * 12);
+            ctx.fill();
+        }
+
+        // Center
+        ctx.fillStyle = '#374151';
+        ctx.beginPath();
+        ctx.arc(0, 0, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+}
+
+// Laser beam - sweeps or pulses - INSTANT KILL
+class LaserBeam {
+    constructor(x, y, length, direction = 'right', sweepSpeed = 0, onTime = 60, offTime = 60) {
+        this.x = x * CONFIG.TILE_SIZE;
+        this.y = y * CONFIG.TILE_SIZE;
+        this.length = length * CONFIG.TILE_SIZE;
+        this.direction = direction; // 'right', 'down', 'left', 'up'
+        this.sweepSpeed = sweepSpeed;
+        this.sweepAngle = 0;
+        this.onTime = onTime;
+        this.offTime = offTime;
+        this.timer = 0;
+        this.active = true;
+        this.warning = false;
+    }
+
+    update() {
+        this.timer++;
+
+        // Cycle on/off
+        const cycleTime = this.onTime + this.offTime;
+        const cyclePos = this.timer % cycleTime;
+
+        if (cyclePos < this.onTime) {
+            this.active = true;
+            this.warning = false;
+        } else if (cyclePos < this.onTime + 20) {
+            // Warning before turning off
+            this.warning = true;
+            this.active = true;
+        } else {
+            this.active = false;
+            this.warning = cyclePos > cycleTime - 20; // Warning before turning on
+        }
+
+        // Sweep if enabled
+        if (this.sweepSpeed > 0) {
+            this.sweepAngle += this.sweepSpeed;
+        }
+
+        // Check collision if active
+        if (this.active && game.player && !game.player.invincible && !game.player.dashing) {
+            if (this.checkLaserCollision()) {
+                game.player.die();
+            }
+        }
+    }
+
+    checkLaserCollision() {
+        const px = game.player.x + game.player.width / 2;
+        const py = game.player.y + game.player.height / 2;
+        const beamWidth = 4;
+
+        switch (this.direction) {
+            case 'right':
+                return py > this.y - beamWidth && py < this.y + beamWidth &&
+                       px > this.x && px < this.x + this.length;
+            case 'left':
+                return py > this.y - beamWidth && py < this.y + beamWidth &&
+                       px < this.x && px > this.x - this.length;
+            case 'down':
+                return px > this.x - beamWidth && px < this.x + beamWidth &&
+                       py > this.y && py < this.y + this.length;
+            case 'up':
+                return px > this.x - beamWidth && px < this.x + beamWidth &&
+                       py < this.y && py > this.y - this.length;
+        }
+        return false;
+    }
+
+    draw(ctx) {
+        const drawX = Math.floor(this.x - game.camera.x);
+        const drawY = Math.floor(this.y - game.camera.y);
+
+        // Draw emitter
+        ctx.fillStyle = this.active ? '#e94560' : '#4a4a6a';
+        ctx.fillRect(drawX - 4, drawY - 4, 8, 8);
+
+        if (!this.active && !this.warning) return;
+
+        // Draw beam
+        const alpha = this.warning ? 0.3 + Math.sin(this.timer * 0.5) * 0.3 : 0.8;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = '#e94560';
+
+        switch (this.direction) {
+            case 'right':
+                ctx.fillRect(drawX, drawY - 2, this.length, 4);
+                // Glow
+                ctx.fillStyle = 'rgba(233, 69, 96, 0.3)';
+                ctx.fillRect(drawX, drawY - 6, this.length, 12);
+                break;
+            case 'left':
+                ctx.fillRect(drawX - this.length, drawY - 2, this.length, 4);
+                ctx.fillStyle = 'rgba(233, 69, 96, 0.3)';
+                ctx.fillRect(drawX - this.length, drawY - 6, this.length, 12);
+                break;
+            case 'down':
+                ctx.fillRect(drawX - 2, drawY, 4, this.length);
+                ctx.fillStyle = 'rgba(233, 69, 96, 0.3)';
+                ctx.fillRect(drawX - 6, drawY, 12, this.length);
+                break;
+            case 'up':
+                ctx.fillRect(drawX - 2, drawY - this.length, 4, this.length);
+                ctx.fillStyle = 'rgba(233, 69, 96, 0.3)';
+                ctx.fillRect(drawX - 6, drawY - this.length, 12, this.length);
+                break;
+        }
+        ctx.globalAlpha = 1;
+    }
+}
+
+// Crusher - ceiling/wall that slams down - INSTANT KILL
+class Crusher {
+    constructor(x, y, width = 2, height = 3, direction = 'down', triggerDistance = 48) {
+        this.startX = x * CONFIG.TILE_SIZE;
+        this.startY = y * CONFIG.TILE_SIZE;
+        this.x = this.startX;
+        this.y = this.startY;
+        this.width = width * CONFIG.TILE_SIZE;
+        this.height = height * CONFIG.TILE_SIZE;
+        this.direction = direction;
+        this.triggerDistance = triggerDistance;
+        this.state = 'waiting'; // waiting, crushing, returning
+        this.crushSpeed = 12;
+        this.returnSpeed = 1;
+        this.maxTravel = 80;
+        this.travelDistance = 0;
+        this.waitTimer = 0;
+    }
+
+    update() {
+        const px = game.player.x + game.player.width / 2;
+        const py = game.player.y + game.player.height / 2;
+
+        switch (this.state) {
+            case 'waiting':
+                // Check if player is in trigger zone
+                let inZone = false;
+                if (this.direction === 'down') {
+                    inZone = px > this.x && px < this.x + this.width &&
+                             py > this.y + this.height && py < this.y + this.height + this.triggerDistance;
+                } else if (this.direction === 'up') {
+                    inZone = px > this.x && px < this.x + this.width &&
+                             py < this.y && py > this.y - this.triggerDistance;
+                } else if (this.direction === 'right') {
+                    inZone = py > this.y && py < this.y + this.height &&
+                             px > this.x + this.width && px < this.x + this.width + this.triggerDistance;
+                } else if (this.direction === 'left') {
+                    inZone = py > this.y && py < this.y + this.height &&
+                             px < this.x && px > this.x - this.triggerDistance;
+                }
+
+                if (inZone) {
+                    this.state = 'crushing';
+                    playSound('trap');
+                }
+                break;
+
+            case 'crushing':
+                // Move fast toward player
+                if (this.direction === 'down') this.y += this.crushSpeed;
+                else if (this.direction === 'up') this.y -= this.crushSpeed;
+                else if (this.direction === 'right') this.x += this.crushSpeed;
+                else if (this.direction === 'left') this.x -= this.crushSpeed;
+
+                this.travelDistance += this.crushSpeed;
+
+                // Check collision with player - INSTANT DEATH
+                if (game.player && !game.player.invincible) {
+                    if (game.player.x < this.x + this.width &&
+                        game.player.x + game.player.width > this.x &&
+                        game.player.y < this.y + this.height &&
+                        game.player.y + game.player.height > this.y) {
+                        game.player.die();
+                    }
+                }
+
+                // Stop when max travel reached
+                if (this.travelDistance >= this.maxTravel) {
+                    this.state = 'returning';
+                    this.waitTimer = 30;
+                    triggerScreenShake(5, 10);
+                }
+                break;
+
+            case 'returning':
+                if (this.waitTimer > 0) {
+                    this.waitTimer--;
+                    return;
+                }
+
+                // Return slowly
+                if (this.direction === 'down') this.y -= this.returnSpeed;
+                else if (this.direction === 'up') this.y += this.returnSpeed;
+                else if (this.direction === 'right') this.x -= this.returnSpeed;
+                else if (this.direction === 'left') this.x += this.returnSpeed;
+
+                this.travelDistance -= this.returnSpeed;
+
+                if (this.travelDistance <= 0) {
+                    this.state = 'waiting';
+                    this.x = this.startX;
+                    this.y = this.startY;
+                    this.travelDistance = 0;
+                }
+                break;
+        }
+    }
+
+    draw(ctx) {
+        const drawX = Math.floor(this.x - game.camera.x);
+        const drawY = Math.floor(this.y - game.camera.y);
+
+        // Main body
+        ctx.fillStyle = '#4a4a6a';
+        ctx.fillRect(drawX, drawY, this.width, this.height);
+
+        // Danger stripes
+        ctx.fillStyle = '#fbbf24';
+        const stripeSize = 6;
+        for (let i = 0; i < this.width / stripeSize; i++) {
+            if (i % 2 === 0) {
+                if (this.direction === 'down') {
+                    ctx.fillRect(drawX + i * stripeSize, drawY + this.height - stripeSize, stripeSize, stripeSize);
+                } else if (this.direction === 'up') {
+                    ctx.fillRect(drawX + i * stripeSize, drawY, stripeSize, stripeSize);
+                }
+            }
+        }
+
+        // Spikes on crushing edge
+        ctx.fillStyle = '#e94560';
+        const spikeCount = Math.floor(this.width / 8);
+        for (let i = 0; i < spikeCount; i++) {
+            const sx = drawX + (i + 0.5) * (this.width / spikeCount);
+            ctx.beginPath();
+            if (this.direction === 'down') {
+                ctx.moveTo(sx - 4, drawY + this.height);
+                ctx.lineTo(sx, drawY + this.height + 6);
+                ctx.lineTo(sx + 4, drawY + this.height);
+            } else if (this.direction === 'up') {
+                ctx.moveTo(sx - 4, drawY);
+                ctx.lineTo(sx, drawY - 6);
+                ctx.lineTo(sx + 4, drawY);
+            }
+            ctx.fill();
+        }
+    }
+}
+
+// Fake Exit - looks like the real exit but KILLS YOU
+class FakeExit {
+    constructor(x, y) {
+        this.x = x * CONFIG.TILE_SIZE;
+        this.y = y * CONFIG.TILE_SIZE;
+        this.width = CONFIG.TILE_SIZE;
+        this.height = CONFIG.TILE_SIZE;
+        this.triggered = false;
+        this.deathTimer = 0;
+    }
+
+    update() {
+        if (this.triggered) {
+            this.deathTimer++;
+            if (this.deathTimer === 30) {
+                // Show fake "LEVEL COMPLETE" then kill
+                game.fakeVictoryActive = true;
+            }
+            if (this.deathTimer === 90) {
+                // GOTCHA!
+                game.fakeVictoryActive = false;
+                hideOverlay('levelCompleteScreen');
+                game.player.die();
+                triggerScreenShake(10, 20);
+            }
+            return;
+        }
+
+        // Check player touch
+        if (game.player &&
+            game.player.x < this.x + this.width &&
+            game.player.x + game.player.width > this.x &&
+            game.player.y < this.y + this.height &&
+            game.player.y + game.player.height > this.y) {
+            this.triggered = true;
+            playSound('checkpoint'); // Fake victory sound
+            // Show fake level complete
+            showOverlay('levelCompleteScreen');
+        }
+    }
+
+    draw(ctx) {
+        if (this.deathTimer > 90) return;
+
+        const drawX = Math.floor(this.x - game.camera.x);
+        const drawY = Math.floor(this.y - game.camera.y);
+
+        // Looks EXACTLY like a real exit
+        ctx.fillStyle = '#4ade80';
+        ctx.fillRect(drawX + 2, drawY, 12, 16);
+        ctx.fillStyle = '#22c55e';
+        ctx.fillRect(drawX + 4, drawY + 2, 8, 12);
+        // Glow
+        ctx.fillStyle = 'rgba(74, 222, 128, 0.4)';
+        ctx.fillRect(drawX - 4, drawY - 4, 24, 24);
+    }
+}
+
 // ==================== INPUT HANDLING ====================
 const input = {
     left: false,
@@ -1385,7 +1775,18 @@ function loadRoom(levelIndex, roomIndex) {
                 case 'fakeCheckpoint':
                     game.traps.push(new FakeCheckpoint(t.x, t.y));
                     break;
-                // Add more trap types as needed
+                case 'sawblade':
+                    game.traps.push(new Sawblade(t.x, t.y, t.patrolLength || 3, t.speed || 2, t.vertical || false));
+                    break;
+                case 'laser':
+                    game.traps.push(new LaserBeam(t.x, t.y, t.length || 5, t.direction || 'right', t.sweepSpeed || 0, t.onTime || 60, t.offTime || 60));
+                    break;
+                case 'crusher':
+                    game.traps.push(new Crusher(t.x, t.y, t.width || 2, t.height || 3, t.direction || 'down', t.triggerDistance || 48));
+                    break;
+                case 'fakeExit':
+                    game.traps.push(new FakeExit(t.x, t.y));
+                    break;
             }
         });
     }
@@ -1475,6 +1876,7 @@ function showVictoryScreen() {
     document.getElementById('finalTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
     showOverlay('victoryScreen');
+    showBackButton(); // Show on victory
     game.running = false;
 }
 
@@ -1777,8 +2179,10 @@ function togglePause() {
     game.paused = !game.paused;
     if (game.paused) {
         showOverlay('pauseMenu');
+        showBackButton(); // Show when paused
     } else {
         hideOverlay('pauseMenu');
+        hideBackButton(); // Hide when resuming
     }
 }
 
@@ -1816,6 +2220,7 @@ function init() {
         game.paused = false;
         hideOverlay('pauseMenu');
         showOverlay('titleScreen');
+        showBackButton(); // Show when returning to title
     });
     document.getElementById('playAgainBtn').addEventListener('click', () => {
         hideOverlay('victoryScreen');
@@ -1856,6 +2261,7 @@ function startGame() {
     }
 
     hideAllOverlays();
+    hideBackButton(); // Hide during gameplay
 
     game.running = true;
     game.paused = false;
@@ -1866,6 +2272,17 @@ function startGame() {
 
     loadRoom(0, 0);
     updateDeathDisplay();
+}
+
+// Hide/show back to vault button
+function hideBackButton() {
+    const btn = document.querySelector('.back-to-vault');
+    if (btn) btn.style.display = 'none';
+}
+
+function showBackButton() {
+    const btn = document.querySelector('.back-to-vault');
+    if (btn) btn.style.display = 'flex';
 }
 
 // Start when page loads

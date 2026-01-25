@@ -8,6 +8,25 @@ Bagel Byte Academy started as a simple idea: **what if learning about computers 
 
 ## Features
 
+### 3D Computer Exploration Lab ✨
+A fully immersive 3D experience where you can explore the inside of a computer!
+
+- **Interactive 3D Model** - Rotate, pan, and zoom around a modern PC
+- **8 Clickable Components** - CPU, GPU, RAM, Motherboard, Storage, PSU, Cooling, and Case
+- **Floating 3D Labels** - Component names hover in 3D space
+- **X-Ray Mode** - See animated data flow particles traveling between components:
+  - CPU ↔ RAM (Memory Bus)
+  - CPU → GPU (PCIe)
+  - PSU → Components (Power)
+  - RAM → GPU (Graphics Data)
+- **Detailed Info Panels** with:
+  - Component specifications
+  - Historical evolution timeline
+  - Fun facts
+  - Modern usage examples
+- **View Modes** - Switch between Modern, Retro, and Future PC concepts
+- **Auto-Rotate** - Let the model spin automatically
+
 ### Hardware Explorer
 - Interactive PC diagram with clickable components
 - Learn about CPU, GPU, RAM, Storage, Motherboard, and PSU
@@ -52,6 +71,8 @@ Bagel Byte Academy started as a simple idea: **what if learning about computers 
 - HTML5
 - CSS3 (Custom properties, Flexbox, Grid, Animations)
 - Vanilla JavaScript
+- **Three.js** - 3D graphics library for the Computer Lab
+- **CSS2DRenderer** - For 3D floating labels
 - Font Awesome icons
 - LocalStorage for progress persistence
 
@@ -59,14 +80,20 @@ Bagel Byte Academy started as a simple idea: **what if learning about computers 
 
 Simply open `index.html` in a web browser to start learning!
 
+For the 3D Computer Lab, click the "Enter 3D Computer Lab" button in the Hardware section, or open `Computer_Hardware.html` directly.
+
 ## Project Structure
 
 ```
 Bagel_Byte_Academy/
-├── index.html    # Main HTML structure
-├── styles.css    # All styling and animations
-├── app.js        # Interactive functionality
-└── README.md     # This file
+├── index.html              # Main academy page
+├── styles.css              # Main page styling
+├── app.js                  # Main page functionality
+├── Computer_Hardware.html  # 3D Computer Lab page
+├── computer_hardware.css   # 3D Lab styling
+├── computer_hardware.js    # Three.js 3D scene & interactions
+├── favicon.svg             # Site icon
+└── README.md               # This file
 ```
 
 ## License

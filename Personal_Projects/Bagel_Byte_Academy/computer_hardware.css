@@ -779,3 +779,51 @@ body.xray-mode .component-label::after {
     border-top-color: var(--accent-secondary);
 }
 
+/* 3D Floating Labels */
+.label-3d {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    white-space: nowrap;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.label-3d:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 212, 255, 0.6);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 1) 0%, rgba(124, 58, 237, 1) 100%);
+}
+
+.label-3d::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(124, 58, 237, 0.9);
+}
+
+/* X-ray mode label styling */
+body.xray-mode .label-3d {
+    background: linear-gradient(135deg, rgba(255, 170, 0, 0.9) 0%, rgba(255, 71, 87, 0.9) 100%);
+    box-shadow: 0 4px 15px rgba(255, 170, 0, 0.4);
+}
+
+body.xray-mode .label-3d::before {
+    border-top-color: rgba(255, 71, 87, 0.9);
+}
+

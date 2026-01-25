@@ -262,7 +262,7 @@ const easterEggs = [
 ];
 
 // Three.js Setup
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, labelRenderer;
 let components = {};
 let raycaster, mouse;
 let selectedComponent = null;
@@ -271,6 +271,9 @@ let hoverScale = 1;
 let isXrayMode = false;
 let isAutoRotate = false;
 let currentView = 'modern';
+let labels = {};
+let dataParticles = [];
+let showLabels = true;
 
 // Initialize
 function init() {
@@ -299,6 +302,14 @@ function init() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    // CSS2D Renderer for labels
+    labelRenderer = new THREE.CSS2DRenderer();
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0';
+    labelRenderer.domElement.style.pointerEvents = 'none';
+    document.getElementById('canvasContainer').appendChild(labelRenderer.domElement);
+
     // Controls
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -316,6 +327,12 @@ function init() {
 
     // Create computer model
     createComputer();
+
+    // Create 3D labels
+    createLabels();
+
+    // Create data flow particles
+    createDataFlowParticles();
 
     // Create environment
     createEnvironment();
@@ -375,7 +392,8 @@ function createComputer() {
     });
     const caseMesh = new THREE.Mesh(caseGeometry, caseMaterial);
     caseMesh.name = 'case';
-    caseMesh.userData = { component: 'case' };
+    // Disable raycasting on case so we can click through to internal components
+    caseMesh.raycast = () => {};
     caseGroup.add(caseMesh);
 
     // Glass side panel
@@ -390,6 +408,8 @@ function createComputer() {
     const glassMesh = new THREE.Mesh(glassGeometry, glassMaterial);
     glassMesh.position.set(1.51, 0, 0);
     glassMesh.rotation.y = Math.PI / 2;
+    // Disable raycasting on glass panel
+    glassMesh.raycast = () => {};
     caseGroup.add(glassMesh);
 
     scene.add(caseGroup);
@@ -729,6 +749,135 @@ function addGlowEffects() {
     components.dataFlow = dataFlowGroup;
 }
 
+function createLabels() {
+    // Label positions for each component
+    const labelPositions = {
+        cpu: { pos: new THREE.Vector3(-0.3, 1.2, -0.8), name: 'CPU' },
+        gpu: { pos: new THREE.Vector3(0, -0.1, -0.3), name: 'GPU' },
+        ram: { pos: new THREE.Vector3(0.5, 1.2, -0.8), name: 'RAM' },
+        motherboard: { pos: new THREE.Vector3(0.8, 0, -0.9), name: 'Motherboard' },
+        storage: { pos: new THREE.Vector3(-0.3, -0.3, -0.85), name: 'SSD' },
+        psu: { pos: new THREE.Vector3(0, -1.2, -0.3), name: 'PSU' },
+        cooling: { pos: new THREE.Vector3(-0.3, 1.4, -0.2), name: 'Cooler' }
+    };
+
+    Object.entries(labelPositions).forEach(([key, data]) => {
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'label-3d';
+        labelDiv.textContent = data.name;
+        labelDiv.dataset.component = key;
+
+        // Add click to select component
+        labelDiv.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectComponent(key);
+        });
+
+        const label = new THREE.CSS2DObject(labelDiv);
+        label.position.copy(data.pos);
+        scene.add(label);
+        labels[key] = label;
+    });
+}
+
+function createDataFlowParticles() {
+    // Data flow paths
+    const paths = [
+        {
+            name: 'cpuToRam',
+            color: 0x7c3aed,
+            points: [
+                new THREE.Vector3(-0.3, 0.5, -0.7),
+                new THREE.Vector3(0.1, 0.5, -0.7),
+                new THREE.Vector3(0.4, 0.5, -0.7)
+            ],
+            speed: 0.015
+        },
+        {
+            name: 'cpuToGpu',
+            color: 0x00ff88,
+            points: [
+                new THREE.Vector3(-0.3, 0.5, -0.65),
+                new THREE.Vector3(-0.3, 0.1, -0.65),
+                new THREE.Vector3(0, -0.3, -0.65)
+            ],
+            speed: 0.012
+        },
+        {
+            name: 'psuToCpu',
+            color: 0xffaa00,
+            points: [
+                new THREE.Vector3(0, -1.5, -0.4),
+                new THREE.Vector3(0, -0.5, -0.4),
+                new THREE.Vector3(-0.3, 0.5, -0.4)
+            ],
+            speed: 0.01
+        },
+        {
+            name: 'ramToGpu',
+            color: 0x00d4ff,
+            points: [
+                new THREE.Vector3(0.4, 0.5, -0.65),
+                new THREE.Vector3(0.4, 0, -0.65),
+                new THREE.Vector3(0, -0.3, -0.55)
+            ],
+            speed: 0.013
+        }
+    ];
+
+    paths.forEach(path => {
+        const curve = new THREE.CatmullRomCurve3(path.points);
+
+        // Create multiple particles per path
+        for (let i = 0; i < 5; i++) {
+            const particleGeom = new THREE.SphereGeometry(0.03, 8, 8);
+            const particleMat = new THREE.MeshBasicMaterial({
+                color: path.color,
+                transparent: true,
+                opacity: 0.9
+            });
+            const particle = new THREE.Mesh(particleGeom, particleMat);
+
+            // Add glow
+            const glowGeom = new THREE.SphereGeometry(0.05, 8, 8);
+            const glowMat = new THREE.MeshBasicMaterial({
+                color: path.color,
+                transparent: true,
+                opacity: 0.3
+            });
+            const glow = new THREE.Mesh(glowGeom, glowMat);
+            particle.add(glow);
+
+            particle.userData = {
+                curve: curve,
+                progress: i / 5,
+                speed: path.speed,
+                pathName: path.name
+            };
+
+            particle.visible = false; // Start hidden, show in X-ray mode
+            scene.add(particle);
+            dataParticles.push(particle);
+        }
+    });
+}
+
+function updateDataParticles() {
+    dataParticles.forEach(particle => {
+        particle.visible = isXrayMode;
+
+        if (isXrayMode) {
+            particle.userData.progress += particle.userData.speed;
+            if (particle.userData.progress > 1) {
+                particle.userData.progress = 0;
+            }
+
+            const point = particle.userData.curve.getPoint(particle.userData.progress);
+            particle.position.copy(point);
+        }
+    });
+}
+
 function createEnvironment() {
     // Grid floor
     const gridHelper = new THREE.GridHelper(20, 40, 0x2a2a3a, 0x1a1a25);
@@ -817,6 +966,7 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onMouseClick(event) {
@@ -1100,8 +1250,12 @@ function animate() {
         components[hoveredComponent].scale.setScalar(pulse);
     }
 
+    // Update data flow particles
+    updateDataParticles();
+
     // Render
     renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
 }
 
 // Initialize when DOM is ready

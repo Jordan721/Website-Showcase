@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a"/>
+      <stop offset="100%" style="stop-color:#1a0a2a"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff00ff"/>
+      <stop offset="100%" style="stop-color:#00ffff"/>
+    </linearGradient>
+    <linearGradient id="spike" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff4444"/>
+      <stop offset="100%" style="stop-color:#ff8888"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="8" fill="url(#bg)"/>
+
+  <!-- Hallway perspective lines -->
+  <g stroke="url(#neon)" stroke-width="1.5" opacity="0.6">
+    <line x1="4" y1="4" x2="24" y2="24"/>
+    <line x1="60" y1="4" x2="40" y2="24"/>
+    <line x1="4" y1="60" x2="24" y2="40"/>
+    <line x1="60" y1="60" x2="40" y2="40"/>
+  </g>
+
+  <!-- Inner hallway rectangle -->
+  <rect x="24" y="24" width="16" height="16" fill="none" stroke="url(#neon)" stroke-width="2"/>
+
+  <!-- Spikes at bottom (danger!) -->
+  <g fill="url(#spike)">
+    <polygon points="8,64 12,52 16,64"/>
+    <polygon points="18,64 22,52 26,64"/>
+    <polygon points="28,64 32,52 36,64"/>
+    <polygon points="38,64 42,52 46,64"/>
+    <polygon points="48,64 52,52 56,64"/>
+  </g>
+
+  <!-- Player figure -->
+  <rect x="29" y="28" width="6" height="8" rx="1" fill="#ffffff"/>
+  <circle cx="32" cy="25" r="3" fill="#ffffff"/>
+
+  <!-- Hearts (lives) -->
+  <g fill="#ff4444">
+    <path d="M10,12 C10,10 12,8 14,10 C16,8 18,10 18,12 C18,15 14,18 14,18 C14,18 10,15 10,12 Z" transform="scale(0.7) translate(6, 6)"/>
+    <path d="M10,12 C10,10 12,8 14,10 C16,8 18,10 18,12 C18,15 14,18 14,18 C14,18 10,15 10,12 Z" transform="scale(0.7) translate(20, 6)"/>
+    <path d="M10,12 C10,10 12,8 14,10 C16,8 18,10 18,12 C18,15 14,18 14,18 C14,18 10,15 10,12 Z" transform="scale(0.7) translate(34, 6)"/>
+  </g>
+</svg>

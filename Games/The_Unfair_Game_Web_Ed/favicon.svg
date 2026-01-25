@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a0a"/>
+      <stop offset="100%" style="stop-color:#2d0a0a"/>
+    </linearGradient>
+    <linearGradient id="danger" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4444"/>
+      <stop offset="100%" style="stop-color:#ff0000"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="8" fill="url(#bg)"/>
+
+  <!-- Skull shape -->
+  <ellipse cx="32" cy="28" rx="18" ry="16" fill="#f5f5f5"/>
+  <rect x="20" y="36" width="24" height="12" rx="2" fill="#f5f5f5"/>
+
+  <!-- Eye sockets -->
+  <ellipse cx="25" cy="26" rx="5" ry="6" fill="#1a0a0a"/>
+  <ellipse cx="39" cy="26" rx="5" ry="6" fill="#1a0a0a"/>
+
+  <!-- Red X eyes (unfair!) -->
+  <g stroke="url(#danger)" stroke-width="2" stroke-linecap="round">
+    <line x1="22" y1="23" x2="28" y2="29"/>
+    <line x1="28" y1="23" x2="22" y2="29"/>
+    <line x1="36" y1="23" x2="42" y2="29"/>
+    <line x1="42" y1="23" x2="36" y2="29"/>
+  </g>
+
+  <!-- Nose -->
+  <polygon points="32,30 29,36 35,36" fill="#1a0a0a"/>
+
+  <!-- Teeth -->
+  <g fill="#1a0a0a">
+    <rect x="22" y="40" width="4" height="6" rx="1"/>
+    <rect x="28" y="40" width="4" height="6" rx="1"/>
+    <rect x="34" y="40" width="4" height="6" rx="1"/>
+    <rect x="40" y="40" width="4" height="6" rx="1"/>
+  </g>
+
+  <!-- Warning triangle -->
+  <polygon points="32,52 26,60 38,60" fill="url(#danger)" stroke="#ffff00" stroke-width="1"/>
+  <text x="32" y="59" text-anchor="middle" font-size="6" font-weight="bold" fill="#ffff00">!</text>
+</svg>

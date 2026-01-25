@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE IDEA SPACE | Demon Compendium</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Scanline Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- CRT Flicker Effect -->
+    <div class="crt-flicker"></div>
+
+    <!-- Boot Sequence Overlay -->
+    <div class="boot-sequence" id="bootSequence">
+        <div class="boot-content">
+            <div class="boot-logo">
+                <pre class="ascii-art">
+████████╗██╗  ██╗███████╗    ██╗██████╗ ███████╗ █████╗
+╚══██╔══╝██║  ██║██╔════╝    ██║██╔══██╗██╔════╝██╔══██╗
+   ██║   ███████║█████╗      ██║██║  ██║█████╗  ███████║
+   ██║   ██╔══██║██╔══╝      ██║██║  ██║██╔══╝  ██╔══██║
+   ██║   ██║  ██║███████╗    ██║██████╔╝███████╗██║  ██║
+   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+                    ███████╗██████╗  █████╗  ██████╗███████╗
+                    ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝
+                    ███████╗██████╔╝███████║██║     █████╗
+                    ╚════██║██╔═══╝ ██╔══██║██║     ██╔══╝
+                    ███████║██║     ██║  ██║╚██████╗███████╗
+                    ╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝
+                </pre>
+            </div>
+            <div class="boot-text">
+                <p class="typing-text" id="bootText"></p>
+            </div>
+            <div class="boot-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="boot-status" id="bootStatus">INITIALIZING DEMON DATABASE...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <a href="../index.html" class="back-link">◄ GAME VAULT</a>
+                <div class="system-status">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">SYSTEM ONLINE</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <h1 class="title glitch" data-text="THE IDEA SPACE">THE IDEA SPACE</h1>
+                <p class="subtitle">DEMON SUMMONING PROGRAM v2.0.25</p>
+            </div>
+            <div class="header-right">
+                <div class="datetime" id="datetime"></div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <button class="nav-btn active" data-section="timeline">
+                <span class="nav-icon">◆</span>
+                <span class="nav-text">TIMELINE</span>
+            </button>
+            <button class="nav-btn" data-section="gallery">
+                <span class="nav-icon">◇</span>
+                <span class="nav-text">3D GALLERY</span>
+            </button>
+            <button class="nav-btn" data-section="compendium">
+                <span class="nav-icon">◈</span>
+                <span class="nav-text">COMPENDIUM</span>
+            </button>
+            <button class="nav-btn" data-section="builder">
+                <span class="nav-icon">◊</span>
+                <span class="nav-text">PARTY BUILDER</span>
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Sidebar Filters -->
+            <aside class="filter-sidebar">
+                <div class="filter-header">
+                    <h3>◢ FILTERS ◣</h3>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">GAME TITLE</label>
+                    <select class="filter-select" id="gameFilter">
+                        <option value="all">ALL TITLES</option>
+                        <option value="smt1">SMT I (1992)</option>
+                        <option value="smt2">SMT II (1994)</option>
+                        <option value="smt-if">SMT IF... (1994)</option>
+                        <option value="nocturne">SMT III: NOCTURNE (2003)</option>
+                        <option value="strange-journey">STRANGE JOURNEY (2009)</option>
+                        <option value="smt4">SMT IV (2013)</option>
+                        <option value="smt4a">SMT IV: APOCALYPSE (2016)</option>
+                        <option value="smt5">SMT V (2021)</option>
+                        <option value="smt5v">SMT V: VENGEANCE (2024)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">ALIGNMENT</label>
+                    <div class="alignment-grid">
+                        <button class="align-btn active" data-align="all">ALL</button>
+                        <button class="align-btn law" data-align="law">LAW</button>
+                        <button class="align-btn neutral" data-align="neutral">NEUTRAL</button>
+                        <button class="align-btn chaos" data-align="chaos">CHAOS</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">DEMON RACE</label>
+                    <select class="filter-select" id="raceFilter">
+                        <option value="all">ALL RACES</option>
+                        <option value="deity">Deity</option>
+                        <option value="megami">Megami</option>
+                        <option value="fury">Fury</option>
+                        <option value="kishin">Kishin</option>
+                        <option value="lady">Lady</option>
+                        <option value="tyrant">Tyrant</option>
+                        <option value="genma">Genma</option>
+                        <option value="fairy">Fairy</option>
+                        <option value="beast">Beast</option>
+                        <option value="jirae">Jirae</option>
+                        <option value="fiend">Fiend</option>
+                        <option value="night">Night</option>
+                        <option value="fallen">Fallen</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">TIER RANKING</label>
+                    <div class="tier-buttons">
+                        <button class="tier-btn active" data-tier="all">ALL</button>
+                        <button class="tier-btn tier-s" data-tier="s">S</button>
+                        <button class="tier-btn tier-a" data-tier="a">A</button>
+                        <button class="tier-btn tier-b" data-tier="b">B</button>
+                        <button class="tier-btn tier-c" data-tier="c">C</button>
+                        <button class="tier-btn tier-d" data-tier="d">D</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">SKILL TYPE</label>
+                    <select class="filter-select" id="skillFilter">
+                        <option value="all">ALL SKILLS</option>
+                        <option value="phys">Physical</option>
+                        <option value="fire">Fire (Agi)</option>
+                        <option value="ice">Ice (Bufu)</option>
+                        <option value="elec">Electric (Zio)</option>
+                        <option value="force">Force (Zan)</option>
+                        <option value="light">Light (Hama)</option>
+                        <option value="dark">Dark (Mudo)</option>
+                        <option value="almighty">Almighty (Megido)</option>
+                        <option value="healing">Healing (Dia)</option>
+                        <option value="support">Support</option>
+                    </select>
+                </div>
+
+                <button class="reset-filters-btn" id="resetFilters">
+                    ◄ RESET ALL FILTERS ►
+                </button>
+            </aside>
+
+            <!-- Content Sections -->
+            <div class="content-area">
+                <!-- Timeline Section -->
+                <section class="content-section active" id="timeline-section">
+                    <div class="section-header">
+                        <h2>◢◤ DEMON EVOLUTION TIMELINE ◥◣</h2>
+                        <p class="section-desc">Track how demons evolved across the Shin Megami Tensei series</p>
+                    </div>
+
+                    <!-- Timeline Controls -->
+                    <div class="timeline-controls">
+                        <button class="timeline-nav-btn" id="prevEra">◄ PREV ERA</button>
+                        <div class="era-display">
+                            <span class="era-label">CURRENT ERA:</span>
+                            <span class="era-name" id="currentEra">CLASSIC ERA (1992-1995)</span>
+                        </div>
+                        <button class="timeline-nav-btn" id="nextEra">NEXT ERA ►</button>
+                    </div>
+
+                    <!-- Timeline Visualization -->
+                    <div class="timeline-container">
+                        <div class="timeline-track">
+                            <div class="timeline-line"></div>
+
+                            <!-- Timeline Nodes -->
+                            <div class="timeline-node active" data-year="1992" data-game="smt1">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SMT I</div>
+                                <div class="node-year">1992</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="1994" data-game="smt2">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SMT II</div>
+                                <div class="node-year">1994</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="1994" data-game="smt-if">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SMT IF...</div>
+                                <div class="node-year">1994</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2003" data-game="nocturne">
+                                <div class="node-marker"></div>
+                                <div class="node-label">NOCTURNE</div>
+                                <div class="node-year">2003</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2009" data-game="strange-journey">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SJ</div>
+                                <div class="node-year">2009</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2013" data-game="smt4">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SMT IV</div>
+                                <div class="node-year">2013</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2016" data-game="smt4a">
+                                <div class="node-marker"></div>
+                                <div class="node-label">APOCALYPSE</div>
+                                <div class="node-year">2016</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2021" data-game="smt5">
+                                <div class="node-marker"></div>
+                                <div class="node-label">SMT V</div>
+                                <div class="node-year">2021</div>
+                            </div>
+
+                            <div class="timeline-node" data-year="2024" data-game="smt5v">
+                                <div class="node-marker"></div>
+                                <div class="node-label">VENGEANCE</div>
+                                <div class="node-year">2024</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Demon Evolution -->
+                    <div class="evolution-showcase">
+                        <h3 class="showcase-title">◆ FEATURED: JACK FROST EVOLUTION ◆</h3>
+                        <div class="evolution-cards">
+                            <div class="evo-card" data-game="smt1">
+                                <div class="evo-sprite">
+                                    <div class="pixel-demon jack-frost-classic"></div>
+                                </div>
+                                <div class="evo-info">
+                                    <span class="evo-game">SMT I</span>
+                                    <span class="evo-tier tier-c">TIER C</span>
+                                </div>
+                                <div class="evo-stats">
+                                    <div class="stat-row"><span>HP:</span><span>48</span></div>
+                                    <div class="stat-row"><span>MP:</span><span>36</span></div>
+                                    <div class="stat-row"><span>Role:</span><span>Early Ice</span></div>
+                                </div>
+                            </div>
+
+                            <div class="evo-arrow">►</div>
+
+                            <div class="evo-card" data-game="nocturne">
+                                <div class="evo-sprite">
+                                    <div class="pixel-demon jack-frost-nocturne"></div>
+                                </div>
+                                <div class="evo-info">
+                                    <span class="evo-game">NOCTURNE</span>
+                                    <span class="evo-tier tier-b">TIER B</span>
+                                </div>
+                                <div class="evo-stats">
+                                    <div class="stat-row"><span>HP:</span><span>96</span></div>
+                                    <div class="stat-row"><span>MP:</span><span>72</span></div>
+                                    <div class="stat-row"><span>Role:</span><span>Ice Support</span></div>
+                                </div>
+                            </div>
+
+                            <div class="evo-arrow">►</div>
+
+                            <div class="evo-card" data-game="smt5">
+                                <div class="evo-sprite">
+                                    <div class="pixel-demon jack-frost-modern"></div>
+                                </div>
+                                <div class="evo-info">
+                                    <span class="evo-game">SMT V</span>
+                                    <span class="evo-tier tier-a">TIER A</span>
+                                </div>
+                                <div class="evo-stats">
+                                    <div class="stat-row"><span>HP:</span><span>142</span></div>
+                                    <div class="stat-row"><span>MP:</span><span>108</span></div>
+                                    <div class="stat-row"><span>Role:</span><span>Ice DPS</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Demon Grid for Selected Era -->
+                    <div class="era-demons">
+                        <h3 class="grid-title">◢ DEMONS OF THIS ERA ◣</h3>
+                        <div class="demon-grid" id="demonGrid">
+                            <!-- Demon cards will be populated by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3D Gallery Section -->
+                <section class="content-section" id="gallery-section">
+                    <div class="section-header">
+                        <h2>◢◤ 3D HOLOGRAPHIC GALLERY ◥◣</h2>
+                        <p class="section-desc">View demons as interactive 3D holograms</p>
+                    </div>
+
+                    <div class="gallery-placeholder">
+                        <div class="hologram-container">
+                            <div class="hologram-base"></div>
+                            <div class="hologram-demon">
+                                <div class="hologram-silhouette"></div>
+                                <div class="hologram-rings">
+                                    <div class="ring ring-1"></div>
+                                    <div class="ring ring-2"></div>
+                                    <div class="ring ring-3"></div>
+                                </div>
+                            </div>
+                            <div class="hologram-stats">
+                                <div class="stat-float">STR: 45</div>
+                                <div class="stat-float">MAG: 72</div>
+                                <div class="stat-float">VIT: 38</div>
+                                <div class="stat-float">AGI: 56</div>
+                                <div class="stat-float">LUK: 41</div>
+                            </div>
+                        </div>
+                        <p class="placeholder-text">[ SELECT A DEMON TO VIEW IN 3D ]</p>
+                        <p class="coming-soon">HOLOGRAPHIC PROJECTION SYSTEM LOADING...</p>
+                    </div>
+                </section>
+
+                <!-- Compendium Section -->
+                <section class="content-section" id="compendium-section">
+                    <div class="section-header">
+                        <h2>◢◤ DEMON COMPENDIUM ◥◣</h2>
+                        <p class="section-desc">Complete database of all demons across the series</p>
+                    </div>
+
+                    <div class="compendium-stats">
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">800+</span>
+                            <span class="comp-stat-label">TOTAL DEMONS</span>
+                        </div>
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">9</span>
+                            <span class="comp-stat-label">GAME TITLES</span>
+                        </div>
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">45</span>
+                            <span class="comp-stat-label">DEMON RACES</span>
+                        </div>
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">200+</span>
+                            <span class="comp-stat-label">UNIQUE SKILLS</span>
+                        </div>
+                    </div>
+
+                    <div class="compendium-search">
+                        <input type="text" class="search-input" placeholder="SEARCH DEMON DATABASE..." id="demonSearch">
+                        <button class="search-btn">◆ SEARCH ◆</button>
+                    </div>
+
+                    <div class="compendium-grid" id="compendiumGrid">
+                        <!-- Compendium entries populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Party Builder Section -->
+                <section class="content-section" id="builder-section">
+                    <div class="section-header">
+                        <h2>◢◤ PARTY BUILD SIMULATOR ◥◣</h2>
+                        <p class="section-desc">Create hypothetical party setups using demons from any game</p>
+                    </div>
+
+                    <div class="builder-container">
+                        <div class="party-slots">
+                            <div class="party-slot" data-slot="1">
+                                <div class="slot-number">01</div>
+                                <div class="slot-content empty">
+                                    <span class="slot-placeholder">+ ADD DEMON</span>
+                                </div>
+                            </div>
+                            <div class="party-slot" data-slot="2">
+                                <div class="slot-number">02</div>
+                                <div class="slot-content empty">
+                                    <span class="slot-placeholder">+ ADD DEMON</span>
+                                </div>
+                            </div>
+                            <div class="party-slot" data-slot="3">
+                                <div class="slot-number">03</div>
+                                <div class="slot-content empty">
+                                    <span class="slot-placeholder">+ ADD DEMON</span>
+                                </div>
+                            </div>
+                            <div class="party-slot" data-slot="4">
+                                <div class="slot-number">04</div>
+                                <div class="slot-content empty">
+                                    <span class="slot-placeholder">+ ADD DEMON</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="party-analysis">
+                            <h4>◆ PARTY ANALYSIS ◆</h4>
+                            <div class="analysis-content">
+                                <p class="analysis-empty">Add demons to analyze party composition...</p>
+                            </div>
+                        </div>
+
+                        <div class="builder-actions">
+                            <button class="builder-btn">◄ CLEAR PARTY ►</button>
+                            <button class="builder-btn">◄ SAVE BUILD ►</button>
+                            <button class="builder-btn">◄ SHARE BUILD ►</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-left">
+                <span class="footer-text">DEMON DATABASE v2.0.25 | ENTRIES: 847</span>
+            </div>
+            <div class="footer-center">
+                <span class="footer-text">◆ A TRIBUTE TO SHIN MEGAMI TENSEI ◆</span>
+            </div>
+            <div class="footer-right">
+                <span class="footer-text">ATLUS™</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Demon Detail Modal -->
+    <div class="modal" id="demonModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">✕</button>
+            <div class="modal-header">
+                <h2 class="demon-name" id="modalDemonName">JACK FROST</h2>
+                <span class="demon-race" id="modalDemonRace">Fairy</span>
+            </div>
+            <div class="modal-body">
+                <div class="demon-portrait">
+                    <div class="portrait-frame">
+                        <div class="pixel-demon" id="modalDemonSprite"></div>
+                    </div>
+                </div>
+                <div class="demon-details">
+                    <div class="detail-row">
+                        <span class="detail-label">ALIGNMENT:</span>
+                        <span class="detail-value" id="modalAlignment">NEUTRAL</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">BASE LEVEL:</span>
+                        <span class="detail-value" id="modalLevel">7</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">TIER RANK:</span>
+                        <span class="detail-value" id="modalTier">B</span>
+                    </div>
+                </div>
+                <div class="demon-stats-full">
+                    <h4>◆ BASE STATS ◆</h4>
+                    <div class="stats-bars">
+                        <div class="stat-bar-row">
+                            <span class="stat-name">STR</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="stat-val">45</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-name">MAG</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: 72%"></div>
+                            </div>
+                            <span class="stat-val">72</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-name">VIT</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: 38%"></div>
+                            </div>
+                            <span class="stat-val">38</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-name">AGI</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: 56%"></div>
+                            </div>
+                            <span class="stat-val">56</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-name">LUK</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: 41%"></div>
+                            </div>
+                            <span class="stat-val">41</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="demon-skills">
+                    <h4>◆ INNATE SKILLS ◆</h4>
+                    <div class="skills-list" id="modalSkills">
+                        <div class="skill-item"><span class="skill-icon ice">❄</span> Bufu</div>
+                        <div class="skill-item"><span class="skill-icon support">◈</span> Dia</div>
+                        <div class="skill-item"><span class="skill-icon ice">❄</span> Ice Breath</div>
+                    </div>
+                </div>
+                <div class="demon-lore">
+                    <h4>◆ LORE ◆</h4>
+                    <p id="modalLore">A winter fairy from English folklore. Known for his cheerful "Hee-ho!"
+                        catchphrase, Jack Frost is one of the most iconic demons in the Megami Tensei series, appearing
+                        in nearly every title since the original game.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

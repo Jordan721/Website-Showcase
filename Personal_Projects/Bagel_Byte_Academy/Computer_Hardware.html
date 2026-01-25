@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Computer Lab - Bagel Byte Academy</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="computer_hardware.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-content">
+            <div class="loader-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <h2>Loading 3D Computer Lab</h2>
+            <div class="loader-bar">
+                <div class="loader-progress" id="loaderProgress"></div>
+            </div>
+            <p class="loader-text" id="loaderText">Initializing components...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-left">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Academy</span>
+            </a>
+            <span class="nav-logo">
+                <i class="fas fa-cube"></i> 3D Computer Lab
+            </span>
+        </div>
+        <div class="nav-controls">
+            <button class="view-btn active" data-view="modern" title="Modern PC">
+                <i class="fas fa-desktop"></i>
+            </button>
+            <button class="view-btn" data-view="retro" title="Retro PC">
+                <i class="fas fa-floppy-disk"></i>
+            </button>
+            <button class="view-btn" data-view="future" title="Future Concept">
+                <i class="fas fa-rocket"></i>
+            </button>
+            <div class="nav-divider"></div>
+            <button class="mode-btn" id="xrayToggle" title="X-Ray Mode">
+                <i class="fas fa-x-ray"></i>
+            </button>
+            <button class="mode-btn" id="autoRotate" title="Auto Rotate">
+                <i class="fas fa-sync"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 3D Canvas Container -->
+    <div class="canvas-container" id="canvasContainer">
+        <canvas id="computerCanvas"></canvas>
+
+        <!-- Component Labels (will be positioned via JS) -->
+        <div class="component-labels" id="componentLabels"></div>
+
+        <!-- Instructions Overlay -->
+        <div class="instructions" id="instructions">
+            <div class="instruction-item">
+                <i class="fas fa-mouse"></i>
+                <span>Click + Drag to rotate</span>
+            </div>
+            <div class="instruction-item">
+                <i class="fas fa-arrows-alt"></i>
+                <span>Right-click + Drag to pan</span>
+            </div>
+            <div class="instruction-item">
+                <i class="fas fa-search-plus"></i>
+                <span>Scroll to zoom</span>
+            </div>
+            <div class="instruction-item">
+                <i class="fas fa-hand-pointer"></i>
+                <span>Click components to learn</span>
+            </div>
+            <button class="dismiss-btn" id="dismissInstructions">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Component Info Panel -->
+    <div class="info-panel" id="infoPanel">
+        <button class="panel-close" id="closePanel">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="panel-header" id="panelHeader">
+            <div class="panel-icon" id="panelIcon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <h2 id="panelTitle">Select a Component</h2>
+        </div>
+
+        <div class="panel-content" id="panelContent">
+            <p class="panel-hint">Click on any component in the 3D model to learn about it.</p>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline-section" id="timelineSection" style="display: none;">
+            <h3><i class="fas fa-history"></i> Evolution Timeline</h3>
+            <div class="timeline" id="timeline"></div>
+        </div>
+
+        <!-- Fun Facts Section -->
+        <div class="facts-section" id="factsSection" style="display: none;">
+            <h3><i class="fas fa-lightbulb"></i> Fun Facts</h3>
+            <ul class="facts-list" id="factsList"></ul>
+        </div>
+
+        <!-- Modern Usage Section -->
+        <div class="usage-section" id="usageSection" style="display: none;">
+            <h3><i class="fas fa-rocket"></i> Modern Applications</h3>
+            <div class="usage-grid" id="usageGrid"></div>
+        </div>
+    </div>
+
+    <!-- Component Quick Select -->
+    <div class="quick-select" id="quickSelect">
+        <button class="quick-btn" data-component="cpu" title="CPU">
+            <i class="fas fa-microchip"></i>
+        </button>
+        <button class="quick-btn" data-component="gpu" title="GPU">
+            <i class="fas fa-display"></i>
+        </button>
+        <button class="quick-btn" data-component="ram" title="RAM">
+            <i class="fas fa-memory"></i>
+        </button>
+        <button class="quick-btn" data-component="motherboard" title="Motherboard">
+            <i class="fas fa-server"></i>
+        </button>
+        <button class="quick-btn" data-component="storage" title="Storage">
+            <i class="fas fa-hard-drive"></i>
+        </button>
+        <button class="quick-btn" data-component="psu" title="Power Supply">
+            <i class="fas fa-bolt"></i>
+        </button>
+        <button class="quick-btn" data-component="cooling" title="Cooling">
+            <i class="fas fa-fan"></i>
+        </button>
+        <button class="quick-btn" data-component="case" title="Case">
+            <i class="fas fa-box"></i>
+        </button>
+    </div>
+
+    <!-- Data Flow Visualization -->
+    <div class="data-flow-legend" id="dataFlowLegend" style="display: none;">
+        <h4>Data Pathways</h4>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #00d4ff;"></span>
+            <span>CPU Data Bus</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #7c3aed;"></span>
+            <span>Memory Channel</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #00ff88;"></span>
+            <span>PCIe Lanes</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #ffaa00;"></span>
+            <span>Power Lines</span>
+        </div>
+    </div>
+
+    <!-- Easter Egg Notification -->
+    <div class="easter-egg-popup" id="easterEggPopup">
+        <div class="egg-content">
+            <i class="fas fa-star"></i>
+            <span id="easterEggText">You found a secret!</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="computer_hardware.js"></script>
+</body>
+
+</html>

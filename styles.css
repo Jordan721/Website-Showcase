@@ -687,6 +687,241 @@ body {
     color: var(--color-secondary);
 }
 
+/* ===== THEMED CATEGORY FOLDERS ===== */
+
+/* --- Academic: Scroll / Parchment --- */
+.theme-academic .category-header.glass-card {
+    background: rgba(210, 170, 100, 0.06);
+    border: 1px solid rgba(210, 180, 140, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-academic .category-header.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(135deg, rgba(210, 180, 140, 0.08) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(210, 180, 140, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.theme-academic .category-header.glass-card::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    border: 1px solid rgba(210, 180, 140, 0.08);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.theme-academic .folder-symbol i {
+    color: #d4a574 !important;
+}
+
+.theme-academic .folder-arrow {
+    color: #d4a574;
+}
+
+.theme-academic .category-header.glass-card:hover {
+    border-color: rgba(210, 180, 140, 0.35);
+    box-shadow: 0 8px 32px rgba(210, 180, 140, 0.12);
+}
+
+.theme-academic.active .category-header.glass-card {
+    background: rgba(210, 170, 100, 0.09);
+    border-color: rgba(210, 180, 140, 0.3);
+    box-shadow: 0 8px 32px rgba(210, 180, 140, 0.1), inset 0 0 30px rgba(210, 180, 140, 0.03);
+}
+
+/* --- Professional: Building / Corporate --- */
+.theme-professional .category-header.glass-card {
+    background: rgba(100, 150, 220, 0.06);
+    border: 1px solid rgba(100, 150, 220, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-professional .category-header.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(180deg, rgba(100, 150, 220, 0.06) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.theme-professional .category-header.glass-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(100, 150, 220, 0.3), transparent);
+    pointer-events: none;
+}
+
+.theme-professional .folder-symbol i {
+    color: #60a5fa !important;
+}
+
+.theme-professional .folder-arrow {
+    color: #60a5fa;
+}
+
+.theme-professional .category-header.glass-card:hover {
+    border-color: rgba(100, 150, 220, 0.35);
+    box-shadow: 0 8px 32px rgba(100, 150, 220, 0.12);
+}
+
+.theme-professional.active .category-header.glass-card {
+    background: rgba(100, 150, 220, 0.09);
+    border-color: rgba(100, 150, 220, 0.3);
+    box-shadow: 0 8px 32px rgba(100, 150, 220, 0.1), inset 0 0 30px rgba(100, 150, 220, 0.03);
+}
+
+/* --- Personal: Workshop / Tools --- */
+.theme-personal .category-header.glass-card {
+    background: rgba(245, 158, 11, 0.06);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-personal .category-header.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(245, 158, 11, 0.07) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.theme-personal .category-header.glass-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgba(245, 158, 11, 0.1);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.theme-personal .folder-symbol i {
+    color: #f59e0b !important;
+}
+
+.theme-personal .folder-arrow {
+    color: #f59e0b;
+}
+
+.theme-personal .category-header.glass-card:hover {
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.12);
+}
+
+.theme-personal.active .category-header.glass-card {
+    background: rgba(245, 158, 11, 0.09);
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1), inset 0 0 30px rgba(245, 158, 11, 0.03);
+}
+
+/* --- Games: Pixelated / Retro --- */
+.theme-games .category-header.glass-card {
+    background: rgba(34, 197, 94, 0.06);
+    border: 2px solid rgba(34, 197, 94, 0.25);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+
+.theme-games .category-header.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(34, 197, 94, 0.03) 0px,
+            rgba(34, 197, 94, 0.03) 2px,
+            transparent 2px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(34, 197, 94, 0.03) 0px,
+            rgba(34, 197, 94, 0.03) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    pointer-events: none;
+}
+
+.theme-games .category-header.glass-card::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(34, 197, 94, 0.1);
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+.theme-games .folder-symbol i {
+    color: #22c55e !important;
+}
+
+.theme-games .folder-arrow {
+    color: #22c55e;
+}
+
+.theme-games .category-info h3 {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 1.35rem;
+}
+
+.theme-games .category-header.glass-card:hover {
+    border-color: rgba(34, 197, 94, 0.45);
+    box-shadow:
+        0 0 10px rgba(34, 197, 94, 0.15),
+        0 0 20px rgba(34, 197, 94, 0.08);
+}
+
+.theme-games.active .category-header.glass-card {
+    background: rgba(34, 197, 94, 0.08);
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow:
+        0 0 15px rgba(34, 197, 94, 0.15),
+        0 0 30px rgba(34, 197, 94, 0.08),
+        inset 0 0 20px rgba(34, 197, 94, 0.03);
+}
+
+/* ===== END THEMED FOLDERS ===== */
+
 .category-info h3 {
     font-size: 1.5rem;
     color: var(--color-white);
@@ -904,6 +1139,255 @@ body {
     box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
 }
 
+/* ===== THEMED PROJECT CARDS ===== */
+
+/* --- Academic Cards: Scroll / Parchment --- */
+.theme-academic .project-card.glass-card {
+    border: 1px solid rgba(210, 180, 140, 0.12);
+}
+
+.theme-academic .project-card::before {
+    background: linear-gradient(135deg, rgba(210, 180, 140, 0.1) 0%, rgba(210, 170, 100, 0.05) 100%);
+}
+
+.theme-academic .project-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(225deg, rgba(210, 180, 140, 0.15) 0%, transparent 60%);
+    border-bottom-left-radius: 12px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+    transition: opacity var(--transition-base);
+}
+
+.theme-academic .project-card:hover::after {
+    opacity: 1;
+}
+
+.theme-academic .project-card:hover {
+    box-shadow: 0 12px 40px rgba(210, 180, 140, 0.3);
+    border-color: rgba(210, 180, 140, 0.25);
+}
+
+.theme-academic .project-icon {
+    background: linear-gradient(135deg, #d4a574 0%, #c08a50 100%) !important;
+    border-radius: 12px;
+}
+
+.theme-academic .tech-badge {
+    background: rgba(210, 180, 140, 0.12);
+    border: 1px solid rgba(210, 180, 140, 0.25);
+    color: #d4a574;
+}
+
+.theme-academic .project-card:hover .tech-badge {
+    background: rgba(210, 180, 140, 0.22);
+    border-color: rgba(210, 180, 140, 0.45);
+}
+
+/* --- Professional Cards: Building / Corporate --- */
+.theme-professional .project-card.glass-card {
+    border: 1px solid rgba(96, 165, 250, 0.12);
+}
+
+.theme-professional .project-card::before {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0.02) 100%);
+}
+
+.theme-professional .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.25), transparent);
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity var(--transition-base);
+}
+
+.theme-professional .project-card:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.5), transparent);
+}
+
+.theme-professional .project-card:hover {
+    box-shadow: 0 12px 40px rgba(96, 165, 250, 0.25);
+    border-color: rgba(96, 165, 250, 0.25);
+}
+
+.theme-professional .project-icon {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+    border-radius: 10px;
+}
+
+.theme-professional .tech-badge {
+    background: rgba(96, 165, 250, 0.12);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    color: #93bbfd;
+}
+
+.theme-professional .project-card:hover .tech-badge {
+    background: rgba(96, 165, 250, 0.22);
+    border-color: rgba(96, 165, 250, 0.45);
+}
+
+/* --- Personal Cards: Workshop / Tools --- */
+.theme-personal .project-card.glass-card {
+    border: 1px solid rgba(245, 158, 11, 0.12);
+}
+
+.theme-personal .project-card::before {
+    background: radial-gradient(ellipse at 30% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+}
+
+.theme-personal .project-card::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(245, 158, 11, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    transition: all var(--transition-base);
+}
+
+.theme-personal .project-card:hover::after {
+    border-color: rgba(245, 158, 11, 0.3);
+    transform: rotate(90deg);
+}
+
+.theme-personal .project-card:hover {
+    box-shadow: 0 12px 40px rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.25);
+}
+
+.theme-personal .project-icon {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    border-radius: 12px;
+}
+
+.theme-personal .tech-badge {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #fbbf24;
+}
+
+.theme-personal .project-card:hover .tech-badge {
+    background: rgba(245, 158, 11, 0.22);
+    border-color: rgba(245, 158, 11, 0.45);
+}
+
+/* --- Games Cards: Pixelated / Retro --- */
+.theme-games .project-card.glass-card {
+    border: 2px solid rgba(34, 197, 94, 0.18);
+    border-radius: 4px;
+    image-rendering: pixelated;
+}
+
+.theme-games .project-card::before {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(34, 197, 94, 0.025) 0px,
+            rgba(34, 197, 94, 0.025) 2px,
+            transparent 2px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(34, 197, 94, 0.025) 0px,
+            rgba(34, 197, 94, 0.025) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    opacity: 1;
+}
+
+.theme-games .project-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(34, 197, 94, 0.02) 3px,
+        rgba(34, 197, 94, 0.02) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.theme-games .project-card:hover::before {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(34, 197, 94, 0.04) 0px,
+            rgba(34, 197, 94, 0.04) 2px,
+            transparent 2px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(34, 197, 94, 0.04) 0px,
+            rgba(34, 197, 94, 0.04) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+}
+
+.theme-games .project-card:hover::after {
+    opacity: 1;
+}
+
+.theme-games .project-card:hover {
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow:
+        0 0 15px rgba(34, 197, 94, 0.2),
+        0 0 30px rgba(34, 197, 94, 0.1);
+}
+
+.theme-games .project-icon {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+    border-radius: 4px;
+}
+
+.theme-games .project-card h4 {
+    letter-spacing: 1px;
+}
+
+.theme-games .tech-badge {
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    color: #4ade80;
+    border-radius: 4px;
+}
+
+.theme-games .project-card:hover .tech-badge {
+    background: rgba(34, 197, 94, 0.22);
+    border-color: rgba(34, 197, 94, 0.5);
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.15);
+}
+
+.theme-games .platform-badge {
+    border-radius: 4px;
+}
+
+/* ===== END THEMED PROJECT CARDS ===== */
 
 /* portfolio card */
 

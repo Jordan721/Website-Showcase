@@ -471,6 +471,8 @@ function initializeApp() {
     populateCompendium();
     setupModal();
     setupSearch();
+    setupGlobalSearch();
+    setupFusion();
 }
 
 // ============================================
@@ -860,6 +862,278 @@ function getSkillIcon(skill) {
     if (skillLower.includes('megido')) return '✴';
     if (skillLower.includes('dia') || skillLower.includes('media') || skillLower.includes('salvation')) return '✚';
     return '◆';
+}
+
+// ============================================
+// Global Search
+// ============================================
+function setupGlobalSearch() {
+    const searchInput = document.getElementById('globalSearch');
+    const searchCount = document.getElementById('searchCount');
+    const searchClear = document.getElementById('searchClear');
+
+    let debounceTimer;
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = searchInput.value.toLowerCase().trim();
+
+            if (query === '') {
+                searchCount.textContent = '';
+                searchClear.classList.remove('visible');
+                updateDemonGrid(demonDatabase);
+                updateCompendiumGrid(demonDatabase);
+                return;
+            }
+
+            searchClear.classList.add('visible');
+
+            const results = demonDatabase.filter(demon =>
+                demon.name.toLowerCase().includes(query) ||
+                demon.race.toLowerCase().includes(query) ||
+                demon.alignment.toLowerCase().includes(query) ||
+                demon.skills.some(skill => skill.toLowerCase().includes(query)) ||
+                demon.lore.toLowerCase().includes(query) ||
+                demon.tier.toLowerCase() === query
+            );
+
+            searchCount.textContent = `${results.length} FOUND`;
+            updateDemonGrid(results);
+            updateCompendiumGrid(results);
+        }, 200);
+    });
+
+    searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchCount.textContent = '';
+        searchClear.classList.remove('visible');
+        updateDemonGrid(demonDatabase);
+        updateCompendiumGrid(demonDatabase);
+        searchInput.focus();
+    });
+}
+
+// ============================================
+// Fusion Calculator
+// ============================================
+const fusionChart = {
+    'Fairy':    { 'Fairy': 'Beast',    'Beast': 'Wilder',  'Deity': 'Lady',     'Fiend': 'Night',    'Tyrant': 'Fallen',  'Fury': 'Lady',     'Kishin': 'Genma',   'Lady': 'Megami',    'Night': 'Fairy',    'Wilder': 'Jirae',   'Fallen': 'Night',   'Femme': 'Fairy',    'Dragon': 'Deity',   'Herald': 'Megami',  'Wargod': 'Kishin',  'Kunitsu': 'Lady',   'Megami': 'Deity'   },
+    'Beast':    { 'Fairy': 'Wilder',   'Beast': 'Jirae',   'Deity': 'Kishin',   'Fiend': 'Tyrant',   'Tyrant': 'Night',   'Fury': 'Kishin',   'Kishin': 'Fury',    'Lady': 'Femme',     'Night': 'Fairy',    'Wilder': 'Beast',   'Fallen': 'Night',   'Femme': 'Wilder',   'Dragon': 'Fury',    'Herald': 'Deity',   'Wargod': 'Fury',    'Kunitsu': 'Femme',  'Megami': 'Fairy'   },
+    'Deity':    { 'Fairy': 'Lady',     'Beast': 'Kishin',  'Deity': 'Herald',   'Fiend': 'Tyrant',   'Tyrant': 'Fury',    'Fury': 'Deity',    'Kishin': 'Deity',   'Lady': 'Megami',    'Night': 'Femme',    'Wilder': 'Beast',   'Fallen': 'Fury',    'Femme': 'Lady',     'Dragon': 'Deity',   'Herald': 'Deity',   'Wargod': 'Kishin',  'Kunitsu': 'Lady',   'Megami': 'Herald'  },
+    'Fiend':    { 'Fairy': 'Night',    'Beast': 'Tyrant',  'Deity': 'Tyrant',   'Fiend': 'Fiend',    'Tyrant': 'Fiend',   'Fury': 'Tyrant',   'Kishin': 'Fury',    'Lady': 'Fiend',     'Night': 'Fiend',    'Wilder': 'Fallen',  'Fallen': 'Fiend',   'Femme': 'Fiend',    'Dragon': 'Tyrant',  'Herald': 'Deity',   'Wargod': 'Fury',    'Kunitsu': 'Femme',  'Megami': 'Lady'    },
+    'Tyrant':   { 'Fairy': 'Fallen',   'Beast': 'Night',   'Deity': 'Fury',     'Fiend': 'Fiend',    'Tyrant': 'Tyrant',  'Fury': 'Tyrant',   'Kishin': 'Fury',    'Lady': 'Femme',     'Night': 'Tyrant',   'Wilder': 'Night',   'Fallen': 'Tyrant',  'Femme': 'Lady',     'Dragon': 'Fury',    'Herald': 'Deity',   'Wargod': 'Kishin',  'Kunitsu': 'Femme',  'Megami': 'Deity'   },
+    'Fury':     { 'Fairy': 'Lady',     'Beast': 'Kishin',  'Deity': 'Deity',    'Fiend': 'Tyrant',   'Tyrant': 'Tyrant',  'Fury': 'Kishin',   'Kishin': 'Fury',    'Lady': 'Deity',     'Night': 'Lady',     'Wilder': 'Beast',   'Fallen': 'Tyrant',  'Femme': 'Lady',     'Dragon': 'Deity',   'Herald': 'Deity',   'Wargod': 'Deity',   'Kunitsu': 'Lady',   'Megami': 'Deity'   },
+    'Kishin':   { 'Fairy': 'Genma',    'Beast': 'Fury',    'Deity': 'Deity',    'Fiend': 'Fury',     'Tyrant': 'Fury',    'Fury': 'Fury',     'Kishin': 'Wargod',  'Lady': 'Kishin',    'Night': 'Femme',    'Wilder': 'Beast',   'Fallen': 'Lady',    'Femme': 'Kishin',   'Dragon': 'Fury',    'Herald': 'Deity',   'Wargod': 'Fury',    'Kunitsu': 'Kishin', 'Megami': 'Deity'   },
+    'Lady':     { 'Fairy': 'Megami',   'Beast': 'Femme',   'Deity': 'Megami',   'Fiend': 'Fiend',    'Tyrant': 'Femme',   'Fury': 'Deity',    'Kishin': 'Kishin',  'Lady': 'Femme',     'Night': 'Lady',     'Wilder': 'Femme',   'Fallen': 'Lady',    'Femme': 'Lady',     'Dragon': 'Deity',   'Herald': 'Megami',  'Wargod': 'Deity',   'Kunitsu': 'Lady',   'Megami': 'Deity'   },
+    'Night':    { 'Fairy': 'Fairy',    'Beast': 'Fairy',   'Deity': 'Femme',    'Fiend': 'Fiend',    'Tyrant': 'Tyrant',  'Fury': 'Lady',     'Kishin': 'Femme',   'Lady': 'Lady',      'Night': 'Fallen',   'Wilder': 'Fairy',   'Fallen': 'Night',   'Femme': 'Night',    'Dragon': 'Femme',   'Herald': 'Lady',    'Wargod': 'Kishin',  'Kunitsu': 'Femme',  'Megami': 'Lady'    },
+    'Wilder':   { 'Fairy': 'Jirae',    'Beast': 'Beast',   'Deity': 'Beast',    'Fiend': 'Fallen',   'Tyrant': 'Night',   'Fury': 'Beast',    'Kishin': 'Beast',   'Lady': 'Femme',     'Night': 'Fairy',    'Wilder': 'Jirae',   'Fallen': 'Wilder',  'Femme': 'Wilder',   'Dragon': 'Beast',   'Herald': 'Beast',   'Wargod': 'Beast',   'Kunitsu': 'Jirae',  'Megami': 'Fairy'   },
+    'Fallen':   { 'Fairy': 'Night',    'Beast': 'Night',   'Deity': 'Fury',     'Fiend': 'Fiend',    'Tyrant': 'Tyrant',  'Fury': 'Tyrant',   'Kishin': 'Lady',    'Lady': 'Lady',      'Night': 'Night',    'Wilder': 'Wilder',  'Fallen': 'Fallen',  'Femme': 'Night',    'Dragon': 'Tyrant',  'Herald': 'Fallen',  'Wargod': 'Fury',    'Kunitsu': 'Femme',  'Megami': 'Lady'    },
+    'Femme':    { 'Fairy': 'Fairy',    'Beast': 'Wilder',  'Deity': 'Lady',     'Fiend': 'Fiend',    'Tyrant': 'Lady',    'Fury': 'Lady',     'Kishin': 'Kishin',  'Lady': 'Lady',      'Night': 'Night',    'Wilder': 'Wilder',  'Fallen': 'Night',   'Femme': 'Femme',    'Dragon': 'Lady',    'Herald': 'Megami',  'Wargod': 'Kishin',  'Kunitsu': 'Lady',   'Megami': 'Megami'  },
+    'Dragon':   { 'Fairy': 'Deity',    'Beast': 'Fury',    'Deity': 'Deity',    'Fiend': 'Tyrant',   'Tyrant': 'Fury',    'Fury': 'Deity',    'Kishin': 'Fury',    'Lady': 'Deity',     'Night': 'Femme',    'Wilder': 'Beast',   'Fallen': 'Tyrant',  'Femme': 'Lady',     'Dragon': 'Dragon',  'Herald': 'Deity',   'Wargod': 'Deity',   'Kunitsu': 'Fury',   'Megami': 'Deity'   },
+    'Herald':   { 'Fairy': 'Megami',   'Beast': 'Deity',   'Deity': 'Deity',    'Fiend': 'Deity',    'Tyrant': 'Deity',   'Fury': 'Deity',    'Kishin': 'Deity',   'Lady': 'Megami',    'Night': 'Lady',     'Wilder': 'Beast',   'Fallen': 'Fallen',  'Femme': 'Megami',   'Dragon': 'Deity',   'Herald': 'Herald',  'Wargod': 'Deity',   'Kunitsu': 'Deity',  'Megami': 'Herald'  },
+    'Wargod':   { 'Fairy': 'Kishin',   'Beast': 'Fury',    'Deity': 'Kishin',   'Fiend': 'Fury',     'Tyrant': 'Kishin',  'Fury': 'Deity',    'Kishin': 'Fury',    'Lady': 'Deity',     'Night': 'Kishin',   'Wilder': 'Beast',   'Fallen': 'Fury',    'Femme': 'Kishin',   'Dragon': 'Deity',   'Herald': 'Deity',   'Wargod': 'Wargod',  'Kunitsu': 'Kishin', 'Megami': 'Deity'   },
+    'Kunitsu':  { 'Fairy': 'Lady',     'Beast': 'Femme',   'Deity': 'Lady',     'Fiend': 'Femme',    'Tyrant': 'Femme',   'Fury': 'Lady',     'Kishin': 'Kishin',  'Lady': 'Lady',      'Night': 'Femme',    'Wilder': 'Jirae',   'Fallen': 'Femme',   'Femme': 'Lady',     'Dragon': 'Fury',    'Herald': 'Deity',   'Wargod': 'Kishin',  'Kunitsu': 'Kunitsu','Megami': 'Lady'    },
+    'Megami':   { 'Fairy': 'Deity',    'Beast': 'Fairy',   'Deity': 'Herald',   'Fiend': 'Lady',     'Tyrant': 'Deity',   'Fury': 'Deity',    'Kishin': 'Deity',   'Lady': 'Deity',     'Night': 'Lady',     'Wilder': 'Fairy',   'Fallen': 'Lady',    'Femme': 'Megami',   'Dragon': 'Deity',   'Herald': 'Herald',  'Wargod': 'Deity',   'Kunitsu': 'Lady',   'Megami': 'Herald'  }
+};
+
+// Races that exist in our database for reference
+const allRaces = [...new Set(demonDatabase.map(d => d.race))];
+
+function setupFusion() {
+    const select1 = document.getElementById('fusionDemon1');
+    const select2 = document.getElementById('fusionDemon2');
+    const fuseBtn = document.getElementById('fuseBtn');
+
+    // Populate selects
+    const sortedDemons = [...demonDatabase].sort((a, b) => a.name.localeCompare(b.name));
+    sortedDemons.forEach(demon => {
+        const opt1 = document.createElement('option');
+        opt1.value = demon.id;
+        opt1.textContent = `${demon.name} (${demon.race} - Lv.${demon.level})`;
+        select1.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = demon.id;
+        opt2.textContent = `${demon.name} (${demon.race} - Lv.${demon.level})`;
+        select2.appendChild(opt2);
+    });
+
+    select1.addEventListener('change', () => {
+        updateFusionPreview(1);
+        updateFuseButton();
+    });
+
+    select2.addEventListener('change', () => {
+        updateFusionPreview(2);
+        updateFuseButton();
+    });
+
+    fuseBtn.addEventListener('click', executeFusion);
+
+    // Build fusion chart table
+    buildFusionTable();
+}
+
+function updateFusionPreview(slot) {
+    const select = document.getElementById(`fusionDemon${slot}`);
+    const preview = document.getElementById(`fusionPreview${slot}`);
+    const demonId = parseInt(select.value);
+
+    if (!demonId) {
+        preview.innerHTML = '<div class="fusion-preview-empty">AWAITING SELECTION...</div>';
+        return;
+    }
+
+    const demon = demonDatabase.find(d => d.id === demonId);
+    if (!demon) return;
+
+    preview.innerHTML = `
+        <div class="fusion-preview-card">
+            <div class="fp-name">${demon.name}</div>
+            <div class="fp-race">${demon.race} | ${demon.alignment.toUpperCase()}</div>
+            <div class="fp-sprite" style="background: linear-gradient(135deg, ${getAlignmentColor(demon.alignment)} 0%, #333 100%)"></div>
+            <div class="fp-stats">
+                <span>LV ${demon.level}</span>
+                <span>STR ${demon.stats.str}</span>
+                <span>MAG ${demon.stats.mag}</span>
+            </div>
+            <span class="fp-tier tier-${demon.tier}">TIER ${demon.tier.toUpperCase()}</span>
+        </div>
+    `;
+}
+
+function updateFuseButton() {
+    const select1 = document.getElementById('fusionDemon1');
+    const select2 = document.getElementById('fusionDemon2');
+    const fuseBtn = document.getElementById('fuseBtn');
+
+    fuseBtn.disabled = !(select1.value && select2.value && select1.value !== select2.value);
+}
+
+function executeFusion() {
+    const select1 = document.getElementById('fusionDemon1');
+    const select2 = document.getElementById('fusionDemon2');
+    const resultContainer = document.getElementById('fusionResult');
+    const resultContent = document.getElementById('fusionResultContent');
+
+    const demon1 = demonDatabase.find(d => d.id === parseInt(select1.value));
+    const demon2 = demonDatabase.find(d => d.id === parseInt(select2.value));
+
+    if (!demon1 || !demon2) return;
+
+    // Calculate fusion result
+    const resultRace = getFusionResultRace(demon1.race, demon2.race);
+    const resultLevel = Math.floor((demon1.level + demon2.level) / 2) + 1;
+
+    // Find best matching demon from database
+    const resultDemon = findFusionResult(resultRace, resultLevel);
+
+    resultContainer.classList.add('has-result');
+
+    if (resultDemon) {
+        resultContent.innerHTML = `
+            <div class="fusion-result-demon">
+                <div class="fr-name">${resultDemon.name}</div>
+                <div class="fr-race">${resultDemon.race} | ${resultDemon.alignment.toUpperCase()}</div>
+                <div class="fr-sprite" style="background: linear-gradient(135deg, ${getAlignmentColor(resultDemon.alignment)} 0%, #333 100%)"></div>
+                <div class="fr-stats-row">
+                    <span>LV <span class="fr-val">${resultDemon.level}</span></span>
+                    <span>STR <span class="fr-val">${resultDemon.stats.str}</span></span>
+                    <span>MAG <span class="fr-val">${resultDemon.stats.mag}</span></span>
+                    <span>VIT <span class="fr-val">${resultDemon.stats.vit}</span></span>
+                    <span>AGI <span class="fr-val">${resultDemon.stats.agi}</span></span>
+                    <span>LUK <span class="fr-val">${resultDemon.stats.luk}</span></span>
+                </div>
+                <span class="fr-tier tier-${resultDemon.tier}">TIER ${resultDemon.tier.toUpperCase()}</span>
+                <div class="fr-lore">${resultDemon.lore}</div>
+                <button class="fr-view-btn" onclick="openDemonModal(demonDatabase.find(d => d.id === ${resultDemon.id}))">◆ VIEW FULL ENTRY ◆</button>
+            </div>
+        `;
+    } else {
+        resultContent.innerHTML = `
+            <div class="fusion-result-demon">
+                <div class="fr-name">??? UNKNOWN ???</div>
+                <div class="fr-race">Result Race: ${resultRace} | Target Level: ~${resultLevel}</div>
+                <div class="fr-sprite" style="background: linear-gradient(135deg, #555 0%, #222 100%)"></div>
+                <div class="fr-lore">This fusion combination produces a demon not yet in the compendium. The resulting ${resultRace} demon would be around level ${resultLevel}.</div>
+            </div>
+        `;
+    }
+}
+
+function getFusionResultRace(race1, race2) {
+    // Look up in fusion chart
+    if (fusionChart[race1] && fusionChart[race1][race2]) {
+        return fusionChart[race1][race2];
+    }
+    if (fusionChart[race2] && fusionChart[race2][race1]) {
+        return fusionChart[race2][race1];
+    }
+    // Fallback: return the less common race or Fairy
+    return 'Fairy';
+}
+
+function findFusionResult(targetRace, targetLevel) {
+    // Find demons of the target race, pick the one closest to targetLevel
+    const candidates = demonDatabase.filter(d => d.race === targetRace);
+
+    if (candidates.length === 0) {
+        // No exact race match, find closest race match
+        const allDemons = [...demonDatabase].sort((a, b) =>
+            Math.abs(a.level - targetLevel) - Math.abs(b.level - targetLevel)
+        );
+        return allDemons[0];
+    }
+
+    // Find the demon closest to target level (prefer equal or higher)
+    candidates.sort((a, b) => {
+        const diffA = Math.abs(a.level - targetLevel);
+        const diffB = Math.abs(b.level - targetLevel);
+        return diffA - diffB;
+    });
+
+    return candidates[0];
+}
+
+function buildFusionTable() {
+    const header = document.getElementById('fusionTableHeader');
+    const body = document.getElementById('fusionTableBody');
+
+    // Get races that appear in our fusion chart
+    const races = Object.keys(fusionChart);
+
+    // Build header row
+    races.forEach(race => {
+        const th = document.createElement('th');
+        th.textContent = race.substring(0, 4).toUpperCase();
+        th.title = race;
+        header.appendChild(th);
+    });
+
+    // Build body rows
+    races.forEach(race1 => {
+        const row = document.createElement('tr');
+        const th = document.createElement('td');
+        th.textContent = race1.substring(0, 4).toUpperCase();
+        th.title = race1;
+        row.appendChild(th);
+
+        races.forEach(race2 => {
+            const td = document.createElement('td');
+            const result = getFusionResultRace(race1, race2);
+            td.textContent = result.substring(0, 4);
+            td.title = `${race1} + ${race2} = ${result}`;
+
+            if (race1 === race2) {
+                td.classList.add('same-race');
+            }
+
+            row.appendChild(td);
+        });
+
+        body.appendChild(row);
+    });
 }
 
 // ============================================

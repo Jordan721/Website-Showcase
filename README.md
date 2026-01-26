@@ -36,6 +36,7 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 - **🎨 Dynamic Color System** — Folder icons and project cards adapt to your chosen theme color
 - **📂 Animated Folders** — Folder icons swap from closed to open with smooth transitions, plus staggered card reveals
 - **🖼️ Custom SVG Favicons** — Every project has its own unique, themed favicon
+- **🏷️ Platform Badges** — Each project card shows Desktop and/or Mobile compatibility badges with hover glow effects
 
 ### 🗂️ Project Categories
 
@@ -43,6 +44,7 @@ From classroom assignments to professional bootcamp projects, each piece tells a
 A collection of games I originally made years ago, remade for the web:
 - 👻 The Unfair Game - Survival horror puzzle game with invisible danger zones and jump scares
 - 🏃 The Hard Hallway (THW) - Brutal 2D action platformer inspired by "I Wanna Be The Guy"
+- 💀 The Idea Space - SMT-inspired demon compendium with fusion calculator, global search, timeline, party builder & retro terminal aesthetic
 - 📦 Origins section with downloadable legacy versions (original FPS Creator builds)
 
 #### 📚 **Academic Projects**
@@ -64,7 +66,8 @@ Real-world projects from bootcamps and professional experience:
 Independent projects showcasing creative problem-solving:
 - 🧭 Cash Compass - Personal finance tracker with data visualization
 - 🎮 Console Chronicles - Interactive SQL learning platform teaching database queries through gaming console history
-- 🥯 Bagel Byte Academy - Computer education platform with interactive lessons
+- 🥯 Bagel Byte Academy - 3D computer exploration lab with hardware, networking & coding fundamentals
+- 💻 Bagely Bytes Programming - Learn Python, JavaScript, Java, C++ and more with interactive examples
 - 🛡️ **ThreatAware** - Cybersecurity education platform with AI threat detection, identity theft protection & incident response guides
 
 ---
@@ -139,7 +142,7 @@ The floating navigation dots track your scroll position and highlight where you 
 Those beautiful, semi-transparent cards with blur effects? That's glass morphism, baby! Each project card has hover animations that make exploring feel interactive and fun!
 
 ### 🎮 Game Vault
-A dedicated arcade-themed section for playable web games! Features retro CRT scanline effects, game preview GIFs, and an "Origins" section with downloadable legacy versions and random nostalgic quotes about each game's history.
+A dedicated arcade-themed section for playable web games! Features retro CRT scanline effects, game preview GIFs, platform compatibility badges, and an "Origins" section with downloadable legacy versions and random nostalgic quotes about each game's history. Includes The Idea Space — an SMT-inspired demon compendium with fusion calculator, global search, and party builder.
 
 ---
 
@@ -154,7 +157,8 @@ Development-Showcase/
 ├── 📁 Games/                  # Game vault with web remakes
 │   ├── index.html             # Arcade-themed game hub
 │   ├── The_Unfair_Game_Web_Ed/# Survival horror puzzle game
-│   ├── THW/                   # The Hard Hallway platformer
+│   ├── THW/                   # The Hard Hallway platformer (+ favicon)
+│   ├── Idea_Space/            # SMT demon compendium (+ favicon + README)
 │   ├── previews/              # Game preview GIFs
 │   └── Zips/                  # Legacy downloadable versions
 ├── 📁 Academic_Projects/      # School & coursework projects
@@ -169,7 +173,8 @@ Development-Showcase/
 ├── 📁 Personal_Projects/      # Independent & passion projects
 │   ├── Cash-Compass/          # Finance tracker (+ favicon)
 │   ├── Console_Chronicles/    # SQL tutorial (+ favicon)
-│   ├── Bagel_Byte_Academy/    # Computer education (+ favicon)
+│   ├── Bagel_Byte_Academy/    # 3D computer exploration lab (+ favicon)
+│   ├── Bagely_Bytes_Programming/ # Programming language tutorials
 │   └── Threat_Aware/          # 🛡️ Cybersecurity education platform (+ favicon)
 │       ├── index.html         # 6 modules + quizzes
 │       ├── styles.css         # ~3200 lines of styling
@@ -189,7 +194,8 @@ Each project now has its own unique, themed SVG favicon:
 |---------|----------------|
 | 🎮 Game Vault | Retro arcade joystick |
 | 👻 The Unfair Game | Ghost/skull horror icon |
-| 🏃 The Hard Hallway | Platformer character |
+| 🏃 The Hard Hallway | Neon hallway with spikes & player figure |
+| 💀 The Idea Space | SMT pentagram summoning circle |
 | 🛡️ ThreatAware | Shield with target/crosshair |
 | 🥯 Bagel Byte Academy | Bagel with binary code |
 | 🎮 Console Chronicles | Game controller with SQL text |
@@ -223,6 +229,7 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 - 👻 The Unfair Game includes invisible danger zones, jump scares, and a sanity system
 - 🏃 The Hard Hallway (THW) is inspired by notoriously difficult games like "I Wanna Be The Guy"
 - 📦 The Origins section displays random nostalgic quotes about the games' history
+- 💀 The Idea Space has a full 17×17 race fusion chart and 20 iconic SMT demons with lore
 - ⏱️ The scroll progress bar at the top tracks your exact position on the page
 - 🎯 Every animation delay is carefully timed for the smoothest experience
 - 📱 The scroll indicator changes from a mouse to a phone on mobile devices
@@ -231,6 +238,7 @@ I'm always excited to connect with fellow developers, potential collaborators, o
 - 📂 Folders animate between closed/open icons with a satisfying rotate & scale effect
 - 🎴 Project cards cascade in one-by-one when a folder opens
 - 🖼️ All project sub-pages now have custom SVG favicons
+- 🏷️ Every project card has Desktop/Mobile platform badges so you know what works where
 
 ---
 

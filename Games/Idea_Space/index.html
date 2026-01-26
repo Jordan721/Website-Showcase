@@ -80,11 +80,25 @@
                 <span class="nav-icon">◈</span>
                 <span class="nav-text">COMPENDIUM</span>
             </button>
+            <button class="nav-btn" data-section="fusion">
+                <span class="nav-icon">⬡</span>
+                <span class="nav-text">FUSION</span>
+            </button>
             <button class="nav-btn" data-section="builder">
                 <span class="nav-icon">◊</span>
                 <span class="nav-text">PARTY BUILDER</span>
             </button>
         </nav>
+
+        <!-- Global Search Bar -->
+        <div class="global-search">
+            <div class="search-container">
+                <span class="search-icon">◆</span>
+                <input type="text" class="global-search-input" id="globalSearch" placeholder="SEARCH DEMONS BY NAME, RACE, SKILL, OR LORE..." autocomplete="off">
+                <span class="search-count" id="searchCount"></span>
+                <button class="search-clear" id="searchClear">✕</button>
+            </div>
+        </div>
 
         <!-- Main Content Area -->
         <main class="main-content">
@@ -383,6 +397,88 @@
 
                     <div class="compendium-grid" id="compendiumGrid">
                         <!-- Compendium entries populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Fusion Calculator Section -->
+                <section class="content-section" id="fusion-section">
+                    <div class="section-header">
+                        <h2>◢◤ DEMON FUSION CALCULATOR ◥◣</h2>
+                        <p class="section-desc">Combine two demons to discover fusion results</p>
+                    </div>
+
+                    <div class="fusion-container">
+                        <div class="fusion-slots">
+                            <!-- Demon 1 -->
+                            <div class="fusion-slot" id="fusionSlot1">
+                                <div class="fusion-slot-header">◆ FIRST DEMON ◆</div>
+                                <select class="fusion-select" id="fusionDemon1">
+                                    <option value="">-- SELECT DEMON --</option>
+                                </select>
+                                <div class="fusion-preview" id="fusionPreview1">
+                                    <div class="fusion-preview-empty">AWAITING SELECTION...</div>
+                                </div>
+                            </div>
+
+                            <!-- Fusion Symbol -->
+                            <div class="fusion-symbol">
+                                <div class="fusion-circle">
+                                    <span class="fusion-plus">+</span>
+                                </div>
+                                <div class="fusion-sparks">
+                                    <span class="spark"></span>
+                                    <span class="spark"></span>
+                                    <span class="spark"></span>
+                                    <span class="spark"></span>
+                                </div>
+                            </div>
+
+                            <!-- Demon 2 -->
+                            <div class="fusion-slot" id="fusionSlot2">
+                                <div class="fusion-slot-header">◆ SECOND DEMON ◆</div>
+                                <select class="fusion-select" id="fusionDemon2">
+                                    <option value="">-- SELECT DEMON --</option>
+                                </select>
+                                <div class="fusion-preview" id="fusionPreview2">
+                                    <div class="fusion-preview-empty">AWAITING SELECTION...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fuse Button -->
+                        <div class="fusion-action">
+                            <button class="fuse-btn" id="fuseBtn" disabled>
+                                <span class="fuse-btn-text">◄ EXECUTE FUSION ►</span>
+                                <div class="fuse-btn-glow"></div>
+                            </button>
+                        </div>
+
+                        <!-- Fusion Result -->
+                        <div class="fusion-result" id="fusionResult">
+                            <div class="fusion-result-header">◆ FUSION RESULT ◆</div>
+                            <div class="fusion-result-content" id="fusionResultContent">
+                                <div class="fusion-result-empty">
+                                    <p>SELECT TWO DEMONS AND EXECUTE FUSION</p>
+                                    <p class="fusion-hint">The resulting demon is determined by the combined levels and races of the source demons</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fusion Chart -->
+                        <div class="fusion-chart">
+                            <h3 class="chart-title">◢ RACE FUSION CHART ◣</h3>
+                            <div class="chart-scroll">
+                                <table class="fusion-table" id="fusionTable">
+                                    <thead>
+                                        <tr id="fusionTableHeader">
+                                            <th class="chart-corner">◆</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fusionTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </section>
 

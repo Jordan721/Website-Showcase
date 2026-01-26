@@ -14,10 +14,12 @@ Think of it as a digital museum for demons. Hee-ho! ❄️
 
 - 🕹️ **Classic SMT Aesthetic** - Retro terminal vibes with scanlines, glitch effects, and that old-school demon summoning program feel
 - 📅 **Timeline View** - See how demons evolved across the series from SMT I (1992) to SMT V: Vengeance (2024)
-- 🔍 **Filter & Search** - Sort by game, alignment (Law/Neutral/Chaos), race, tier ranking, and skill type
+- 🔍 **Global Search** - Instantly search demons by name, race, skill, alignment, or lore from anywhere in the app
+- ⚗️ **Fusion Calculator** - Pick two demons and see what they fuse into! Includes a full race fusion chart just like the real games
 - 📖 **Demon Lore** - Read up on your favorite demons and their mythological origins
 - 👹 **20 Iconic Demons** - From Jack Frost to Lucifer, Matador to Yoshitsune
 - 🎯 **Tier Rankings** - See which demons are S-tier and which are... well, not
+- 🔎 **Filter System** - Sort by game, alignment (Law/Neutral/Chaos), race, tier ranking, and skill type
 
 ## Why? 🎯
 

@@ -696,10 +696,36 @@ function updateDemonGrid(demons) {
     });
 }
 
+function getElementIcons(skills) {
+    const elements = [];
+    const seen = new Set();
+    skills.forEach(skill => {
+        const s = skill.toLowerCase();
+        let el = null;
+        if (s.includes('bufu') || s.includes('ice')) el = { icon: '❄', cls: 'ice' };
+        else if (s.includes('agi') || s.includes('fire') || s.includes('maragion')) el = { icon: '🔥', cls: 'fire' };
+        else if (s.includes('zio') || s.includes('elec') || s.includes('thunder')) el = { icon: '⚡', cls: 'elec' };
+        else if (s.includes('zan') || s.includes('force')) el = { icon: '🌪', cls: 'force' };
+        else if (s.includes('hama') || s.includes('salvation')) el = { icon: '✦', cls: 'light' };
+        else if (s.includes('mudo') || s.includes('dark') || s.includes('die')) el = { icon: '☠', cls: 'dark' };
+        else if (s.includes('megido') || s.includes('morning star') || s.includes('pralaya')) el = { icon: '✴', cls: 'almighty' };
+        else if (s.includes('dia') || s.includes('media') || s.includes('prayer') || s.includes('meditation')) el = { icon: '✚', cls: 'heal' };
+        else if (s.includes('lunge') || s.includes('charge') || s.includes('hassou') || s.includes('megaton') || s.includes('phys')) el = { icon: '⚔', cls: 'phys' };
+        if (el && !seen.has(el.cls)) {
+            seen.add(el.cls);
+            elements.push(el);
+        }
+    });
+    return elements;
+}
+
 function createDemonCard(demon) {
     const card = document.createElement('div');
     card.className = 'demon-card';
     card.dataset.demonId = demon.id;
+
+    const elements = getElementIcons(demon.skills);
+    const elementsHtml = elements.map(e => `<span class="elem-icon elem-${e.cls}" title="${e.cls}">${e.icon}</span>`).join('');
 
     card.innerHTML = `
         <div class="demon-card-header">
@@ -708,6 +734,7 @@ function createDemonCard(demon) {
         </div>
         <div class="demon-card-race">${demon.race}</div>
         <div class="demon-card-sprite" style="background: linear-gradient(135deg, ${getAlignmentColor(demon.alignment)} 0%, #333 100%)"></div>
+        <div class="demon-card-elements">${elementsHtml}</div>
         <div class="demon-card-stats">
             <span>LV ${demon.level}</span>
             <span>${demon.alignment.toUpperCase()}</span>

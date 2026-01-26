@@ -55,6 +55,7 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -82,7 +83,7 @@ body {
             rgba(0, 255, 159, var(--scanline-opacity)) 2px);
 }
 
-/* CRT Flicker */
+/* CRT Flicker — subtle, slow pulse instead of rapid flash */
 .crt-flicker {
     position: fixed;
     top: 0;
@@ -91,8 +92,8 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 9998;
-    animation: flicker 0.15s infinite;
-    opacity: 0.02;
+    animation: flicker 4s ease-in-out infinite;
+    opacity: 0.01;
     background: var(--text-primary);
 }
 
@@ -100,11 +101,11 @@ body {
 
     0%,
     100% {
-        opacity: 0.02;
+        opacity: 0.01;
     }
 
     50% {
-        opacity: 0.04;
+        opacity: 0.025;
     }
 }
 
@@ -234,6 +235,7 @@ body {
     background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
     border-bottom: 1px solid var(--border-color);
     position: relative;
+    overflow: hidden;
 }
 
 .main-header::after {
@@ -872,6 +874,7 @@ body {
     right: 2rem;
     height: 2px;
     background: var(--border-color);
+    overflow: hidden;
 }
 
 .timeline-line::after {
@@ -1169,6 +1172,39 @@ body {
     margin: 0 auto 0.75rem;
     background: var(--text-muted);
     border: 1px solid var(--border-color);
+}
+
+.demon-card-elements {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.elem-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    border: 1px solid;
+    transition: all 0.3s ease;
+}
+
+.elem-ice { background: rgba(100, 200, 255, 0.12); border-color: rgba(100, 200, 255, 0.4); }
+.elem-fire { background: rgba(255, 80, 20, 0.12); border-color: rgba(255, 80, 20, 0.4); }
+.elem-elec { background: rgba(255, 230, 0, 0.12); border-color: rgba(255, 230, 0, 0.4); }
+.elem-force { background: rgba(80, 220, 120, 0.12); border-color: rgba(80, 220, 120, 0.4); }
+.elem-light { background: rgba(255, 255, 180, 0.12); border-color: rgba(255, 255, 180, 0.4); }
+.elem-dark { background: rgba(180, 60, 200, 0.12); border-color: rgba(180, 60, 200, 0.4); }
+.elem-almighty { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }
+.elem-heal { background: rgba(100, 255, 150, 0.12); border-color: rgba(100, 255, 150, 0.4); }
+.elem-phys { background: rgba(200, 120, 60, 0.12); border-color: rgba(200, 120, 60, 0.4); }
+
+.demon-card:hover .elem-icon {
+    filter: brightness(1.4);
 }
 
 .demon-card-stats {

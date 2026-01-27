@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0a0e17"/>
+  <!-- Gear centered at 32,30 -->
+  <g transform="translate(32,30)">
+    <!-- Teeth (8 rectangular teeth around the gear) -->
+    <rect x="-3" y="-22" width="6" height="8" rx="1" fill="#3b82f6"/>
+    <rect x="-3" y="14" width="6" height="8" rx="1" fill="#3b82f6"/>
+    <rect x="-22" y="-3" width="8" height="6" rx="1" fill="#3b82f6"/>
+    <rect x="14" y="-3" width="8" height="6" rx="1" fill="#3b82f6"/>
+    <rect x="9" y="-19" width="6" height="8" rx="1" fill="#3b82f6" transform="rotate(45)"/>
+    <rect x="9" y="11" width="6" height="8" rx="1" fill="#3b82f6" transform="rotate(-45)"/>
+    <rect x="-15" y="-19" width="6" height="8" rx="1" fill="#3b82f6" transform="rotate(-45)"/>
+    <rect x="-15" y="11" width="6" height="8" rx="1" fill="#3b82f6" transform="rotate(45)"/>
+    <!-- Gear body -->
+    <circle r="13" fill="#3b82f6"/>
+    <!-- Center hole -->
+    <circle r="5" fill="#0a0e17"/>
+  </g>
+  <!-- Data flow arrow at bottom -->
+  <line x1="16" y1="54" x2="40" y2="54" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="36,50 42,54 36,58" fill="none" stroke="#60a5fa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

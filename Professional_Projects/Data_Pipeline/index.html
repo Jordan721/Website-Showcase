@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pipeline Engine | Professional Projects</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.mini.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-left">
+                <span class="header-icon">&#9881;</span>
+                <h1>Data Pipeline Engine</h1>
+                <span class="header-subtitle">Automated Data Processing &amp; Transformation</span>
+            </div>
+            <nav class="header-nav">
+                <a href="../../index.html" class="nav-link">&larr; Back to Showcase</a>
+                <a href="#pipeline-section" class="nav-link">Pipeline</a>
+                <a href="#terminal-section" class="nav-link">Console</a>
+                <a href="#output-section" class="nav-link">Output</a>
+                <a href="#analytics-section" class="nav-link">Analytics</a>
+                <a href="#docs-section" class="nav-link">Docs</a>
+                <a href="#" id="about-btn" class="nav-link">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO / CONTROLS ===== -->
+    <section id="controls-section" class="section hero-section">
+        <div class="section-inner">
+            <div class="hero-text">
+                <h2>Enterprise Data Pipeline Simulation</h2>
+                <p>Experience an automated workflow that mirrors real-world data engineering: parsing raw files,
+                    cleaning inconsistencies, transforming schemas, and exporting production-ready Excel reports. This
+                    project demonstrates the same pipeline concepts used in financial services — built from scratch as
+                    an original, confidentiality-safe showcase.</p>
+            </div>
+
+            <div class="controls-panel glass-card">
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label for="data-source-select">Data Source</label>
+                        <select id="data-source-select">
+                            <option value="trades">Trade Records (CSV)</option>
+                            <option value="clients">Client Accounts (JSON)</option>
+                            <option value="logs">Server Logs (Text)</option>
+                            <option value="custom">Custom File (Upload)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Pipeline Speed</label>
+                        <div class="speed-toggle">
+                            <button class="speed-btn" data-speed="slow">Detailed</button>
+                            <button class="speed-btn active" data-speed="normal">Normal</button>
+                            <button class="speed-btn" data-speed="fast">Fast</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Or Drop a File</label>
+                        <div id="drop-zone" class="drop-zone">
+                            <span class="drop-zone-text">Drag &amp; drop any data file (auto-detects format)</span>
+                            <input type="file" id="file-input" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-actions">
+                    <button id="demo-btn" class="btn-demo">
+                        <span class="btn-icon">&#9889;</span> Try Sample Demo
+                    </button>
+                    <button id="run-pipeline-btn" class="btn-primary">
+                        <span class="btn-icon">&#9654;</span> Run Pipeline
+                    </button>
+                    <button id="reset-btn" class="btn-secondary" disabled>
+                        <span class="btn-icon">&#8634;</span> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-records">--</span>
+                    <span class="stat-label">Records</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-cleaned">--</span>
+                    <span class="stat-label">Cleaned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-errors">--</span>
+                    <span class="stat-label">Errors</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-time">--</span>
+                    <span class="stat-label">Duration</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PIPELINE VISUALIZATION ===== -->
+    <section id="pipeline-section" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">Pipeline Stages</h2>
+
+            <div class="pipeline-flow">
+                <div class="pipeline-stage" data-stage="input" data-state="idle" id="stage-input">
+                    <div class="stage-icon">&#128196;</div>
+                    <div class="stage-label">Input</div>
+                    <div class="stage-description">Raw file ingestion</div>
+                    <div class="stage-status">Idle</div>
+                </div>
+
+                <div class="pipeline-connector">
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="pipeline-stage" data-stage="parse" data-state="idle" id="stage-parse">
+                    <div class="stage-icon">&#128270;</div>
+                    <div class="stage-label">Parse</div>
+                    <div class="stage-description">Structure extraction</div>
+                    <div class="stage-status">Idle</div>
+                </div>
+
+                <div class="pipeline-connector">
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="pipeline-stage" data-stage="clean" data-state="idle" id="stage-clean">
+                    <div class="stage-icon">&#128295;</div>
+                    <div class="stage-label">Clean</div>
+                    <div class="stage-description">Validation &amp; repair</div>
+                    <div class="stage-status">Idle</div>
+                </div>
+
+                <div class="pipeline-connector">
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="pipeline-stage" data-stage="transform" data-state="idle" id="stage-transform">
+                    <div class="stage-icon">&#9881;</div>
+                    <div class="stage-label">Transform</div>
+                    <div class="stage-description">Schema mapping</div>
+                    <div class="stage-status">Idle</div>
+                </div>
+
+                <div class="pipeline-connector">
+                    <div class="connector-line"></div>
+                </div>
+
+                <div class="pipeline-stage" data-stage="output" data-state="idle" id="stage-output">
+                    <div class="stage-icon">&#128202;</div>
+                    <div class="stage-label">Output</div>
+                    <div class="stage-description">Export &amp; delivery</div>
+                    <div class="stage-status">Idle</div>
+                </div>
+            </div>
+
+            <div class="data-preview-container" id="data-preview-container">
+                <div class="data-preview glass-card" id="preview-before">
+                    <h3>Raw Input Sample</h3>
+                    <pre><code id="raw-data-preview">Run the pipeline to see raw data here...</code></pre>
+                </div>
+                <div class="data-preview glass-card" id="preview-after">
+                    <h3>Processed Output Sample</h3>
+                    <pre><code id="processed-data-preview">Run the pipeline to see processed data here...</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TERMINAL / CONSOLE ===== -->
+    <section id="terminal-section" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">Live Console Output</h2>
+
+            <div class="terminal-window glass-card">
+                <div class="terminal-toolbar">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title">pipeline_runner.py &mdash; bash &mdash; 120x40</span>
+                    <div class="terminal-actions">
+                        <button id="terminal-clear-btn" class="terminal-btn">Clear</button>
+                        <button id="terminal-copy-btn" class="terminal-btn">Copy</button>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-line t-muted">Pipeline Engine v3.2.1 — Ready</div>
+                    <div class="terminal-line t-muted">Select a data source and click "Run Pipeline" to begin.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== OUTPUT / EXPORT ===== -->
+    <section id="output-section" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">Processed Output</h2>
+
+            <div class="output-panel glass-card">
+                <div class="output-toolbar">
+                    <div class="output-tabs">
+                        <button class="output-tab active" data-tab="table">Table View</button>
+                        <button class="output-tab" data-tab="json">JSON View</button>
+                        <button class="output-tab" data-tab="stats">Statistics</button>
+                    </div>
+                    <div class="export-buttons">
+                        <button id="export-csv-btn" class="btn-export" disabled>&#128196; Export CSV</button>
+                        <button id="export-xlsx-btn" class="btn-export" disabled>&#128202; Export XLSX</button>
+                    </div>
+                </div>
+
+                <div class="output-tab-content active" id="tab-table">
+                    <div class="table-wrapper">
+                        <table id="output-table">
+                            <thead id="output-table-head"></thead>
+                            <tbody id="output-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <span id="row-count">0 rows</span>
+                    </div>
+                </div>
+
+                <div class="output-tab-content" id="tab-json">
+                    <pre><code id="json-output"></code></pre>
+                </div>
+
+                <div class="output-tab-content" id="tab-stats">
+                    <div class="stats-grid" id="stats-grid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ANALYTICS & VISUALIZATIONS ===== -->
+    <section id="analytics-section" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">Analytics &amp; Visualizations</h2>
+            <p class="section-subtitle">Visual breakdown of pipeline results — charts populate after the pipeline
+                completes.</p>
+
+            <div class="charts-grid">
+                <!-- Bar Chart: Value by Category -->
+                <div class="chart-card glass-card">
+                    <h3 class="chart-title">Value Distribution</h3>
+                    <p class="chart-desc">Trade value by ticker, AUM by client, or entry count by component</p>
+                    <div class="chart-container">
+                        <canvas id="chart-bar"></canvas>
+                        <div class="chart-placeholder" id="placeholder-bar">Run pipeline to generate chart</div>
+                    </div>
+                </div>
+
+                <!-- Donut Chart: Distribution Breakdown -->
+                <div class="chart-card glass-card">
+                    <h3 class="chart-title">Record Breakdown</h3>
+                    <p class="chart-desc">Distribution of categories, statuses, or severity levels</p>
+                    <div class="chart-container">
+                        <canvas id="chart-donut"></canvas>
+                        <div class="chart-placeholder" id="placeholder-donut">Run pipeline to generate chart</div>
+                    </div>
+                </div>
+
+                <!-- Data Quality Heatmap -->
+                <div class="chart-card glass-card chart-card-wide">
+                    <h3 class="chart-title">Data Quality Heatmap</h3>
+                    <p class="chart-desc">Per-row quality assessment — green is clean, yellow had warnings, red had
+                        errors</p>
+                    <div class="heatmap-container" id="heatmap-container">
+                        <div class="chart-placeholder" id="placeholder-heatmap">Run pipeline to generate heatmap</div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Timing Waterfall -->
+                <div class="chart-card glass-card chart-card-wide">
+                    <h3 class="chart-title">Pipeline Timing</h3>
+                    <p class="chart-desc">Execution duration per stage — waterfall view of the processing timeline</p>
+                    <div class="chart-container">
+                        <canvas id="chart-waterfall"></canvas>
+                        <div class="chart-placeholder" id="placeholder-waterfall">Run pipeline to generate chart</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DOCUMENTATION ===== -->
+    <section id="docs-section" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">Documentation</h2>
+
+            <div class="docs-container">
+                <aside class="docs-sidebar glass-card">
+                    <ul class="docs-nav">
+                        <li><a href="#doc-overview" class="docs-link active">Overview</a></li>
+                        <li><a href="#doc-pipeline" class="docs-link">Pipeline Architecture</a></li>
+                        <li><a href="#doc-parsing" class="docs-link">Data Parsing</a></li>
+                        <li><a href="#doc-cleaning" class="docs-link">Data Cleaning</a></li>
+                        <li><a href="#doc-transform" class="docs-link">Transformation</a></li>
+                        <li><a href="#doc-export" class="docs-link">Export &amp; Delivery</a></li>
+                        <li><a href="#doc-realworld" class="docs-link">Real-World Parallels</a></li>
+                    </ul>
+                </aside>
+
+                <div class="docs-content glass-card">
+                    <article id="doc-overview">
+                        <h3>Overview</h3>
+                        <p>This project simulates an enterprise data pipeline similar to systems used in financial
+                            services for processing trade records, client data, and operational logs. It demonstrates
+                            end-to-end data engineering: ingestion of raw files, structured parsing, validation and
+                            cleaning, schema transformation, and automated report generation.</p>
+                        <p>All data used in this project is entirely fictional and original. No proprietary information,
+                            internal tools, or confidential systems are referenced. This project was built independently
+                            to showcase the <em>types</em> of skills applied in a professional environment — not to
+                            replicate any specific system.</p>
+                    </article>
+
+                    <article id="doc-pipeline">
+                        <h3>Pipeline Architecture</h3>
+                        <p>The pipeline follows a five-stage model: <strong>Input, Parse, Clean, Transform,
+                                Output</strong>. Each stage is independent and communicates via an in-memory data
+                            structure, mirroring how real ETL pipelines use message queues or intermediate storage.</p>
+                        <div class="doc-code-block">
+                            <pre><code># Pseudocode: Pipeline Execution
+def run_pipeline(source_file):
+    raw_data = ingest(source_file)       # Stage 1: Input
+    parsed = parse(raw_data)             # Stage 2: Parse
+    cleaned = validate_and_clean(parsed) # Stage 3: Clean
+    transformed = transform(cleaned)     # Stage 4: Transform
+    export_to_excel(transformed)         # Stage 5: Output
+
+    log(f"Pipeline complete: {len(transformed)} records exported")</code></pre>
+                        </div>
+                        <p>Each stage logs its progress to a real-time console, providing visibility into long-running
+                            processes — a pattern commonly used when monitoring batch jobs on virtual machines.</p>
+                    </article>
+
+                    <article id="doc-parsing">
+                        <h3>Data Parsing</h3>
+                        <p>The parser supports three input formats:</p>
+                        <ul>
+                            <li><strong>CSV</strong> — Comma-separated values with header row detection. Handles common
+                                issues like trailing commas and inconsistent quoting.</li>
+                            <li><strong>JSON</strong> — Array-of-objects format. Validates structure and extracts field
+                                names automatically.</li>
+                            <li><strong>Text logs</strong> — Regex-based extraction of timestamps, severity levels,
+                                components, and messages from semi-structured log files.</li>
+                        </ul>
+                        <p>The parser auto-detects the format based on the selected data source or the file extension of
+                            uploaded files.</p>
+                    </article>
+
+                    <article id="doc-cleaning">
+                        <h3>Data Cleaning</h3>
+                        <p>The cleaning stage applies schema-based validation rules to every record:</p>
+                        <ul>
+                            <li><strong>Required field checks</strong> — Missing values are either filled with defaults
+                                or flagged as errors.</li>
+                            <li><strong>Date normalization</strong> — Inconsistent formats (MM/DD/YYYY, YYYY/MM/DD) are
+                                standardized to YYYY-MM-DD. Invalid dates (e.g., month 13) are rejected.</li>
+                            <li><strong>Enum validation</strong> — String values are uppercased and checked against
+                                allowed value lists.</li>
+                            <li><strong>Range validation</strong> — Numeric fields are checked against minimum and
+                                maximum bounds (e.g., quantity must be 1–100,000).</li>
+                            <li><strong>Sentinel replacement</strong> — Values like "N/A", "null", and empty strings in
+                                required fields are replaced with appropriate defaults.</li>
+                        </ul>
+                        <p>Each issue is logged to the console with its row number, field name, and a clear description
+                            — making the pipeline easy to audit and debug.</p>
+                    </article>
+
+                    <article id="doc-transform">
+                        <h3>Transformation</h3>
+                        <p>The transform stage enriches valid records with computed columns:</p>
+                        <ul>
+                            <li><strong>Total Value</strong> — Calculated as quantity &times; price for trade records.
+                            </li>
+                            <li><strong>Desk Full Name</strong> — Short desk codes (e.g., "EQ-NA") are mapped to
+                                readable names ("Equities - North America").</li>
+                            <li><strong>Data Quality Score</strong> — A 0–100 score based on how many fields required
+                                correction. Records that needed no fixes score 100.</li>
+                        </ul>
+                        <p>Error-flagged records are excluded from the final output but remain visible in the console
+                            log for transparency.</p>
+                    </article>
+
+                    <article id="doc-export">
+                        <h3>Export &amp; Delivery</h3>
+                        <p>The output stage provides three views of the processed data:</p>
+                        <ul>
+                            <li><strong>Table View</strong> — An interactive HTML table with sticky headers for browsing
+                                processed records.</li>
+                            <li><strong>JSON View</strong> — The complete dataset in structured JSON format, ready for
+                                API consumption.</li>
+                            <li><strong>Statistics</strong> — Summary metrics including total trade value, average data
+                                quality, instrument counts, and error/warning breakdowns.</li>
+                        </ul>
+                        <p>Two export options are available:</p>
+                        <ul>
+                            <li><strong>CSV</strong> — Downloads a properly escaped comma-separated file.</li>
+                            <li><strong>XLSX</strong> — Generates a real Excel workbook using the SheetJS library, with
+                                formatted headers and auto-sized columns. Falls back to CSV if the library is
+                                unavailable.</li>
+                        </ul>
+                    </article>
+
+                    <article id="doc-realworld">
+                        <h3>Real-World Parallels</h3>
+                        <p>This project demonstrates skills directly applicable to enterprise data engineering:</p>
+                        <ul>
+                            <li><strong>File ingestion from shared drives and SFTP servers</strong> — mirrored by the
+                                file drop zone and sample data selection.</li>
+                            <li><strong>Schema validation against data dictionaries</strong> — mirrored by the cleaning
+                                stage's type checking and null handling.</li>
+                            <li><strong>Transformation to downstream formats</strong> — mirrored by the transform
+                                stage's field renaming and computation.</li>
+                            <li><strong>Automated Excel report generation for stakeholders</strong> — mirrored by the
+                                .xlsx export with formatted headers.</li>
+                            <li><strong>Real-time monitoring of long-running batch processes on VMs</strong> — mirrored
+                                by the live console with progressive logging.</li>
+                            <li><strong>Clear technical documentation for team handoffs</strong> — mirrored by this
+                                documentation section.</li>
+                        </ul>
+                        <p>The technologies used (Python-style automation logic, SQL-like data validation, structured
+                            logging) reflect the same toolkit applied in professional financial technology environments.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT PROJECT MODAL ===== -->
+    <div class="modal-overlay" id="about-modal">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <h2>About This Project</h2>
+                <button class="modal-close" id="about-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Professional Background</h3>
+                    <p>This project is inspired by real data engineering work I performed during my time at
+                        <strong>Morgan Stanley</strong>. While the code and data here are entirely original mockups, the
+                        concepts directly reflect the types of tasks I handled on the job.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Talend &rarr; Microsoft Fabric</h3>
+                    <p>One of my key responsibilities involved working with <strong>Talend</strong>, an enterprise data
+                        integration pipeline, to extract, transform, and load data into <strong>Microsoft
+                            Fabric</strong>
+                        &mdash; a unified analytics platform. This required understanding data schemas, handling
+                        transformation rules, and ensuring data integrity across systems.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Python to Excel Automation</h3>
+                    <p>Another project involved writing <strong>Python scripts</strong> to automate the transformation
+                        of
+                        raw data into formatted <strong>Excel reports</strong> for stakeholders. This included cleaning
+                        inconsistent records, applying business logic, and generating production-ready spreadsheets
+                        &mdash; the same workflow this simulation demonstrates.</p>
+                </div>
+
+                <div class="modal-section modal-disclaimer">
+                    <h3>Disclaimer</h3>
+                    <p>Everything shown here is a <strong>mockup and simulation</strong>. No proprietary code, internal
+                        tools, confidential data, or Morgan Stanley systems are included or referenced. I built this
+                        project independently to showcase the <em>types</em> of skills and workflows I applied in a
+                        professional environment &mdash; not to replicate any specific system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <p>Data Pipeline Engine &mdash; Professional Projects Portfolio</p>
+        <p class="footer-tech">Built with HTML, CSS &amp; JavaScript | No frameworks, no server required</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
